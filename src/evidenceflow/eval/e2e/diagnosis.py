@@ -53,6 +53,8 @@ QuestionLayer = Literal[
     "RETRIEVAL_PASS",
     "NOT_RUN",
 ]
+# Retrieval-only stage of a usable group (``retrieval_stage``); REACHED = fully in the final Top-K.
+RetrievalStage = Literal["CANDIDATE_MISS", "RERANK_MISS", "REACHED"]
 GroupStage = Literal[
     "UNMAPPABLE",
     "CANDIDATE_MISS",
@@ -82,6 +84,18 @@ class ObservedChunk(ContractModel):
     heading_path: str | None = Field(default=None, description="hybrid 切分记录的章节路径；fixed 切分为 None。")
 
 
+class GenerationCost(ContractModel):
+    """Generation cost of one case: wall-clock time plus ``Generator.last_diagnostics``."""
+
+    seconds: float = Field(ge=0, description="generate + 引用组装的墙钟耗时（秒），出错时记录到抛出为止。")
+    llm_called: bool = Field(description="Generator 本题是否真正发出了 LLM 请求（空 Context 不调用）。")
+    usages: list[dict[str, int | None] | None] = Field(
+        description="每次 LLM 调用的 prompt_tokens / completion_tokens（含 repair 调用）；usage 缺失为 None。"
+    )
+    repair_attempted: bool = Field(description="首个回复违反 JSON 契约，触发了一次 repair。")
+    repair_succeeded: bool = Field(description="repair 后的回复通过了 JSON 契约。")
+
+
 class E2EObservation(ContractModel):
     """Per-stage observation of one case on one index.
 
@@ -96,15 +110,18 @@ class E2EObservation(ContractModel):
     dense_ranking: list[ObservedChunk] = Field(
         description="Exact Dense 排名（深度 ≥ 候选池），第 i 项名次为 i+1；超出深度的 chunk 视为未排到。"
     )
-    candidate_pool_k: int = Field(gt=0, description="线上送入 Reranker 的 Dense 候选数（Top20）。")
+    candidate_pool_k: int = Field(gt=0, description="线上送入 Reranker 的 Dense 候选数（reranker_input_k；当前默认 50，rag_e2e_v1 初测为 20）。")
     reranked_pool: list[str] = Field(description="Reranker 对候选池的完整排序（chunk_id）。")
-    final_top_k: int = Field(gt=0, description="线上交给 Context 的最终深度（Top5）。")
+    final_top_k: int = Field(gt=0, description="线上交给 Context 的最终深度（reranker_final_k；当前默认 6，rag_e2e_v1 初测为 5）。")
     context_chunk_ids: list[str] = Field(description="完整纳入 BuiltContext 的 chunk，按标签顺序。")
     generation_ran: bool = Field(description="False = --retrieval-only，只观测检索与上下文层。")
     status: AnswerStatus | None = None
     answer: str | None = None
     source_chunk_ids: list[str] = Field(default_factory=list, description="最终回答实际引用的 chunk。")
     error_type: str | None = Field(default=None, description="生成或引用阶段抛出的异常类名。")
+    generation_cost: GenerationCost | None = Field(
+        default=None, description="生成成本（observe 跑生成时记录）；retrieval-only 为 None，attribute 不读取。"
+    )
 
     @model_validator(mode="after")
     def validate_consistency(self):
@@ -167,10 +184,36 @@ def is_back_matter(heading_path: str | None) -> bool:
     return bool(heading_path) and _BACK_MATTER.search(heading_path) is not None
 
 
-def _fully_in(bundles: Sequence[Sequence[str]], selected: set[str]) -> bool:
+def fully_in(bundles: Sequence[Sequence[str]], selected: Iterable[str]) -> bool:
     """Every chunk of any set inside the group is in ``selected`` (outer OR, inner AND)."""
 
+    selected = set(selected)
     return any(set(bundle) <= selected for bundle in bundles)
+
+
+def bundle_rank(bundles: Sequence[Sequence[str]], ranking: Sequence[str]) -> int | None:
+    """Best rank of any set in ``ranking`` (1-based); a set ranks at its last chunk.
+
+    A set only counts as covered when every chunk is retrieved, so a set with a chunk outside
+    ``ranking`` has no rank; None when no set has one.
+    """
+
+    rank = {chunk_id: position for position, chunk_id in enumerate(ranking, start=1)}
+    ranks = [max(rank[c] for c in bundle) for bundle in bundles if all(c in rank for c in bundle)]
+    return min(ranks) if ranks else None
+
+
+def retrieval_stage(
+    bundles: Sequence[Sequence[str]], pool_ids: Iterable[str], final_ids: Iterable[str]
+) -> RetrievalStage:
+    """Where a usable group stops in retrieval: not fully in the candidate pool, not fully in the
+    final Top-K, or reaching the final Top-K."""
+
+    if not fully_in(bundles, pool_ids):
+        return "CANDIDATE_MISS"
+    if not fully_in(bundles, final_ids):
+        return "RERANK_MISS"
+    return "REACHED"
 
 
 def _diagnose_group(
@@ -190,43 +233,30 @@ def _diagnose_group(
         return GroupDiagnosis(stage="UNMAPPABLE", **base)
 
     bundles = group_mapping.chunk_sets
-    dense_rank = {item.chunk_id: rank for rank, item in enumerate(observation.dense_ranking, start=1)}
     candidates = observation.dense_ranking[: observation.candidate_pool_k]
     candidate_ids = {item.chunk_id for item in candidates}
     final_ids = observation.reranked_pool[: observation.final_top_k]
-    final_set = set(final_ids)
-    rerank_position = {chunk_id: position for position, chunk_id in enumerate(observation.reranked_pool, start=1)}
     doc_of = {item.chunk_id: item.document_id for item in observation.dense_ranking}
 
-    # A set's rank is the rank of its last chunk, because the set only counts as covered when
-    # every chunk is retrieved; if any chunk is beyond the observed depth, the set has no rank.
-    set_ranks = [max(dense_rank[c] for c in bundle) for bundle in bundles if all(c in dense_rank for c in bundle)]
-    in_candidates = _fully_in(bundles, candidate_ids)
-    positions = [
-        max(rerank_position[c] for c in bundle)
-        for bundle in bundles
-        if set(bundle) <= candidate_ids and all(c in rerank_position for c in bundle)
-    ]
+    stage = retrieval_stage(bundles, candidate_ids, final_ids)
     diagnosis = dict(
         base,
-        best_dense_rank=min(set_ranks) if set_ranks else None,
-        partial_in_candidates=not in_candidates and any(set(bundle) & candidate_ids for bundle in bundles),
+        best_dense_rank=bundle_rank(bundles, [item.chunk_id for item in observation.dense_ranking]),
+        partial_in_candidates=stage == "CANDIDATE_MISS" and any(set(bundle) & candidate_ids for bundle in bundles),
         document_in_candidates=any(item.document_id in documents for item in candidates),
         document_in_final=any(doc_of.get(chunk_id) in documents for chunk_id in final_ids),
-        best_rerank_position=min(positions) if positions else None,
+        # Position in the Reranker ordering, only for sets fully inside the candidate pool.
+        best_rerank_position=bundle_rank([b for b in bundles if set(b) <= candidate_ids], observation.reranked_pool),
     )
-    if not in_candidates:
-        stage = "CANDIDATE_MISS"
-    elif not _fully_in(bundles, final_set):
-        stage = "RERANK_MISS"
-    elif not _fully_in(bundles, set(observation.context_chunk_ids)):
-        stage = "CONTEXT_DROP"
-    elif not observation.generation_ran:
-        stage = "IN_CONTEXT"
-    elif any(set(bundle) & set(observation.source_chunk_ids) for bundle in bundles):
-        stage = "CITED"
-    else:
-        stage = "IN_CONTEXT_NOT_CITED"
+    if stage == "REACHED":
+        if not fully_in(bundles, observation.context_chunk_ids):
+            stage = "CONTEXT_DROP"
+        elif not observation.generation_ran:
+            stage = "IN_CONTEXT"
+        elif any(set(bundle) & set(observation.source_chunk_ids) for bundle in bundles):
+            stage = "CITED"
+        else:
+            stage = "IN_CONTEXT_NOT_CITED"
     return GroupDiagnosis(stage=stage, **diagnosis)
 
 
@@ -492,7 +522,8 @@ def render_markdown(report: dict) -> str:
         "| --- | --- | --- |",
     ]
     for label, path in (
-        ("candidate miss: required document absent from top-20", ("candidate_miss", "document_absent_from_candidates")),
+        (f"candidate miss: required document absent from top-{report['candidate_pool_k']}",
+         ("candidate_miss", "document_absent_from_candidates")),
         ("candidate miss: document present, evidence passage missing", ("candidate_miss", "document_present_wrong_passage")),
         ("candidate miss: fragmented evidence only partly retrieved", ("candidate_miss", "fragment_partially_retrieved")),
         ("rerank miss: document absent from final top-k", ("rerank_miss", "document_absent_from_final")),
