@@ -2,14 +2,19 @@
 only on the standard library.
 
 Rule summary:
-- Normalization: NFKC -> fold trailing hyphens -> strip `[S\\d+]` citation tags -> casefold ->
-  collapse consecutive whitespace into one space and trim both ends;
+- Normalization: NFKC -> fold trailing hyphens -> strip `[S\\d+]` citation tags -> drop
+  thousands separators -> casefold -> collapse consecutive whitespace into one space and trim
+  both ends;
 - Normalize aliases and text the same way before substring matching;
 - When an alias starts/ends with an ASCII letter or digit, the characters immediately outside
   the hit must not be ASCII letters or digits (so `1.5` does not hit `11.5`, and `ViT` does
   not hit `ViTs`); CJK and other non-ASCII characters need no boundary;
-- No number parsing, unit conversion, or fuzzy matching; a different spelling must be listed
-  as an explicit alias;
+- Thousands separators are the only numeric spelling folded: a comma is removed only inside a
+  digit run shaped `\\d{1,3}(,\\d{3})+` (`30,974` -> `30974`, `1,234,567` -> `1234567`; a
+  full-width `，` is already `,` after NFKC). Decimals (`6.53`), lists without 3-digit groups
+  (`1,2`, `3, 4`, `12,34`) and ranges keep their spelling;
+- Otherwise no number parsing, unit conversion, or fuzzy matching; a different spelling must be
+  listed as an explicit alias;
 - A claim hits if and only if every element group hits; any alias hit makes its group hit.
 """
 
@@ -27,6 +32,12 @@ _CITATION_TAG = re.compile(r"\[S\d+\]")
 # certain shape "hyphen + end-of-line newline"; do not guess at other hyphens.
 _LINE_END_HYPHEN = re.compile(r"-\s*\n\s*")
 _WHITESPACE = re.compile(r"\s+")
+# Thousands separators: drop the commas only when the whole digit run is exactly
+# `\d{1,3}(,\d{3})+`. The run must not be preceded by a digit, a decimal point, or "digit +
+# comma" (so it never cuts into a list such as `5,1,234` or a decimal such as `0.123,456`), and
+# must not be followed by a digit or ", digit" (`1,234,56` and `1,234,5678` are not grouped
+# numbers and stay as they are). Runs after NFKC, which already folds a full-width `，` to `,`.
+_THOUSANDS_GROUPED = re.compile(r"(?<![\d.])(?<!\d,)\d{1,3}(?:,\d{3})+(?!,?\d)")
 
 
 def normalize_text(text: str) -> str:
@@ -50,6 +61,9 @@ def normalize_text(text: str) -> str:
     # first so the later whitespace collapsing is not misled.
     normalized = _LINE_END_HYPHEN.sub("", normalized)
     normalized = _CITATION_TAG.sub("", normalized)
+    # `30,974` in an answer and `30974` in a key (or the reverse) are the same number; both
+    # sides pass through this step, so either spelling aligns (ARR-015).
+    normalized = _THOUSANDS_GROUPED.sub(lambda match: match.group(0).replace(",", ""), normalized)
     normalized = normalized.casefold()
     # Collapse consecutive whitespace (including newlines and tabs) into one space and trim
     # both ends, so layout differences do not affect matching.
