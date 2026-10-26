@@ -22,7 +22,7 @@ structure is linearized, not preserved.
 
 ```text
 BGE-M3 Embedding -> Chroma
-Query -> BGE-M3 Dense -> Exact Dense Top20 (in-process ExactDenseIndex, numpy.exact)
+Query -> BGE-M3 Dense -> Exact Dense Top50 (in-process ExactDenseIndex, numpy.exact)
 ```
 
 The production collection is resolved through the lifecycle active pointer, never
@@ -33,7 +33,7 @@ across processes. The ACTIVE index is never ingested into directly — rebuilds 
 ### 3. Learned Reranking
 
 ```text
-Exact Dense Top20 -> BGE Reranker -> Top5
+Exact Dense Top50 -> BGE Reranker -> Top6
 ```
 
 `runtime.py` is the single composition root for the `ingest` / `ask` production wiring.
@@ -49,7 +49,7 @@ mutating the shared components.
 ### 4. Evidence Context
 
 ```text
-Top5 -> Context Builder
+Top6 -> Context Builder
 ```
 
 ### 5. Answer & Citation

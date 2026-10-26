@@ -117,14 +117,14 @@ class Settings(BaseSettings):
         description="正式 Cross-Encoder 模型名称或本地路径。",
     )
     reranker_input_k: int = Field(
-        default=20,
+        default=50,
         gt=0,
-        description="Original Dense ANN 送入 Reranker 的固定候选数量。",
+        description="Original Dense ANN 送入 Reranker 的固定候选数量。默认 50（原 20，rag_e2e_v1 实测）。",
     )
     reranker_final_k: int = Field(
-        default=5,
+        default=6,
         gt=0,
-        description="Learned Reranker 最终交给 Context 的最大候选数量。",
+        description="Learned Reranker 最终交给 Context 的最大候选数量。默认 6（原 5，rag_e2e_v1 实测）。",
     )
     reranker_batch_size: int = Field(
         default=4,

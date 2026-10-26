@@ -1,4 +1,4 @@
-"""Provides the Learned Cross-Encoder rerank boundary and the Transformers implementation used by the online retrieval chain (Exact Dense20 -> Reranker -> Top5)."""
+"""Provides the Learned Cross-Encoder rerank boundary and the Transformers implementation used by the online retrieval chain (Exact Dense Top50 -> Reranker -> Top6 by default; see Settings.reranker_input_k / reranker_final_k)."""
 
 from __future__ import annotations
 

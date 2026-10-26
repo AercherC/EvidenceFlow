@@ -209,7 +209,7 @@ def build_ingestion_service(settings: Settings) -> IngestionService:
 def build_retriever(
     settings: Settings, *, trace_recorder: TraceRecorder | None = None
 ) -> DenseRerankerRetriever:
-    """Assemble production retrieval: Exact Dense Top20 -> Learned Reranker -> Top5.
+    """Assemble production retrieval: Exact Dense Top50 -> Learned Reranker -> Top6 (Settings defaults).
 
     ``trace_recorder`` is optional (default None) and is passed through to
     ``DenseRerankerRetriever`` unchanged; it only observes and does not change behavior.
@@ -286,9 +286,9 @@ def build_rag_service(
     generator: GeneratorProtocol | None = None,
     trace_recorder: TraceRecorder | None = None,
 ) -> RAGService:
-    """Create the single official Exact Dense Top20 -> Learned Reranker -> Top5 pipeline.
+    """Create the single official Exact Dense Top50 -> Learned Reranker -> Top6 pipeline (Settings defaults).
 
-    ``retriever`` and ``generator`` are only for evaluation scripts to inject (to record Top5, read
+    ``retriever`` and ``generator`` are only for evaluation scripts to inject (to record the final Top-K, read
     Generator.last_diagnostics, or wrap the LLM client for rate limiting and raw-reply retention);
     when not provided, the official assembly is used. Every other component is always created by
     this function from Settings.
