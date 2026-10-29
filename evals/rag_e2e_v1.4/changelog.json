@@ -1,0 +1,1619 @@
+{
+ "base_dataset": "work/rag_e2e_v1.3/frozen/dataset.json",
+ "base_fingerprint": "2d12e558534092bd1111ffcef5225ed2fee5eba4ff9504e4dabc27e2669c4357",
+ "new_dataset_id": "rag_e2e_v1.4",
+ "new_fingerprint": "464fda056cd9d380f05704141269a81506167ac149eba106777b347516df8254",
+ "parts": {
+  "D_gold_audit_evidence_alternatives": {
+   "n_proposed": 105,
+   "n_applied": 102,
+   "n_dropped": 3,
+   "groups_changed": [
+    "ARR-037/G1",
+    "ARR-037/G2",
+    "ARR-038/G1",
+    "ARR-038/G2",
+    "ARR-039/G1",
+    "ARR-039/G2",
+    "ARR-040/G1",
+    "ARR-040/G2",
+    "E2E-M201/G1",
+    "E2E-M201/G2",
+    "E2E-M202/G1",
+    "E2E-M202/G2",
+    "E2E-M203/G1",
+    "E2E-M204/G2",
+    "E2E-M206/G1",
+    "E2E-M206/G2",
+    "E2E-M207/G2",
+    "E2E-M208/G1",
+    "E2E-M210/G1",
+    "E2E-M216/G1",
+    "E2E-M216/G2",
+    "E2E-M217/G1",
+    "E2E-M218/G2",
+    "E2E-M219/G1",
+    "E2E-M220/G1",
+    "E2E-M220/G2",
+    "E2E-M221/G1",
+    "E2E-M223/G1",
+    "E2E-M224/G1",
+    "E2E-M225/G2",
+    "E2E-M227/G1",
+    "E2E-M234/G1",
+    "E2E-M236/G2",
+    "E2E-M238/G1",
+    "E2E-M238/G2",
+    "E2E-M241/G1",
+    "E2E-M241/G2",
+    "E2E-M242/G2",
+    "E2E-M243/G1",
+    "E2E-M243/G2",
+    "E2E-M244/G1"
+   ],
+   "changes": [
+    {
+     "case_id": "ARR-037",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "02c2a02efa58de1a383cef1dedd564eb8bf36f36dba080526eaa68f5efaa586a",
+     "document_id": "82a7084a1bca79e7cac5ccb5c5559b755a5180b40499d149cf7e5b88323d37e6",
+     "file_name": "pointr_geometry_aware_transformers.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "Q = {Q1, Q2, ..., QM} are the dynamic queries for the decoder",
+     "reason": "3.1 states PoinTr's decoder takes dynamic queries (q = dynamic queries for the decoder)"
+    },
+    {
+     "case_id": "ARR-037",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "fc633bc45310d81edf533f53f202ab24f813f32faac9d6e8ed6e8248d6c8e618",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      6,
+      6
+     ],
+     "evidence_anchor": "We modify the design of the original Query Generator and generate a dynamic query bank B conditioned on the encoder outputs V and the input point proxies F",
+     "reason": "AdaPoinTr generates a dynamic query bank conditioned on encoder outputs and input proxies (how queries are adapted)"
+    },
+    {
+     "case_id": "ARR-037",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "98a7923e7b3ce62235f27dbf843c02e935f9a99704afc18a7035daaace9d35c4",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      6,
+      6
+     ],
+     "evidence_anchor": "Proposed adaptive denoising queries, which are selected from a dynamic query bank",
+     "reason": "Fig. 6 caption: AdaPoinTr's adaptive denoising queries are selected from a dynamic query bank"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "73c30fc951c74565cd55ab3dd78aeeecb12b338deca741f2d8a3951b15f4f00b",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "The overall architecture of our PF-Net is composed of three fundamental building blocks, named Multi-Resolution Encoder (MRE), Point Pyramid Decoder (PPD), and Discriminator Network",
+     "reason": "states PF-Net is built from MRE, Point Pyramid Decoder and discriminator (PPD named as its generator)"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "we design a Point Pyramid Decoder (PPD) to generate the missing point cloud hierarchically",
+     "reason": "Intro: PPD generates the missing cloud hierarchically, primary/secondary/detailed points"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "75c62aaa0131227239bed0c6aa419617e63891b391ab0a008fd2b5d9a1b94476",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "Detailed points Ydetail is the ﬁnal prediction of PPD",
+     "reason": "3.3 Point Pyramid Decoder body describes the hierarchical primary/secondary/detailed generation"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "9733ea947452a7180c406462c35335c62e5a9651053b0fcd6fa54f193ce5effa",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "Details of Point Pyramid Decoder. PPD gives outputs of three joint layers in ascending scales",
+     "reason": "Fig. 5 caption: PPD gives outputs of three layers in ascending scales (hierarchical representation)"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b107a5bd4d2df52edb4d9b831f7c2c0677185420d332bf1b86666f28a0ada588",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      14,
+      14
+     ],
+     "evidence_anchor": "SeedFormer introduce a new shape representation, namely Patch Seeds, in point cloud completion",
+     "reason": "Conclusion: SeedFormer introduces a new shape representation, Patch Seeds, regional features in local seeds"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "e9d5beb3f1caf94e39fc1fcaad021d56905189abef749c9cdb459f763f621a67",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "we introduce Patch Seeds as a latent representation in the point cloud completion architecture",
+     "reason": "Intro: introduces patch seeds as a latent representation characterising the complete shape"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "2a7b98ee142ffb0f1cff0b57450d6df5a22522234afb11f5663d6a73dc599027",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      2,
+      3
+     ],
+     "evidence_anchor": "We introduce Patch Seeds as a new representation in the completion architecture to preserve regional information for recovering fine details",
+     "reason": "Contribution list: Patch Seeds as a new representation preserving regional information"
+    },
+    {
+     "case_id": "ARR-038",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "21131bd0bd1460e6602678685ad8014a9ee536b8a8f08dd27b795baaa7eb495f",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      5,
+      6
+     ],
+     "evidence_anchor": "Patch Seeds serve as a new shape representation in point cloud completion",
+     "reason": "3.2: Patch seeds serve as a new shape representation (seed coordinates + features)"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "5b7750b582258d5239c8b746c184fc968a225d7e337eb6f865b87839e4808a04",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "By further introducing skip-transformer in Snowﬂake Point Deconvolution, SnowﬂakeNet learns to generate locally compact and structured point cloud with highly detailed geometries",
+     "reason": "Conclusion: SnowflakeNet introduces skip-transformer in SPD"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "314aa21eae330034e65c3e55d7bceeff0980d3810b4aef0288c60f0e73682723",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "We introduce a novel skip-transformer to learn splitting patterns in SPD",
+     "reason": "contribution list: novel skip-transformer learns splitting patterns in SPD (SnowflakeNet's attention unit)"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f5805b037ffb00c968b1ae3f7657bf2969abdcfc4c4bcb631975e28f43d74625",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "skip-transformer leverages attention mechanism to summarize the splitting patterns used in the previous SPD layer",
+     "reason": "Intro: skip-transformer leverages attention mechanism to summarise splitting patterns"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "d51039a86a19fb772b8d83e08e3ddb18c78450cedaaf821ac06efe4368cd7b8b",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "The skip-transformer is introduced to learn and reﬁne the spatial context between parent points and their child points",
+     "reason": "3.3 Skip-Transformer: structure with query/key/value attention vectors"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a124eb08eae64e1a6faaa73452fbc103b4248b691e0d35fab704b1b26395e40e",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "we propose a novel skip-transformer to serve as the cooperation unit between SPDs",
+     "reason": "3.2: skip-transformer serves as the cooperation unit between SPDs (states the component and its role)"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      3,
+      4
+     ],
+     "evidence_anchor": "designed framework which fully exploits the advantages of self-attention and cross-attention mechanisms",
+     "reason": "states PointAttN fully exploits self-attention and cross-attention mechanisms"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      10,
+      10
+     ],
+     "evidence_anchor": "we leverage the cross-attention and self-attention mechanisms to perceive the local details and global context of 3D point clouds",
+     "reason": "Conclusion: leverages cross-attention and self-attention mechanisms"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "ad16fe5389ff6cb3020d5998dc1bab1083b67ba724147ac6344d17e24082b682",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      2,
+      3
+     ],
+     "evidence_anchor": "By leveraging the cross-attention and self-attention mechanisms, PointAttN can precisely learn both short-range and long-range structural correlations among points",
+     "reason": "Intro: by leveraging cross-attention and self-attention, PointAttN learns correlations"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "d9db643d73c0768d6b18efdf335ca3f331f52026efad881e42e03eba94c5df2b",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "we leverage the cross-attention and self-attention mechanisms to design novel neural network for processing point cloud in a per-point manner to eliminate kNNs",
+     "reason": "Abstract: leverages cross-attention and self-attention mechanisms"
+    },
+    {
+     "case_id": "ARR-039",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "387598920e08ed6706a5e3d0ac4870d14761132cf148ee83b021dfe30b4fb50b",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "GDP and SFA are drawn on the core idea of Transformer [17], i.e., introducing the multi-head cross-attention and self-attention mechanisms",
+     "reason": "GDP and SFA introduce multi-head cross-attention and self-attention"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "we design a Self-structure Dual-Generator (SDG) with a pair of parallel refinement units, called Structure Analysis and Similarity Alignment, respectively",
+     "reason": "Intro: designs a self-structure dual-generator (SDG) with structure analysis and similarity alignment"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "4cabad13c393a5ac446a4730c999469e7fa480e71781dc901d7565d255f5fd02",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      9,
+      9
+     ],
+     "evidence_anchor": "we introduce a decoder called Self-structure Dual-generator that breaks down the shape refinement process into two sub-goals",
+     "reason": "Conclusion: decoder called self-structure dual-generator"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "997b8428758f4a1b248e52c61dee9e6efcad023afc4968723d6d9813e6791f9e",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "We introduce a Self-structure Dual-Generator (SDG) for refining the coarse completion",
+     "reason": "contribution: self-structure dual-generator for refining the coarse completion"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "10d277b8e444293f721a58ce25d0701c7c02da4fa3811662026d4d158439b49a",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "we propose Hyper-PCN, a novel point cloud completion framework that leverages hypergraph learning to model high-order correlations within incomplete point clouds",
+     "reason": "Conclusion: Hyper-PCN leverages hypergraph learning to model high-order correlations"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "00f342f509e55d3355258c0c2a994c6f03b8ad5637e9dd264d29eca6edfff98f",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "propose Hyper-PCN, a novel point cloud completion method based on hypergraph neural networks",
+     "reason": "Intro: Hyper-PCN, a completion method based on hypergraph neural networks"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a4214b15b1a61cd2aa8d52fa8a134303a0664ab774912b952d8f6cbc817ccdbb",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "We first model high-order correlations in incomplete point clouds and propose Hyper-PCN, a novel hypergraph-based method for point cloud completion",
+     "reason": "contributions: hypergraph-based method modelling high-order correlations"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "HyperRS constructs distance based hypergraphs and performs progressive refinement to yield hyper features and a coarse shape",
+     "reason": "3.1: HyperRS builds distance-based hypergraphs, A-HGNN collaborative hypergraphs"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "517904ed974955c07edc969701f84d5b873d5d654a07ff3f55d62c8ec89d2a41",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "enables the construction of a hypergraph that more comprehensively captures global dependencies across the entire shape",
+     "reason": "3.5 A-HGNN: constructs a hypergraph from key points and anchors to capture global dependencies"
+    },
+    {
+     "case_id": "ARR-040",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a9544137f000d4a3bf9db41c9a23ef6502d89f72e8275dc837bd39833bf47c1a",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      4,
+      5
+     ],
+     "evidence_anchor": "we stack L layers, each of which constructs a hypergraph based on feature space and performs hypergraph convolution",
+     "reason": "3.4 HyperRS: stacks layers that each construct a hypergraph and perform hypergraph convolution"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "398ab8bed53557fb422aab5131781418d7f85736e41b58e72ae0f79b969abc77",
+     "document_id": "9af0f27d4063c30f7885b220da789bddefa42a896d58d3ebf8342e033c7a938e",
+     "file_name": "pcn_point_completion_network.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "The decoder uses v to ﬁrst generate a coarse output Ycoarse followed by a detailed output Ydetail",
+     "reason": "Fig. 2 caption: the decoder generates a coarse output Ycoarse followed by a detailed output Ydetail"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "d6ee2aaa2084e70bdfb2e6912d58fa8c13cad213f1a596674452e54ef8dc3089",
+     "document_id": "9af0f27d4063c30f7885b220da789bddefa42a896d58d3ebf8342e033c7a938e",
+     "file_name": "pcn_point_completion_network.pdf",
+     "page": [
+      3,
+      4
+     ],
+     "evidence_anchor": "In the ﬁrst stage, a coarse output Ycoarse of s points is generated",
+     "reason": "4.2: two-stage generation, coarse output Ycoarse then detailed output Ydetail"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "c2a08cc7e01b157fd9a5cfe4d70af3db85133ecbcef4182e9181843440f2b585",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "Our PF-Net takes the incomplete point cloud as input and directly predicts the missing point cloud",
+     "reason": "Fig. 1 caption: PF-Net takes the incomplete cloud and directly predicts the missing point cloud"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "73c30fc951c74565cd55ab3dd78aeeecb12b338deca741f2d8a3951b15f4f00b",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "our PF-Net, which predicts the missing region of the point cloud from its incomplete known conﬁguration",
+     "reason": "3: PF-Net predicts the missing region from its incomplete known configuration"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f015fb1591eba60455ca85871891882017802444b9d2a81eeede7cef3bc11477",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "The input of PF-Net is incomplete point cloud and it predicts the missing point cloud",
+     "reason": "Fig. 2 caption: input is the incomplete cloud and it predicts the missing point cloud"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "5f904261f3d8090b552442cdbff397344cc9e17e3228adc6ce584a938312451c",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "aims to output M × 3 point cloud, which represents the shape of the missing region",
+     "reason": "decoder outputs an M x 3 cloud representing the shape of the missing region"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "we design a Point Pyramid Decoder (PPD) to generate the missing point cloud hierarchically",
+     "reason": "PPD generates the missing point cloud hierarchically"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "193ee68bc8a30342c65e86837c2a63fc22883366c83ed26e3538ccd80aaaa8bf",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      5,
+      6
+     ],
+     "evidence_anchor": "Since our method takes the partial shape as input and only output the missing region",
+     "reason": "states the method takes the partial shape as input and only outputs the missing region"
+    },
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f68368f7737847b9e17bfbf77f851e0feac3a75816d416d2dce97280997d3bab",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "We have presented a new approach to shape completion using a partial point cloud only to generate the missing point cloud",
+     "reason": "Conclusion: uses a partial point cloud only to generate the missing point cloud"
+    },
+    {
+     "case_id": "E2E-M202",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "cd6dc6f81e03aca1437531eae29bc370e34d637080190208e4c0a698dd9f9743",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      1,
+      2
+     ],
+     "evidence_anchor": "each SPD layer produces child points by splitting their parent point with inheriting shape characteristics captured by the parent point",
+     "reason": "Intro: each SPD layer produces child points by splitting their parent point, inheriting the parent's shape characteristics"
+    },
+    {
+     "case_id": "E2E-M202",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "12b6943efe1ebb063c942f0281b1145255708f6e753317f65a1bc56ce79ffa7d",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "the child points are progressively generated by splitting their parent points after each SPD",
+     "reason": "Abstract: child points are progressively generated by splitting their parent points after each SPD"
+    },
+    {
+     "case_id": "E2E-M202",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "273051be82e66d1ca8b4e4febf404de3aa555309679fc39b0c19875f60455cf8",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "The SPD aims to increase the number of points by splitting each parent point into multiple child points",
+     "reason": "3.2 SPD: increases points by splitting each parent into child points via a point-wise splitting operation"
+    },
+    {
+     "case_id": "E2E-M202",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a124eb08eae64e1a6faaa73452fbc103b4248b691e0d35fab704b1b26395e40e",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "The child point features can be generated by adding the activated shape characteristics",
+     "reason": "3.2 SPD: child point features generated by adding the activated parent shape characteristics; point-wise splitting for up-sampling"
+    },
+    {
+     "case_id": "E2E-M202",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "979b70618b0d59efbe82cb1dfb968500fd9acd74360b460a85892ee07e7f7f9b",
+     "document_id": "035460783ca713f7b7e72409f5b81c7786d872eecf526d5b89bc14766f4f668a",
+     "file_name": "snowflakenet.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "point-wise splitting operation aims to generate multiple child point features for each",
+     "reason": "states the point-wise splitting operation generates multiple child point features for each parent"
+    },
+    {
+     "case_id": "E2E-M202",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "2a7b98ee142ffb0f1cff0b57450d6df5a22522234afb11f5663d6a73dc599027",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      2,
+      3
+     ],
+     "evidence_anchor": "the generation of new points as a transformer-style self-attention weighted average of point features in the local field",
+     "reason": "Intro: generation of new points as a transformer-style self-attention weighted average of point features in the local field"
+    },
+    {
+     "case_id": "E2E-M203",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "87d86f80185e9bb7c7f2d4a77b04b42a91e24a23ef858a5968e5652b2763b1de",
+     "document_id": "82a7084a1bca79e7cac5ccb5c5559b755a5180b40499d149cf7e5b88323d37e6",
+     "file_name": "pointr_geometry_aware_transformers.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "We use dynamic queries instead of ﬁxed queirs in the decoder, which are generated by a query generation module that summarizes the features produced by the encoder",
+     "reason": "Intro: dynamic queries generated by a query generation module that summarises the encoder features"
+    },
+    {
+     "case_id": "E2E-M204",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "5a75084066cce91b732835cd60d97b63ddf1b35c928b28e414cc8ad6e378ede6",
+     "document_id": "a72749d2c2baa8304a3e9c60e87c85ce754a219ddca691bb1bd8c7b38cfc7686",
+     "file_name": "proxyformer.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "ProxyFormer discards the transformer decoder to reduce the number of parameters",
+     "reason": "Related work: ProxyFormer discards the transformer decoder to reduce parameters"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "we design a Self-structure Dual-Generator (SDG) with a pair of parallel refinement units, called Structure Analysis and Similarity Alignment, respectively",
+     "reason": "Intro: SDG with a pair of parallel refinement units, Structure Analysis and Similarity Alignment"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "ed8c66841e6b3f5d0650748e8a386848b642401f0e2806fc5b34217c2b9b08b3",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "The architecture of SDG. The upper path represents Structure Analysis and the lower path represents Similarity Alignment",
+     "reason": "Fig. 4 caption: SDG upper path is structure analysis, lower path is similarity alignment"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "6f5cb389eb03ee905b1d8fc218011fbf8de57e683b8f05af1dd8f8945b00f29d",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "The Similarity Alignment unit exploits the potential similar local pattern in Pin for each point in Pl−1",
+     "reason": "3.2 SDG continuation: describes the similarity alignment unit and the structure analysis unit"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "640ca42f205db827105bab8985bc9df1389c89c5e903cd30ec4d6ec3309f6403",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "Several upsample layers are used in the coarse-to-fine generation where an Upsample Transformer is applied for producing new points",
+     "reason": "Fig. 2 caption: coarse-to-fine generation uses an Upsample Transformer to produce new points"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "afd0bdd249585d02e1aafa44eedf086dbeb90427096f3cd449268163c8d162fb",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "we devise an Upsample Transformer by extending the transformer structure into basic operations of point generators",
+     "reason": "Abstract: devises an Upsample Transformer as the basic operation of point generators"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b107a5bd4d2df52edb4d9b831f7c2c0677185420d332bf1b86666f28a0ada588",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      14,
+      14
+     ],
+     "evidence_anchor": "by extending the transformer structure into point generation, we propose a novel Upsample Transformer",
+     "reason": "Conclusion: proposes a novel upsample transformer for point generation"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "21131bd0bd1460e6602678685ad8014a9ee536b8a8f08dd27b795baaa7eb495f",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      5,
+      6
+     ],
+     "evidence_anchor": "each point in the input point cloud is upsampled into rl points using the Upsample Transformer",
+     "reason": "each point is upsampled into r points using the upsample transformer"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "19f24893dd5b0e2056a4b9d1fd7f76d059a83d66802cfb187240e0af80083ba3",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      6,
+      6
+     ],
+     "evidence_anchor": "shows the design of our Upsample Transformer",
+     "reason": "Fig. 3 caption: design of the Upsample Transformer and generation of new points"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b1f21a4ed8cb09dd21966f23de92e3d777580e37beb3c906166445587904f666",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      6,
+      7
+     ],
+     "evidence_anchor": "our Upsample Transformer is designed to incorporate closely-related local information into the generation by aggregating features from neighboring points",
+     "reason": "3.3: our Upsample Transformer is designed to incorporate local information into the generation"
+    },
+    {
+     "case_id": "E2E-M207",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "182a9b221f23c3fe1ee00590b57f87142a042e828169720c1dcd5fbb12980c42",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      4,
+      5
+     ],
+     "evidence_anchor": "The encoder module as Feature Extractor is constructed upon both GDP and SFA blocks",
+     "reason": "3.3: the encoder module as feature extractor is constructed upon both GDP and SFA blocks"
+    },
+    {
+     "case_id": "E2E-M208",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "ec20e8d343b3993a3d03a0e8c70f6e31fa3cffc5a4c69fc7fdf0341da32d5abd",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      13,
+      14
+     ],
+     "evidence_anchor": "These two datasets are the popular NYU Depth V2 [47] (denoted as NYUV2 in the following part) and NYUCAD [14]",
+     "reason": "evaluates on the real-world NYU Depth V2 and NYUCAD"
+    },
+    {
+     "case_id": "E2E-M210",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "ccddf71d9e866f59d987b90ee516de08bcb177ed16434599459b27d67f5378be",
+     "document_id": "82a7084a1bca79e7cac5ccb5c5559b755a5180b40499d149cf7e5b88323d37e6",
+     "file_name": "pointr_geometry_aware_transformers.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "Then, we use a lightweight DGCNN [44] to extract the local features around the center points",
+     "reason": "Fig. caption: a lightweight DGCNN extracts local features around the center points"
+    },
+    {
+     "case_id": "E2E-M210",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "823c5102d3320a4e18f6137a91556195e11fe42af5cb8efba086ab7e190000b7",
+     "document_id": "82a7084a1bca79e7cac5ccb5c5559b755a5180b40499d149cf7e5b88323d37e6",
+     "file_name": "pointr_geometry_aware_transformers.pdf",
+     "page": [
+      9,
+      9
+     ],
+     "evidence_anchor": "We employ a lightweight DGCNN [44] model to extract the point proxy features",
+     "reason": "Appendix: a lightweight DGCNN with hierarchical downsampling extracts the point proxy features"
+    },
+    {
+     "case_id": "E2E-M216",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f95bdcbf683b7ae4f392cb29581aac5153871351d33f9f9a3e3dbed67e509343",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      6,
+      7
+     ],
+     "evidence_anchor": "together with other normal queries Q, which can be expressed as",
+     "reason": "describes the task: noised queries are fed to the decoder together with the normal queries ([H, H^] = MD([Q, Q^], V)) and rebuilt as local shapes"
+    },
+    {
+     "case_id": "E2E-M216",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f30b476856675251bd6617122c99bebc22cd41a7437a0d7fc99737b7f7653ce0",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "The adversarial loss in this work is inspired by Generative Adversarial Network (GAN) [35]",
+     "reason": "3.4 continuation: completion loss L_com and the adversarial loss with the discriminator's structure"
+    },
+    {
+     "case_id": "E2E-M216",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "jointly train our PF-Net to minimize both multistage completion loss and adversarial loss",
+     "reason": "Intro: PF-Net is trained to minimise both multi-stage completion loss and adversarial loss"
+    },
+    {
+     "case_id": "E2E-M216",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "68e085b77c14335549de29e627b6cb0b79203924c419095244de5883ac7e4cd2",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "we add up multi-stage completion loss and adversarial loss to generate more realistic missing region(s)",
+     "reason": "Abstract: adds multi-stage completion loss and adversarial loss"
+    },
+    {
+     "case_id": "E2E-M217",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b9bb9549581684d5c9a0d0c9f95587cf68f9d194071909d22ae8ffe09a899940",
+     "document_id": "a72749d2c2baa8304a3e9c60e87c85ce754a219ddca691bb1bd8c7b38cfc7686",
+     "file_name": "proxyformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "where lp means the alignment loss that we will apply to our training loss",
+     "reason": "3.3: lp is the alignment loss (MSE) between pre-MP and true-MP"
+    },
+    {
+     "case_id": "E2E-M218",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      3,
+      4
+     ],
+     "evidence_anchor": "our method makes full use of self-structures and does not require any additional paired information such as color images",
+     "reason": "3: the method does not require additional paired information such as color images"
+    },
+    {
+     "case_id": "E2E-M219",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "ddb4b7a3f51e8b0166246395381f76a40a9da816d07db2112679111eaadeb522",
+     "document_id": "9af0f27d4063c30f7885b220da789bddefa42a896d58d3ebf8342e033c7a938e",
+     "file_name": "pcn_point_completion_network.pdf",
+     "page": [
+      5,
+      6
+     ],
+     "evidence_anchor": "For the loss on coarse output, PCN-CD uses CD and PCN-EMD uses EMD",
+     "reason": "5.2: for the loss on the coarse output PCN-CD uses CD and PCN-EMD uses EMD; both use CD for the detailed output"
+    },
+    {
+     "case_id": "E2E-M220",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "63e85bc347ffa55e38505e4431c15e30bc18fe21a2a98125c0e928445fabb786",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      13,
+      14
+     ],
+     "evidence_anchor": "The seed generator takes Np = 128 patches (Fig. 6(b)) extracted from the input point cloud",
+     "reason": "seed generator takes Np = 128 patches extracted from the input point cloud"
+    },
+    {
+     "case_id": "E2E-M220",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "197c316461cec31a4952bfb21e9723ebde12f6049f95feca6107af59e71190ea",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      15,
+      18
+     ],
+     "evidence_anchor": "The outputs are Np = 128 patch centers Pp as well as the corresponding patch features Fp",
+     "reason": "appendix architecture: outputs are Np = 128 patch centers with patch features"
+    },
+    {
+     "case_id": "E2E-M220",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b9bb9549581684d5c9a0d0c9f95587cf68f9d194071909d22ae8ffe09a899940",
+     "document_id": "a72749d2c2baa8304a3e9c60e87c85ce754a219ddca691bb1bd8c7b38cfc7686",
+     "file_name": "proxyformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "where lp means the alignment loss that we will apply to our training loss (Sec. 3.4) and MSE means the mean squared error",
+     "reason": "3.3: alignment loss lp with MSE the mean squared error"
+    },
+    {
+     "case_id": "E2E-M221",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f015fb1591eba60455ca85871891882017802444b9d2a81eeede7cef3bc11477",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "CMLP (Section 3.2) is our feature extractor",
+     "reason": "Fig. 2 caption: CMLP is our feature extractor"
+    },
+    {
+     "case_id": "E2E-M221",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "d5340000abf37056d16d3eb2fdae3ebaed9e6ea6a7cf9cc235e31e9d08dba944",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "Comparison of two different feature extractors of 3D point encoders",
+     "reason": "Fig. 4 caption: compares feature extractors; our CMLP"
+    },
+    {
+     "case_id": "E2E-M221",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "aeeaeffb53d9816c583efa58d1aa70a5232c294104a850e08078673dccec51c6",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "by utilizing a new feature extractor Combined Multi-Layer Perception (CMLP)",
+     "reason": "Intro: MRE uses a new feature extractor, Combined Multi-Layer Perception (CMLP)"
+    },
+    {
+     "case_id": "E2E-M223",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "8f2544df985a3aa932f220f5314c50316eb2a7f95e529cc6b260019629cc69fc",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "We therefore adopt L = 6 as the default",
+     "reason": "ablation concludes: we adopt L = 6 (HyperRS depth) as the default"
+    },
+    {
+     "case_id": "E2E-M224",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      3,
+      4
+     ],
+     "evidence_anchor": "a refiner equipped with two SDG modules",
+     "reason": "3: refiner equipped with two SDG modules; two SDGs refine and upsample"
+    },
+    {
+     "case_id": "E2E-M224",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a629e4fd0aa525f5ec9bca18158b5f4cedc0ae346184e8797a5ccfba9647dec9",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "The coarse completion is then upsampled and refined with two SDGs",
+     "reason": "Fig. 2 caption: refined with two SDGs"
+    },
+    {
+     "case_id": "E2E-M225",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "14a5e725ccec3a686d0f62f0f631ebb9fac133050e3559f682210cce35fa4fd0",
+     "document_id": "9af0f27d4063c30f7885b220da789bddefa42a896d58d3ebf8342e033c7a938e",
+     "file_name": "pcn_point_completion_network.pdf",
+     "page": [
+      14,
+      17
+     ],
+     "evidence_anchor": "we use t-SNE [27] to embed the 1024-dimensional global features of the ShapeNet test instances into a 2D space",
+     "reason": "appendix: the 1024-dimensional global features (states the global feature dimension)"
+    },
+    {
+     "case_id": "E2E-M227",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "7069cff3b58c08b29c49bb1d1295875e3e5d6d18f02ec8dc5c913048f499a3c6",
+     "document_id": "a72749d2c2baa8304a3e9c60e87c85ce754a219ddca691bb1bd8c7b38cfc7686",
+     "file_name": "proxyformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "we also train and test on two other datasets, ShapeNet- 55 and ShapeNet-34 proposed by PoinTr [41]",
+     "reason": "4: ShapeNet-55 and ShapeNet-34 proposed by PoinTr"
+    },
+    {
+     "case_id": "E2E-M234",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "20fdf699e39c24c0cecc1b5b0c9c418adffdde60a167b7539d194f4837dc5f48",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "We propose ShapeNet-55/34 and Projected-ShapeNet-55/34, which generate incomplete point clouds by cropping and noised back-projecting, respectively",
+     "reason": "Fig. 3 caption: Projected-ShapeNet-55/34 generate incomplete clouds by noised back-projecting"
+    },
+    {
+     "case_id": "E2E-M234",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "cda3fbd56f5b13c3ea2da468e2bdac192b2f1a191e6203d4b558aec1a630f7d7",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "we propose noised back-projecting by adding a scaled random noise to the depth map before generating incomplete point clouds",
+     "reason": "noised back-projecting adds scaled noise to the depth map; yields Projected-ShapeNet-55/34"
+    },
+    {
+     "case_id": "E2E-M234",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "c61caf9b28116c46791de50f29c2d3c86f92e4ad4a315b0222e75421928805e3",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "we present Projected-ShapeNet-55/34 dataset by generating incomplete samples with proposed noised back-projecting",
+     "reason": "Intro: Projected-ShapeNet-55/34 generated with the proposed noised back-projecting"
+    },
+    {
+     "case_id": "E2E-M236",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "63e85bc347ffa55e38505e4431c15e30bc18fe21a2a98125c0e928445fabb786",
+     "document_id": "5f5f49c841dd78b9d9b4030419cf3586c2f1de2c2e8aa4f7ad40d4830047f362",
+     "file_name": "seedformer.pdf",
+     "page": [
+      13,
+      14
+     ],
+     "evidence_anchor": "Ns = 256 seed points (Fig. 6(c))",
+     "reason": "seed generator produces a new set of Ns = 256 seed points"
+    },
+    {
+     "case_id": "E2E-M238",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "6224e921d997260a81b2608b5cbbb544c443e36f8a33a77757fc7b7d6710b04f",
+     "document_id": "9af0f27d4063c30f7885b220da789bddefa42a896d58d3ebf8342e033c7a938e",
+     "file_name": "pcn_point_completion_network.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "Failure modes: thin structures (top) and disconnected parts (bottom)",
+     "reason": "Fig. 8 caption: failure modes, thin structures and disconnected parts"
+    },
+    {
+     "case_id": "E2E-M238",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "6224e921d997260a81b2608b5cbbb544c443e36f8a33a77757fc7b7d6710b04f",
+     "document_id": "9af0f27d4063c30f7885b220da789bddefa42a896d58d3ebf8342e033c7a938e",
+     "file_name": "pcn_point_completion_network.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "Failure modes: thin structures (top) and disconnected parts (bottom)",
+     "reason": "Fig. 8 caption: failure modes, thin structures and disconnected parts"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      3,
+      3
+     ],
+     "evidence_anchor": "HyperRS constructs distance based hypergraphs and performs progressive refinement to yield hyper features and a coarse shape",
+     "reason": "3.1: HyperRS builds distance-based hypergraphs, A-HGNN collaborative hypergraphs"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "00f342f509e55d3355258c0c2a994c6f03b8ad5637e9dd264d29eca6edfff98f",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "propose Hyper-PCN, a novel point cloud completion method based on hypergraph neural networks",
+     "reason": "Intro: Hyper-PCN, a completion method based on hypergraph neural networks"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a4214b15b1a61cd2aa8d52fa8a134303a0664ab774912b952d8f6cbc817ccdbb",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "We first model high-order correlations in incomplete point clouds and propose Hyper-PCN, a novel hypergraph-based method for point cloud completion",
+     "reason": "contributions: hypergraph-based method"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "10d277b8e444293f721a58ce25d0701c7c02da4fa3811662026d4d158439b49a",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      8,
+      8
+     ],
+     "evidence_anchor": "we propose Hyper-PCN, a novel point cloud completion framework that leverages hypergraph learning to model high-order correlations within incomplete point clouds",
+     "reason": "Conclusion: leverages hypergraph learning"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "517904ed974955c07edc969701f84d5b873d5d654a07ff3f55d62c8ec89d2a41",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "enables the construction of a hypergraph that more comprehensively captures global dependencies across the entire shape",
+     "reason": "3.5 A-HGNN builds a hypergraph from key points and anchors"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "a9544137f000d4a3bf9db41c9a23ef6502d89f72e8275dc837bd39833bf47c1a",
+     "document_id": "6bf0ee25dc6983e545742333c1061a04aa480ee95ab8c8b26c68f33431bdf2e5",
+     "file_name": "hyper_pcn.pdf",
+     "page": [
+      4,
+      5
+     ],
+     "evidence_anchor": "we stack L layers, each of which constructs a hypergraph based on feature space and performs hypergraph convolution",
+     "reason": "3.4 HyperRS: each layer constructs a hypergraph and performs hypergraph convolution"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      3,
+      4
+     ],
+     "evidence_anchor": "SVFNet first leverages multiple self-projected depth maps to produce a globally completed shape",
+     "reason": "3: SVFNet leverages multiple self-projected depth maps"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "997b8428758f4a1b248e52c61dee9e6efcad023afc4968723d6d9813e6791f9e",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "We propose the novel Self-view Fusion Network (SVFNet) equipped with a feature fusion module to enhance the multi-view and cross-modal feature",
+     "reason": "contribution: SVFNet with a feature fusion module for multi-view cross-modal features"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf",
+     "document_id": "5b4ad74b82844993dc5288944fb736d83e750f290ba07ed588658fe6e2e278a8",
+     "file_name": "svdformer.pdf",
+     "page": [
+      4,
+      4
+     ],
+     "evidence_anchor": "The SVFNet aims to observe the partial input from different viewpoints",
+     "reason": "3.1 SVFNet observes the partial input from different viewpoints"
+    },
+    {
+     "case_id": "E2E-M242",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      10,
+      10
+     ],
+     "evidence_anchor": "the proposed framework eliminates the explicit local region partition like kNNs",
+     "reason": "Conclusion: the framework eliminates explicit local region partition like kNNs"
+    },
+    {
+     "case_id": "E2E-M242",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "4ffa08bdc2ccd336547e5ef3e89ee6bff906f811bd94a62f9c8e3c534a040b77",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "By eliminating the concept of explicit local feature region partition like kNNs",
+     "reason": "Intro: investigates eliminating kNNs; GDP eliminates explicit local region partition"
+    },
+    {
+     "case_id": "E2E-M242",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "d9db643d73c0768d6b18efdf335ca3f331f52026efad881e42e03eba94c5df2b",
+     "document_id": "9821011e76f5dde3301d87fc6c210057c0d4d9d7dabc5502b7280321bbc30c41",
+     "file_name": "pointattn.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "to design novel neural network for processing point cloud in a per-point manner to eliminate kNNs",
+     "reason": "Abstract: processes points per-point to eliminate kNNs"
+    },
+    {
+     "case_id": "E2E-M243",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f30b476856675251bd6617122c99bebc22cd41a7437a0d7fc99737b7f7653ce0",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "The adversarial loss in this work is inspired by Generative Adversarial Network (GAN) [35]",
+     "reason": "3.4 continuation: completion loss plus adversarial loss with the discriminator"
+    },
+    {
+     "case_id": "E2E-M243",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "68e085b77c14335549de29e627b6cb0b79203924c419095244de5883ac7e4cd2",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      1,
+      1
+     ],
+     "evidence_anchor": "we add up multi-stage completion loss and adversarial loss to generate more realistic missing region(s)",
+     "reason": "Abstract: adds multi-stage completion loss and adversarial loss"
+    },
+    {
+     "case_id": "E2E-M243",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3",
+     "document_id": "06aab3a8284d083710cd74bf928e6ed6f87b119b1bf4c6ba789a41ffc6892d4b",
+     "file_name": "pfnet_point_fractal_network.pdf",
+     "page": [
+      2,
+      2
+     ],
+     "evidence_anchor": "jointly train our PF-Net to minimize both multistage completion loss and adversarial loss",
+     "reason": "Intro: minimise both multi-stage completion loss and adversarial loss"
+    },
+    {
+     "case_id": "E2E-M243",
+     "group_id": "G2",
+     "field": "required_evidence_groups[G2].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "b9bb9549581684d5c9a0d0c9f95587cf68f9d194071909d22ae8ffe09a899940",
+     "document_id": "a72749d2c2baa8304a3e9c60e87c85ce754a219ddca691bb1bd8c7b38cfc7686",
+     "file_name": "proxyformer.pdf",
+     "page": [
+      5,
+      5
+     ],
+     "evidence_anchor": "where lp means the alignment loss that we will apply to our training loss",
+     "reason": "3.3: lp is the alignment loss between pre-MP and true-MP"
+    },
+    {
+     "case_id": "E2E-M244",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "4c8d0cfdcf00a7e5bbd5514fe20e27e92271472aa567dc80db74b043c84238b9",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      7,
+      7
+     ],
+     "evidence_anchor": "As for the auxiliary denoising task, giving the noised queries",
+     "reason": "3.7: noised queries with noised centers c^ = n + c_gt (noise added to ground-truth centers)"
+    },
+    {
+     "case_id": "E2E-M244",
+     "group_id": "G1",
+     "field": "required_evidence_groups[G1].alternatives",
+     "change": "append_alternative",
+     "chunk_id": "f95bdcbf683b7ae4f392cb29581aac5153871351d33f9f9a3e3dbed67e509343",
+     "document_id": "7543233a797cf3d800bb891378f8c1e74374cb55f38b6a89662c1ed7a6f714fb",
+     "file_name": "adapointr.pdf",
+     "page": [
+      6,
+      7
+     ],
+     "evidence_anchor": "To avoid knowledge leakage from those noised queries",
+     "reason": "noised centers c^gt = n + cgt generated together with the queries; attention mask for noised queries"
+    }
+   ],
+   "not_applied_dropped": [
+    {
+     "case_id": "E2E-M201",
+     "group_id": "G2",
+     "chunk_id": "68e085b77c14335549de29e627b6cb0b79203924c419095244de5883ac7e4cd2",
+     "evidence_anchor": "PF-Net estimates the missing point cloud hierarchically",
+     "reason": "Abstract: unlike networks that generate the overall shape, PF-Net estimates the missing point cloud"
+    },
+    {
+     "case_id": "E2E-M206",
+     "group_id": "G2",
+     "chunk_id": "e9d5beb3f1caf94e39fc1fcaad021d56905189abef749c9cdb459f763f621a67",
+     "evidence_anchor": "Based on the designed Patch Seeds and Upsample Transformer, the decoding phase of our method consists of two main steps",
+     "reason": "Intro: decoding with patch seeds and Upsample Transformer recovers fine details coarse-to-fine"
+    },
+    {
+     "case_id": "E2E-M241",
+     "group_id": "G2",
+     "chunk_id": "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423",
+     "evidence_anchor": "we design a Self-View Fusion Network (SVFNet) that learns an effective descriptor",
+     "reason": "Intro: designs SVFNet learning a global descriptor from point cloud data and depth maps"
+    }
+   ],
+   "review": {
+    "approved_by": "user",
+    "date": "2026-10-29",
+    "decision": "2026-10-29: user approved the v1.4 proposal with the three borderline items dropped (M201/G2 68e085b77c, M206/G2 e9d5beb3f1, M241/G2 b514a8de50)",
+    "review_document": "work/rag_e2e_v1.4/proposal/PROPOSAL.md",
+    "proposal": "work/rag_e2e_v1.4/proposal/proposal.json",
+    "basis": "accepted only if the chunk's own prose (body or a descriptive caption; not figure-label residue, titles, references, tables, equation-only fragments) states the claim's `text` as a fact of the gold paper's own method, covering every element of the claim at the level the question asks; naming the component/term without its content, or presupposing it in ablation/results text, is rejected"
+   }
+  }
+ }
+}

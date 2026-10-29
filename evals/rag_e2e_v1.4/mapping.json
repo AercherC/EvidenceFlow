@@ -1,0 +1,5585 @@
+{
+  "chunk_count": 817,
+  "chunk_id_hash": "e87a613ebe65b10262996e83974b55839e0b6c27fbe22053ee7b8826dd1f153d",
+  "claim_anchors": [
+    {
+      "case_id": "ARR-001",
+      "chunk_sets": [
+        [
+          "5a368080f5c6fff784ec1d9a35111b049369b14e5e2da4f3ab081deafc956b54"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-002",
+      "chunk_sets": [
+        [
+          "63b4cd2363c21bb662a158379c9ab1d391823ec67593204bfce0db306f6b6434"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-003",
+      "chunk_sets": [
+        [
+          "8951a46fd63be1c5747f689980f05214af7c4e2a8301b0bfebe15bfde007060a"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-004",
+      "chunk_sets": [
+        [
+          "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-005",
+      "chunk_sets": [
+        [
+          "d5b9da932691caafaceb0bf2b960d6bd8aa72606b6af20c2522955474a78afc2"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-006",
+      "chunk_sets": [
+        [
+          "ddecfd5fdd14ca2b0649aa165d5937d0cc31a742aeb5fc5cb7be81b4a71e59d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-007",
+      "chunk_sets": [
+        [
+          "398ab8bed53557fb422aab5131781418d7f85736e41b58e72ae0f79b969abc77"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-008",
+      "chunk_sets": [
+        [
+          "f015fb1591eba60455ca85871891882017802444b9d2a81eeede7cef3bc11477"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-009",
+      "chunk_sets": [
+        [
+          "63b4cd2363c21bb662a158379c9ab1d391823ec67593204bfce0db306f6b6434"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-010",
+      "chunk_sets": [
+        [
+          "e56e1f789ec79c036fc3681b4c128777d461a9f9fb0b21218cee47cc8a49bec1"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-011",
+      "chunk_sets": [
+        [
+          "afd0bdd249585d02e1aafa44eedf086dbeb90427096f3cd449268163c8d162fb"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-012",
+      "chunk_sets": [
+        [
+          "8951a46fd63be1c5747f689980f05214af7c4e2a8301b0bfebe15bfde007060a"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-013",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-014",
+      "chunk_sets": [
+        [
+          "eb70d413076947df4a5c814ba1b14c26a614b7379e1c96efd47f3984fc2091cb"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-015",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-016",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-017",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-018",
+      "chunk_sets": [
+        [
+          "715b6d38bb4b2355203e40efe30f079396992dad2dbe66b4920ff2ce473c2ed2"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-019",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-020",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-021",
+      "chunk_sets": [
+        [
+          "b6e8647fb431841256974e8ea42e850443b3c5fb00f629215cdade10316a93f6"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-022",
+      "chunk_sets": [
+        [
+          "58a4589d1211dfc66e259d73e5cf2f3b74154efe756d489e1d73f86aca798809"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-023",
+      "chunk_sets": [
+        [
+          "cda3fbd56f5b13c3ea2da468e2bdac192b2f1a191e6203d4b558aec1a630f7d7"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-024",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-025",
+      "chunk_sets": [
+        [
+          "32fd5e4436333d23853ac5f1db7ea601bf7e755ea07193f10d13b5c2eb09f8fa"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-026",
+      "chunk_sets": [
+        [
+          "2a12f0d43d6cbb8f3f5bfbb44346ff3a88c8a1fdc97851b1f4b08912524c0bec"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-027",
+      "chunk_sets": [
+        [
+          "9373f2e9f7d1cf44a7852181b0708a288aa14b9b8a3123aebe697392b7d1c610"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-028",
+      "chunk_sets": [
+        [
+          "a87317b98f21b9af20d90152ab076a642dca58aff24b60764592f00b9ac70a88"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-029",
+      "chunk_sets": [
+        [
+          "dbf1f24324c74366156900b39852b5e25f77b803c78fdf3f08a955ac4607e23f"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-030",
+      "chunk_sets": [
+        [
+          "1cf838383a878d235320159863b64f4e5a8b35f64c99c4d0b0f8a979cf8e7e54"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-031",
+      "chunk_sets": [
+        [
+          "f5f8d87482fe707e06cc35b3728bbb73dde9d8b495bc6bc0c3e8839bbe70dfd2"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-032",
+      "chunk_sets": [
+        [
+          "b2ae0b4f9b09b4faf821f5b5d7a2bcee38b5ec4b4ce1a8ba55fbf33a626620f3"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-033",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-034",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-035",
+      "chunk_sets": [
+        [
+          "4cabad13c393a5ac446a4730c999469e7fa480e71781dc901d7565d255f5fd02"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-036",
+      "chunk_sets": [
+        [
+          "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-037",
+      "chunk_sets": [
+        [
+          "87d86f80185e9bb7c7f2d4a77b04b42a91e24a23ef858a5968e5652b2763b1de"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-037",
+      "chunk_sets": [
+        [
+          "05af306b360669e7c32cd7d75ae726c77f7f9c475e10364c6f29cbc702fcbc51"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-038",
+      "chunk_sets": [
+        [
+          "c2a08cc7e01b157fd9a5cfe4d70af3db85133ecbcef4182e9181843440f2b585"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-038",
+      "chunk_sets": [
+        [
+          "afd0bdd249585d02e1aafa44eedf086dbeb90427096f3cd449268163c8d162fb"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-039",
+      "chunk_sets": [
+        [
+          "12b6943efe1ebb063c942f0281b1145255708f6e753317f65a1bc56ce79ffa7d"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-039",
+      "chunk_sets": [
+        [
+          "4ffa08bdc2ccd336547e5ef3e89ee6bff906f811bd94a62f9c8e3c534a040b77"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-040",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-040",
+      "chunk_sets": [
+        [
+          "ddecfd5fdd14ca2b0649aa165d5937d0cc31a742aeb5fc5cb7be81b4a71e59d0"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M001",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M002",
+      "chunk_sets": [
+        [
+          "5208cdd5bcf5f63d8684ce42e3719d82aa112577d7ff1ad7528722939ab31529"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M003",
+      "chunk_sets": [
+        [
+          "e8da518585f52f3a5ffb46b60219ae59ec612aaf7c823ea57dbd0e0f601fd6bc"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M004",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M005",
+      "chunk_sets": [
+        [
+          "29356d1176bcf3670a24ab893acf149ed98071cc7a155b42218cd12b36b10236"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M006",
+      "chunk_sets": [
+        [
+          "b36ec6e48623dafa031f917ea9cc9732b3e1b57ba63fd6e308074bd1f79573b7"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M007",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M008",
+      "chunk_sets": [
+        [
+          "ace2e8610429a1e849bc21aeeb42ac0ff7d64ab8655001db42d31b3f3748362a"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M009",
+      "chunk_sets": [
+        [
+          "df7a1587a99af32e14b4e77f00af1b685b1544f4d99ab978416a63b3cd6a06dd"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M010",
+      "chunk_sets": [
+        [
+          "72e745149a36503dee73c1cade0a3a7ef1f88cf9fc7ef946de499bbc6538218b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M011",
+      "chunk_sets": [
+        [
+          "21cfb26f4a0a21764379f13d552b33d4d12db6b9aa497a766b0a7ff166bfb36c"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M012",
+      "chunk_sets": [
+        [
+          "d141b4f19f667dcfd3fe449b9366f081d7231b215d2506f1225d2a9979254d48"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M013",
+      "chunk_sets": [
+        [
+          "c2f2051f1b831ed3a7fbe98bd426b15baa22cf6710527bcd38ba4b2931d274da"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M014",
+      "chunk_sets": [
+        [
+          "b107a5bd4d2df52edb4d9b831f7c2c0677185420d332bf1b86666f28a0ada588"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M015",
+      "chunk_sets": [
+        [
+          "ac15522447ae1079f684f388eb79df4edc2b61ff134b4d65c00e98ff4639b278"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M016",
+      "chunk_sets": [
+        [
+          "8c8498dda695004d7a2dfa630b697ae894277d940f9b3dd275400822434e3f71"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M017",
+      "chunk_sets": [
+        [
+          "261ba6c5e1adf28e23c5993dd1faeb81d08062d5fdb0e398922324c2c8af9785"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M018",
+      "chunk_sets": [
+        [
+          "1cf838383a878d235320159863b64f4e5a8b35f64c99c4d0b0f8a979cf8e7e54"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M019",
+      "chunk_sets": [
+        [
+          "f29b79db558b38f2e330859553d96dee03d5e8230ccd71bf2e752595a6d43324"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M020",
+      "chunk_sets": [
+        [
+          "dbea5cfed712621d6f97e2da9fd3e0c7a880e54e2aa201b0fe343c0d0af3bc2d"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M021",
+      "chunk_sets": [
+        [
+          "5f904261f3d8090b552442cdbff397344cc9e17e3228adc6ce584a938312451c"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M022",
+      "chunk_sets": [
+        [
+          "a07b8d91e80bc2f0c8e21d3d22b96ffdf664fcc6cf1497ede60ed1a3cc88a0cd"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M024",
+      "chunk_sets": [
+        [
+          "995a1d99a8c3cf7b7f5168dc02b1385837ff2635d31dc158ded04425dd7378e7"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M025",
+      "chunk_sets": [
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M026",
+      "chunk_sets": [
+        [
+          "21cfb26f4a0a21764379f13d552b33d4d12db6b9aa497a766b0a7ff166bfb36c"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M027",
+      "chunk_sets": [
+        [
+          "4e888d589ec047a0f9fbdb20e4ba9714c59395c8e2cd8a212ad5f730734507de"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M028",
+      "chunk_sets": [
+        [
+          "36271aa4d40b777edeb0bb5c99037246010d314e581921474c6ccb8a8edb0e2d"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M029",
+      "chunk_sets": [
+        [
+          "f29b79db558b38f2e330859553d96dee03d5e8230ccd71bf2e752595a6d43324"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M030",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M031",
+      "chunk_sets": [
+        [
+          "419d100f2fdc055721a5bec93f6a96952a7dbbdc084790d9a422affd0c083a7f"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M032",
+      "chunk_sets": [
+        [
+          "c8ee699694f023d534e63cf1fcc03ac7fe7c45b1921095f4f759696f2da8f7b8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M033",
+      "chunk_sets": [
+        [
+          "a165c991d35462308dd95bb1d06a3c9737c9232d39d91d24e6cd4a3d98c8a783"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M034",
+      "chunk_sets": [
+        [
+          "058c1cadfacd80b3cea85d543dd4e5b5578666dc0d32765b5d9d6c4918245432"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M035",
+      "chunk_sets": [
+        [
+          "04503f38336adea5d8ff6c600f8ef6c4432808ac6f066ca07ac517fac60fd3cb"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M036",
+      "chunk_sets": [
+        [
+          "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M037",
+      "chunk_sets": [
+        [
+          "00ac5367cab1ecf3c768f01b62965cfc94d4dede7da950030fbae40613fa1b5b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M038",
+      "chunk_sets": [
+        [
+          "dc5eaa400cbe3d062d4f8ea69f2fe21def798b73c63eec6f0ac8b8039a16ef27"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M039",
+      "chunk_sets": [
+        [
+          "6b65d0802b280081e0bd42c2d111fbf3abc0db5b7cc02cd5c77cb5c9126fc797"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M040",
+      "chunk_sets": [
+        [
+          "cec7d0ff9c4244883e985af7db9f18859455c1d249ff6d2e0bb2f463b5995563"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M041",
+      "chunk_sets": [
+        [
+          "e9d5beb3f1caf94e39fc1fcaad021d56905189abef749c9cdb459f763f621a67"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M042",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M043",
+      "chunk_sets": [
+        [
+          "d528e7d2db0319e789e877077486c1dafd695b03eb044156537a20c04f7c9107"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M044",
+      "chunk_sets": [
+        [
+          "841a8fafe36aa2169f7b9c3a951c509a3ec71ff1a15d2050d0fd86d6cedf3567"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M045",
+      "chunk_sets": [
+        [
+          "0ba218db499f7ececf1b98b97f9cc2580d30bc67fdaf913aed7939c7e0a46700"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M046",
+      "chunk_sets": [
+        [
+          "8e1a78d29fee8f0efe8b8d023e76a86c7b2d78dd67e540f571211d709495314f"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M047",
+      "chunk_sets": [
+        [
+          "62ac1a58f5cc29fe7da5f1527a944e9b8678d86a6ef891539968666e43e65844"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M048",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M049",
+      "chunk_sets": [
+        [
+          "2a6894a5f67126eaec6c9ad8239871f6720cfc215ebe9e43da02a394df063460"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M050",
+      "chunk_sets": [
+        [
+          "7d0b8752ac547a857056fb25bcc10ccd3566b1112f03744228542bcef9a54293"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M051",
+      "chunk_sets": [
+        [
+          "0361b2424a60b8b00f09f908ec3aa7be82deb21c3bb241eb2d319d9a88c732f9"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M052",
+      "chunk_sets": [
+        [
+          "05af306b360669e7c32cd7d75ae726c77f7f9c475e10364c6f29cbc702fcbc51"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M053",
+      "chunk_sets": [
+        [
+          "87d86f80185e9bb7c7f2d4a77b04b42a91e24a23ef858a5968e5652b2763b1de"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M054",
+      "chunk_sets": [
+        [
+          "a98e1141b6fa6a49131f1d378096ac70cb073fa3888d0381c574aec58759b575"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M055",
+      "chunk_sets": [
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M056",
+      "chunk_sets": [
+        [
+          "c31e731c3765edb666d9f89b17276830b0003ad16ab2919f70037abda365a3a5"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M057",
+      "chunk_sets": [
+        [
+          "47fb467049db485d943abead6e0ecb56bb9efb4328625b1fe9d2857c6a7fe6cb"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M058",
+      "chunk_sets": [
+        [
+          "caa680ff9c47a23aa18c8f14709ed04b6b940453144ecf6012a34b95cd199441"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M059",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M060",
+      "chunk_sets": [
+        [
+          "726168859735dfb53b378f9fa8f1f10e97663f0f99c78072e3f85a61a8231b59"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M061",
+      "chunk_sets": [
+        [
+          "0c09ce810e5ec62a8b70550ae76217aa531fb7ceb80cb2c7a090de0db88bb477"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M062",
+      "chunk_sets": [
+        [
+          "551afc084f935cde9b550280b10df9a0737a79533147471b20e6d0d009d041ed"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M063",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M064",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M065",
+      "chunk_sets": [
+        [
+          "949ea3029601e24efbf741c587eba9a10133ba86b0f1028b7ff37450c99644dd"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M066",
+      "chunk_sets": [
+        [
+          "d0a6d7137da9d7c4cb740e8598c382e3551f0a7304f38c6370150513f503676c"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M067",
+      "chunk_sets": [
+        [
+          "efd50435bf2533ebc6e527afaefc876770d7d74a17656bc1d5247640e1d44800"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M068",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M069",
+      "chunk_sets": [
+        [
+          "976bc45bf479ae89655d6b10d68717d07afa04594c3953c42dba5c38f33ef66b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M070",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M071",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M072",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M073",
+      "chunk_sets": [
+        [
+          "a4aa66d1af2582cfd09b728089702adbbb00c69fd58afaebe6671610a1df6430"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M074",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M076",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M077",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M078",
+      "chunk_sets": [
+        [
+          "d08869815a6636eb885bd56f862a9766da447b4343b6c456dae87b45892c234e"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M079",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M080",
+      "chunk_sets": [
+        [
+          "3d043fdd3f8e0f566ffc43995ad46e31e48bf5a33e821598ba10cb3ce57fb912"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M081",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M082",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M083",
+      "chunk_sets": [
+        [
+          "2b0f81a7b218236c1eedf82f59625601c004112edb9139ff614e8de611eb68d5"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M084",
+      "chunk_sets": [
+        [
+          "3d043fdd3f8e0f566ffc43995ad46e31e48bf5a33e821598ba10cb3ce57fb912"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M085",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M086",
+      "chunk_sets": [
+        [
+          "124d48af1a23abf3e8e172b17c6502861b5ef60b1915d6ce40933e7ed6715541",
+          "4fde8617e8de443443a6c456acdf31310831d958071fd06f9a560be9ca3d362b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FRAGMENTED_ACROSS_CHUNKS"
+    },
+    {
+      "case_id": "E2E-M087",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M088",
+      "chunk_sets": [
+        [
+          "b6e8647fb431841256974e8ea42e850443b3c5fb00f629215cdade10316a93f6"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M089",
+      "chunk_sets": [
+        [
+          "c3bf7d954b7705a0056dd1caec0aec7a3f6ce5e82cc6fc3b2a7663026aa3cb26"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M090",
+      "chunk_sets": [
+        [
+          "c7abb05768ea6b0144551415fb5675fa37fd7f011d0a44c2592ff0e3c435bff2"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M091",
+      "chunk_sets": [
+        [
+          "197c316461cec31a4952bfb21e9723ebde12f6049f95feca6107af59e71190ea"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M092",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M093",
+      "chunk_sets": [
+        [
+          "ab9fdcb996371ff662ac84d632d4ded1b0e2ac365f129ec177e4f81c0b696a45"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M094",
+      "chunk_sets": [
+        [
+          "d5b9da932691caafaceb0bf2b960d6bd8aa72606b6af20c2522955474a78afc2"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M095",
+      "chunk_sets": [
+        [
+          "ccddf71d9e866f59d987b90ee516de08bcb177ed16434599459b27d67f5378be"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M096",
+      "chunk_sets": [
+        [
+          "261ba6c5e1adf28e23c5993dd1faeb81d08062d5fdb0e398922324c2c8af9785"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M097",
+      "chunk_sets": [
+        [
+          "d6ee2aaa2084e70bdfb2e6912d58fa8c13cad213f1a596674452e54ef8dc3089"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M098",
+      "chunk_sets": [
+        [
+          "9d56dbeac394338b96bc3d25322b8a3793369f5fb30dbed53448ae8dec335ea9"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M099",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M100",
+      "chunk_sets": [
+        [
+          "8c6f3dccffc80f1e6bef36b559c41f8fadcb86cedc70500f63bb81c8763bafea"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M101",
+      "chunk_sets": [
+        [
+          "d1ad3d78fbb236af43adf9eb7e67aab0418e03e1838f413077721639110b819c"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M102",
+      "chunk_sets": [
+        [
+          "ffc2115100abf77c7bd065a092f2e5f3c2f890f0cfd8297d602ba3273cb20009"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M103",
+      "chunk_sets": [
+        [
+          "986b624bc1d1344d6c00224fb01d44acfcb5ffa7927511c93730fd8fb979c7ae"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M104",
+      "chunk_sets": [
+        [
+          "624eb1469ee02c496b851d6dd3a55965134c1f73af82dbe154cb34cc175351b4"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M105",
+      "chunk_sets": [
+        [
+          "5a61e768d8c7d9572284d4256497bada6510b5d86a5396e6476208141261f9a8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M106",
+      "chunk_sets": [
+        [
+          "e8c4e8581523e07abe870997e19b837a0d8e129fab7dde7f6f9e854a92320ada",
+          "f6bb408176d7b62c7d2562e532c01d0314ac607133a7803e7f5eeca3f9a5d72a"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FRAGMENTED_ACROSS_CHUNKS"
+    },
+    {
+      "case_id": "E2E-M107",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M108",
+      "chunk_sets": [
+        [
+          "3f4cf19d23403e37390a0c15cf87bac4671106ad48877ec99aba9cc2fdd3be91"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M109",
+      "chunk_sets": [
+        [
+          "caf68c567e0d4f8b099ecf6b33e0323c875f178a386946dccadabaf04ad6a958"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M110",
+      "chunk_sets": [
+        [
+          "2d5b358992773a01791e60089f7ff09025bdaaf7825338e0106dee515bb30b8a"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M111",
+      "chunk_sets": [
+        [
+          "3d043fdd3f8e0f566ffc43995ad46e31e48bf5a33e821598ba10cb3ce57fb912"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M112",
+      "chunk_sets": [
+        [
+          "0ce8117068fa4a31dea8d1d9c0593ad3419421a6f28d97953f67dc1c67942088"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M113",
+      "chunk_sets": [
+        [
+          "5208cdd5bcf5f63d8684ce42e3719d82aa112577d7ff1ad7528722939ab31529"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M113",
+      "chunk_sets": [
+        [
+          "e8da518585f52f3a5ffb46b60219ae59ec612aaf7c823ea57dbd0e0f601fd6bc"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M114",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M114",
+      "chunk_sets": [
+        [
+          "21cfb26f4a0a21764379f13d552b33d4d12db6b9aa497a766b0a7ff166bfb36c"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M115",
+      "chunk_sets": [
+        [
+          "4e888d589ec047a0f9fbdb20e4ba9714c59395c8e2cd8a212ad5f730734507de"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M115",
+      "chunk_sets": [
+        [
+          "058c1cadfacd80b3cea85d543dd4e5b5578666dc0d32765b5d9d6c4918245432"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M116",
+      "chunk_sets": [
+        [
+          "f29b79db558b38f2e330859553d96dee03d5e8230ccd71bf2e752595a6d43324"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M116",
+      "chunk_sets": [
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M118",
+      "chunk_sets": [
+        [
+          "a07b8d91e80bc2f0c8e21d3d22b96ffdf664fcc6cf1497ede60ed1a3cc88a0cd"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M118",
+      "chunk_sets": [
+        [
+          "36271aa4d40b777edeb0bb5c99037246010d314e581921474c6ccb8a8edb0e2d"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M119",
+      "chunk_sets": [
+        [
+          "ace2e8610429a1e849bc21aeeb42ac0ff7d64ab8655001db42d31b3f3748362a"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M119",
+      "chunk_sets": [
+        [
+          "ace2e8610429a1e849bc21aeeb42ac0ff7d64ab8655001db42d31b3f3748362a"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M120",
+      "chunk_sets": [
+        [
+          "72e745149a36503dee73c1cade0a3a7ef1f88cf9fc7ef946de499bbc6538218b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M120",
+      "chunk_sets": [
+        [
+          "72e745149a36503dee73c1cade0a3a7ef1f88cf9fc7ef946de499bbc6538218b"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M121",
+      "chunk_sets": [
+        [
+          "8c8498dda695004d7a2dfa630b697ae894277d940f9b3dd275400822434e3f71"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M121",
+      "chunk_sets": [
+        [
+          "8c8498dda695004d7a2dfa630b697ae894277d940f9b3dd275400822434e3f71"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M122",
+      "chunk_sets": [],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M122",
+      "chunk_sets": [],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M201",
+      "chunk_sets": [
+        [
+          "2b0f81a7b218236c1eedf82f59625601c004112edb9139ff614e8de611eb68d5"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M201",
+      "chunk_sets": [
+        [
+          "aeeaeffb53d9816c583efa58d1aa70a5232c294104a850e08078673dccec51c6"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M202",
+      "chunk_sets": [
+        [
+          "314aa21eae330034e65c3e55d7bceeff0980d3810b4aef0288c60f0e73682723"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M202",
+      "chunk_sets": [
+        [
+          "b1f21a4ed8cb09dd21966f23de92e3d777580e37beb3c906166445587904f666"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M203",
+      "chunk_sets": [
+        [
+          "44334d29afb4619179d67693a0669cf311f21a7c6c73c6ba6cf2db77fbe1d97e"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M203",
+      "chunk_sets": [
+        [
+          "841a8fafe36aa2169f7b9c3a951c509a3ec71ff1a15d2050d0fd86d6cedf3567"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M204",
+      "chunk_sets": [
+        [
+          "387598920e08ed6706a5e3d0ac4870d14761132cf148ee83b021dfe30b4fb50b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M204",
+      "chunk_sets": [
+        [
+          "62ac1a58f5cc29fe7da5f1527a944e9b8678d86a6ef891539968666e43e65844"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M205",
+      "chunk_sets": [
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M205",
+      "chunk_sets": [
+        [
+          "a40441e1799f6f0cc123cbb7733840d4833d0a55a7f30167771d59375a2e58dc"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M206",
+      "chunk_sets": [
+        [
+          "d7ee9bf24cfa260a9359bdfb3bc5bdd686108a7b254e08ff336e022d09b1c98b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M206",
+      "chunk_sets": [
+        [
+          "2a7b98ee142ffb0f1cff0b57450d6df5a22522234afb11f5663d6a73dc599027"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M207",
+      "chunk_sets": [
+        [
+          "3698c6629adbe88189b2e07b4367294ca28473c84040d7fec641ccc6f3482566"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M207",
+      "chunk_sets": [
+        [
+          "16399088f61ff8e8935fa1e85a5b9b34709cf7482b130947e6ec6f1c8a8be9ad"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M208",
+      "chunk_sets": [
+        [
+          "c61caf9b28116c46791de50f29c2d3c86f92e4ad4a315b0222e75421928805e3"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M208",
+      "chunk_sets": [
+        [
+          "b8d95a901e329961af0ae171faecfdbbb31e82ed8f2d8666e22e5d22a443b1b6"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M209",
+      "chunk_sets": [
+        [
+          "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M209",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M210",
+      "chunk_sets": [
+        [
+          "e0d6499e8d75bf1b480662ef865584ba3ac3897f0045bdf286f5cfe0fb5e8c19"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M210",
+      "chunk_sets": [
+        [
+          "6f5cb389eb03ee905b1d8fc218011fbf8de57e683b8f05af1dd8f8945b00f29d"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M211",
+      "chunk_sets": [
+        [
+          "00f342f509e55d3355258c0c2a994c6f03b8ad5637e9dd264d29eca6edfff98f"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M211",
+      "chunk_sets": [
+        [
+          "6fe4097a42f53e842ceee232c1cced67dd1bc99a6c3897f226b2c629a6f724a9"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M212",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M212",
+      "chunk_sets": [
+        [
+          "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M213",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M213",
+      "chunk_sets": [
+        [
+          "0bea2bb38265956e40b39da2ec73e604ebca13446592579b26192ef58c80e596"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M214",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M214",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M215",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M215",
+      "chunk_sets": [
+        [
+          "d64513778d9e36003c33d8f1a797ed6b6ec5dedfdd504dcd70336e58928f4c9f"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M216",
+      "chunk_sets": [
+        [
+          "910c2ef1d682b51db9e4cc005b8977eb1c3c07f0fe41a391b7f711388ba011c8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M216",
+      "chunk_sets": [
+        [
+          "caa680ff9c47a23aa18c8f14709ed04b6b940453144ecf6012a34b95cd199441"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M217",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M217",
+      "chunk_sets": [
+        [
+          "a40441e1799f6f0cc123cbb7733840d4833d0a55a7f30167771d59375a2e58dc"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M218",
+      "chunk_sets": [
+        [
+          "d64513778d9e36003c33d8f1a797ed6b6ec5dedfdd504dcd70336e58928f4c9f"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M218",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M219",
+      "chunk_sets": [
+        [
+          "949ea3029601e24efbf741c587eba9a10133ba86b0f1028b7ff37450c99644dd"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M219",
+      "chunk_sets": [
+        [
+          "4c2df563874a10826cc33c309117f8aa7ce28c2ed71ca36f351d9eee4837128a"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M220",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M220",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M221",
+      "chunk_sets": [
+        [
+          "0b2f2f5229d154d764ced9fff45cefa09fa6aa4faeda0cd1d75378ca9ce05696"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M221",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M222",
+      "chunk_sets": [
+        [
+          "f95bdcbf683b7ae4f392cb29581aac5153871351d33f9f9a3e3dbed67e509343"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M222",
+      "chunk_sets": [
+        [
+          "16399088f61ff8e8935fa1e85a5b9b34709cf7482b130947e6ec6f1c8a8be9ad"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M223",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M223",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M224",
+      "chunk_sets": [
+        [
+          "d7ee9bf24cfa260a9359bdfb3bc5bdd686108a7b254e08ff336e022d09b1c98b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M224",
+      "chunk_sets": [
+        [
+          "715b6d38bb4b2355203e40efe30f079396992dad2dbe66b4920ff2ce473c2ed2"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M225",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M225",
+      "chunk_sets": [
+        [
+          "3698c6629adbe88189b2e07b4367294ca28473c84040d7fec641ccc6f3482566"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M226",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M226",
+      "chunk_sets": [
+        [
+          "7157387b6e1b1e5b627ed112edb99bb8f1903f0f5463232c425bc1ed25515c3b"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M227",
+      "chunk_sets": [
+        [
+          "715b6d38bb4b2355203e40efe30f079396992dad2dbe66b4920ff2ce473c2ed2"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M227",
+      "chunk_sets": [
+        [
+          "90e173810cb973748f308799aa2426cd18d0dc4dcd3a980b45c995edf51b50ef"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M228",
+      "chunk_sets": [
+        [
+          "5f3ef3df1568a62bdfc5d52e11405be6062e925c5c6c4aa6708eee2c869f197b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M228",
+      "chunk_sets": [
+        [
+          "e0d6499e8d75bf1b480662ef865584ba3ac3897f0045bdf286f5cfe0fb5e8c19"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M229",
+      "chunk_sets": [
+        [
+          "a165c991d35462308dd95bb1d06a3c9737c9232d39d91d24e6cd4a3d98c8a783"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M229",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M231",
+      "chunk_sets": [
+        [
+          "a4aa66d1af2582cfd09b728089702adbbb00c69fd58afaebe6671610a1df6430"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M231",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M232",
+      "chunk_sets": [
+        [
+          "5f3ef3df1568a62bdfc5d52e11405be6062e925c5c6c4aa6708eee2c869f197b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M232",
+      "chunk_sets": [
+        [
+          "a124eb08eae64e1a6faaa73452fbc103b4248b691e0d35fab704b1b26395e40e"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M233",
+      "chunk_sets": [
+        [
+          "5a75084066cce91b732835cd60d97b63ddf1b35c928b28e414cc8ad6e378ede6"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M233",
+      "chunk_sets": [
+        [
+          "19f24893dd5b0e2056a4b9d1fd7f76d059a83d66802cfb187240e0af80083ba3"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M234",
+      "chunk_sets": [
+        [
+          "7157387b6e1b1e5b627ed112edb99bb8f1903f0f5463232c425bc1ed25515c3b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M234",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M235",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M235",
+      "chunk_sets": [
+        [
+          "d64513778d9e36003c33d8f1a797ed6b6ec5dedfdd504dcd70336e58928f4c9f"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M236",
+      "chunk_sets": [
+        [
+          "fc633bc45310d81edf533f53f202ab24f813f32faac9d6e8ed6e8248d6c8e618"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M236",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M237",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M237",
+      "chunk_sets": [
+        [
+          "517904ed974955c07edc969701f84d5b873d5d654a07ff3f55d62c8ec89d2a41"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M238",
+      "chunk_sets": [
+        [
+          "6d7be19cdd5d5715f78d2e62e8916972ef64dafab0fc2c6bfd5ebd19b301d9dd"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M238",
+      "chunk_sets": [
+        [
+          "6d7be19cdd5d5715f78d2e62e8916972ef64dafab0fc2c6bfd5ebd19b301d9dd"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M238",
+      "chunk_sets": [
+        [
+          "e83f1ab16c21ad3859df97daad553c568c270f506c0531de43048dc6ba80bf5d"
+        ]
+      ],
+      "claim_id": "C3",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M239",
+      "chunk_sets": [
+        [
+          "34d20ec8b1832780aece0ec8170e5609e0d212fe1eda8cfaafd0b41694535e49"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M239",
+      "chunk_sets": [
+        [
+          "a40441e1799f6f0cc123cbb7733840d4833d0a55a7f30167771d59375a2e58dc"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M240",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M240",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M241",
+      "chunk_sets": [
+        [
+          "ddecfd5fdd14ca2b0649aa165d5937d0cc31a742aeb5fc5cb7be81b4a71e59d0"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M241",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M241",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M242",
+      "chunk_sets": [
+        [
+          "d51039a86a19fb772b8d83e08e3ddb18c78450cedaaf821ac06efe4368cd7b8b"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M242",
+      "chunk_sets": [
+        [
+          "ad16fe5389ff6cb3020d5998dc1bab1083b67ba724147ac6344d17e24082b682"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M242",
+      "chunk_sets": [
+        [
+          "ad16fe5389ff6cb3020d5998dc1bab1083b67ba724147ac6344d17e24082b682"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M243",
+      "chunk_sets": [
+        [
+          "caa680ff9c47a23aa18c8f14709ed04b6b940453144ecf6012a34b95cd199441"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M243",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M243",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M244",
+      "chunk_sets": [
+        [
+          "910c2ef1d682b51db9e4cc005b8977eb1c3c07f0fe41a391b7f711388ba011c8"
+        ]
+      ],
+      "claim_id": "C1",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M244",
+      "chunk_sets": [
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ]
+      ],
+      "claim_id": "C2",
+      "kind": "required",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M244",
+      "chunk_sets": [
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ]
+      ],
+      "claim_id": "F1",
+      "kind": "forbidden",
+      "status": "FULLY_MAPPED"
+    }
+  ],
+  "collection_name": "ef_research_bge_m3_hybrid_c512_v2",
+  "dataset_fingerprint": "464fda056cd9d380f05704141269a81506167ac149eba106777b347516df8254",
+  "groups": [
+    {
+      "case_id": "ARR-001",
+      "chunk_sets": [
+        [
+          "5a368080f5c6fff784ec1d9a35111b049369b14e5e2da4f3ab081deafc956b54"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-002",
+      "chunk_sets": [
+        [
+          "63b4cd2363c21bb662a158379c9ab1d391823ec67593204bfce0db306f6b6434"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-003",
+      "chunk_sets": [
+        [
+          "8951a46fd63be1c5747f689980f05214af7c4e2a8301b0bfebe15bfde007060a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-004",
+      "chunk_sets": [
+        [
+          "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-005",
+      "chunk_sets": [
+        [
+          "d5b9da932691caafaceb0bf2b960d6bd8aa72606b6af20c2522955474a78afc2"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-006",
+      "chunk_sets": [
+        [
+          "ddecfd5fdd14ca2b0649aa165d5937d0cc31a742aeb5fc5cb7be81b4a71e59d0"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-007",
+      "chunk_sets": [
+        [
+          "398ab8bed53557fb422aab5131781418d7f85736e41b58e72ae0f79b969abc77"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-008",
+      "chunk_sets": [
+        [
+          "f015fb1591eba60455ca85871891882017802444b9d2a81eeede7cef3bc11477"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-009",
+      "chunk_sets": [
+        [
+          "63b4cd2363c21bb662a158379c9ab1d391823ec67593204bfce0db306f6b6434"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-010",
+      "chunk_sets": [
+        [
+          "e56e1f789ec79c036fc3681b4c128777d461a9f9fb0b21218cee47cc8a49bec1"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-011",
+      "chunk_sets": [
+        [
+          "afd0bdd249585d02e1aafa44eedf086dbeb90427096f3cd449268163c8d162fb"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-012",
+      "chunk_sets": [
+        [
+          "8951a46fd63be1c5747f689980f05214af7c4e2a8301b0bfebe15bfde007060a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-013",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-014",
+      "chunk_sets": [
+        [
+          "eb70d413076947df4a5c814ba1b14c26a614b7379e1c96efd47f3984fc2091cb"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-015",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-016",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-017",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-018",
+      "chunk_sets": [
+        [
+          "715b6d38bb4b2355203e40efe30f079396992dad2dbe66b4920ff2ce473c2ed2"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-019",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-020",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-021",
+      "chunk_sets": [
+        [
+          "b6e8647fb431841256974e8ea42e850443b3c5fb00f629215cdade10316a93f6"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-022",
+      "chunk_sets": [
+        [
+          "58a4589d1211dfc66e259d73e5cf2f3b74154efe756d489e1d73f86aca798809"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-023",
+      "chunk_sets": [
+        [
+          "cda3fbd56f5b13c3ea2da468e2bdac192b2f1a191e6203d4b558aec1a630f7d7"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-024",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-025",
+      "chunk_sets": [
+        [
+          "32fd5e4436333d23853ac5f1db7ea601bf7e755ea07193f10d13b5c2eb09f8fa"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-026",
+      "chunk_sets": [
+        [
+          "2a12f0d43d6cbb8f3f5bfbb44346ff3a88c8a1fdc97851b1f4b08912524c0bec"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-027",
+      "chunk_sets": [
+        [
+          "9373f2e9f7d1cf44a7852181b0708a288aa14b9b8a3123aebe697392b7d1c610"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-028",
+      "chunk_sets": [
+        [
+          "a87317b98f21b9af20d90152ab076a642dca58aff24b60764592f00b9ac70a88"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-029",
+      "chunk_sets": [
+        [
+          "dbf1f24324c74366156900b39852b5e25f77b803c78fdf3f08a955ac4607e23f"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-030",
+      "chunk_sets": [
+        [
+          "1cf838383a878d235320159863b64f4e5a8b35f64c99c4d0b0f8a979cf8e7e54"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-031",
+      "chunk_sets": [
+        [
+          "f5f8d87482fe707e06cc35b3728bbb73dde9d8b495bc6bc0c3e8839bbe70dfd2"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-032",
+      "chunk_sets": [
+        [
+          "b2ae0b4f9b09b4faf821f5b5d7a2bcee38b5ec4b4ce1a8ba55fbf33a626620f3"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-033",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-034",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "ARR-035",
+      "chunk_sets": [
+        [
+          "4cabad13c393a5ac446a4730c999469e7fa480e71781dc901d7565d255f5fd02"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-036",
+      "chunk_sets": [
+        [
+          "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-037",
+      "chunk_sets": [
+        [
+          "87d86f80185e9bb7c7f2d4a77b04b42a91e24a23ef858a5968e5652b2763b1de"
+        ],
+        [
+          "02c2a02efa58de1a383cef1dedd564eb8bf36f36dba080526eaa68f5efaa586a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-037",
+      "chunk_sets": [
+        [
+          "05af306b360669e7c32cd7d75ae726c77f7f9c475e10364c6f29cbc702fcbc51"
+        ],
+        [
+          "fc633bc45310d81edf533f53f202ab24f813f32faac9d6e8ed6e8248d6c8e618"
+        ],
+        [
+          "98a7923e7b3ce62235f27dbf843c02e935f9a99704afc18a7035daaace9d35c4"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-038",
+      "chunk_sets": [
+        [
+          "c2a08cc7e01b157fd9a5cfe4d70af3db85133ecbcef4182e9181843440f2b585"
+        ],
+        [
+          "73c30fc951c74565cd55ab3dd78aeeecb12b338deca741f2d8a3951b15f4f00b"
+        ],
+        [
+          "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3"
+        ],
+        [
+          "75c62aaa0131227239bed0c6aa419617e63891b391ab0a008fd2b5d9a1b94476"
+        ],
+        [
+          "9733ea947452a7180c406462c35335c62e5a9651053b0fcd6fa54f193ce5effa"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-038",
+      "chunk_sets": [
+        [
+          "afd0bdd249585d02e1aafa44eedf086dbeb90427096f3cd449268163c8d162fb"
+        ],
+        [
+          "b107a5bd4d2df52edb4d9b831f7c2c0677185420d332bf1b86666f28a0ada588"
+        ],
+        [
+          "e9d5beb3f1caf94e39fc1fcaad021d56905189abef749c9cdb459f763f621a67"
+        ],
+        [
+          "2a7b98ee142ffb0f1cff0b57450d6df5a22522234afb11f5663d6a73dc599027"
+        ],
+        [
+          "21131bd0bd1460e6602678685ad8014a9ee536b8a8f08dd27b795baaa7eb495f"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-039",
+      "chunk_sets": [
+        [
+          "12b6943efe1ebb063c942f0281b1145255708f6e753317f65a1bc56ce79ffa7d"
+        ],
+        [
+          "5b7750b582258d5239c8b746c184fc968a225d7e337eb6f865b87839e4808a04"
+        ],
+        [
+          "314aa21eae330034e65c3e55d7bceeff0980d3810b4aef0288c60f0e73682723"
+        ],
+        [
+          "f5805b037ffb00c968b1ae3f7657bf2969abdcfc4c4bcb631975e28f43d74625"
+        ],
+        [
+          "d51039a86a19fb772b8d83e08e3ddb18c78450cedaaf821ac06efe4368cd7b8b"
+        ],
+        [
+          "a124eb08eae64e1a6faaa73452fbc103b4248b691e0d35fab704b1b26395e40e"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-039",
+      "chunk_sets": [
+        [
+          "4ffa08bdc2ccd336547e5ef3e89ee6bff906f811bd94a62f9c8e3c534a040b77"
+        ],
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ],
+        [
+          "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b"
+        ],
+        [
+          "ad16fe5389ff6cb3020d5998dc1bab1083b67ba724147ac6344d17e24082b682"
+        ],
+        [
+          "d9db643d73c0768d6b18efdf335ca3f331f52026efad881e42e03eba94c5df2b"
+        ],
+        [
+          "387598920e08ed6706a5e3d0ac4870d14761132cf148ee83b021dfe30b4fb50b"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-040",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ],
+        [
+          "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423"
+        ],
+        [
+          "4cabad13c393a5ac446a4730c999469e7fa480e71781dc901d7565d255f5fd02"
+        ],
+        [
+          "997b8428758f4a1b248e52c61dee9e6efcad023afc4968723d6d9813e6791f9e"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "ARR-040",
+      "chunk_sets": [
+        [
+          "ddecfd5fdd14ca2b0649aa165d5937d0cc31a742aeb5fc5cb7be81b4a71e59d0"
+        ],
+        [
+          "10d277b8e444293f721a58ce25d0701c7c02da4fa3811662026d4d158439b49a"
+        ],
+        [
+          "00f342f509e55d3355258c0c2a994c6f03b8ad5637e9dd264d29eca6edfff98f"
+        ],
+        [
+          "a4214b15b1a61cd2aa8d52fa8a134303a0664ab774912b952d8f6cbc817ccdbb"
+        ],
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ],
+        [
+          "517904ed974955c07edc969701f84d5b873d5d654a07ff3f55d62c8ec89d2a41"
+        ],
+        [
+          "a9544137f000d4a3bf9db41c9a23ef6502d89f72e8275dc837bd39833bf47c1a"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M001",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M002",
+      "chunk_sets": [
+        [
+          "5208cdd5bcf5f63d8684ce42e3719d82aa112577d7ff1ad7528722939ab31529"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M003",
+      "chunk_sets": [
+        [
+          "e8da518585f52f3a5ffb46b60219ae59ec612aaf7c823ea57dbd0e0f601fd6bc"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M004",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M005",
+      "chunk_sets": [
+        [
+          "29356d1176bcf3670a24ab893acf149ed98071cc7a155b42218cd12b36b10236"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M006",
+      "chunk_sets": [
+        [
+          "b36ec6e48623dafa031f917ea9cc9732b3e1b57ba63fd6e308074bd1f79573b7"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M007",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M008",
+      "chunk_sets": [
+        [
+          "ace2e8610429a1e849bc21aeeb42ac0ff7d64ab8655001db42d31b3f3748362a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M009",
+      "chunk_sets": [
+        [
+          "df7a1587a99af32e14b4e77f00af1b685b1544f4d99ab978416a63b3cd6a06dd"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M010",
+      "chunk_sets": [
+        [
+          "72e745149a36503dee73c1cade0a3a7ef1f88cf9fc7ef946de499bbc6538218b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M011",
+      "chunk_sets": [
+        [
+          "21cfb26f4a0a21764379f13d552b33d4d12db6b9aa497a766b0a7ff166bfb36c"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M012",
+      "chunk_sets": [
+        [
+          "d141b4f19f667dcfd3fe449b9366f081d7231b215d2506f1225d2a9979254d48"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M013",
+      "chunk_sets": [
+        [
+          "c2f2051f1b831ed3a7fbe98bd426b15baa22cf6710527bcd38ba4b2931d274da"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M014",
+      "chunk_sets": [
+        [
+          "b107a5bd4d2df52edb4d9b831f7c2c0677185420d332bf1b86666f28a0ada588"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M015",
+      "chunk_sets": [
+        [
+          "ac15522447ae1079f684f388eb79df4edc2b61ff134b4d65c00e98ff4639b278"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M016",
+      "chunk_sets": [
+        [
+          "8c8498dda695004d7a2dfa630b697ae894277d940f9b3dd275400822434e3f71"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M017",
+      "chunk_sets": [
+        [
+          "261ba6c5e1adf28e23c5993dd1faeb81d08062d5fdb0e398922324c2c8af9785"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M018",
+      "chunk_sets": [
+        [
+          "1cf838383a878d235320159863b64f4e5a8b35f64c99c4d0b0f8a979cf8e7e54"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M019",
+      "chunk_sets": [
+        [
+          "f29b79db558b38f2e330859553d96dee03d5e8230ccd71bf2e752595a6d43324"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M020",
+      "chunk_sets": [
+        [
+          "dbea5cfed712621d6f97e2da9fd3e0c7a880e54e2aa201b0fe343c0d0af3bc2d"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M021",
+      "chunk_sets": [
+        [
+          "5f904261f3d8090b552442cdbff397344cc9e17e3228adc6ce584a938312451c"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M022",
+      "chunk_sets": [
+        [
+          "a07b8d91e80bc2f0c8e21d3d22b96ffdf664fcc6cf1497ede60ed1a3cc88a0cd"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M024",
+      "chunk_sets": [
+        [
+          "995a1d99a8c3cf7b7f5168dc02b1385837ff2635d31dc158ded04425dd7378e7"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M025",
+      "chunk_sets": [
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M026",
+      "chunk_sets": [
+        [
+          "21cfb26f4a0a21764379f13d552b33d4d12db6b9aa497a766b0a7ff166bfb36c"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M027",
+      "chunk_sets": [
+        [
+          "4e888d589ec047a0f9fbdb20e4ba9714c59395c8e2cd8a212ad5f730734507de"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M028",
+      "chunk_sets": [
+        [
+          "36271aa4d40b777edeb0bb5c99037246010d314e581921474c6ccb8a8edb0e2d"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M029",
+      "chunk_sets": [
+        [
+          "f29b79db558b38f2e330859553d96dee03d5e8230ccd71bf2e752595a6d43324"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M030",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M031",
+      "chunk_sets": [
+        [
+          "419d100f2fdc055721a5bec93f6a96952a7dbbdc084790d9a422affd0c083a7f"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M032",
+      "chunk_sets": [
+        [
+          "c8ee699694f023d534e63cf1fcc03ac7fe7c45b1921095f4f759696f2da8f7b8"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M033",
+      "chunk_sets": [
+        [
+          "a165c991d35462308dd95bb1d06a3c9737c9232d39d91d24e6cd4a3d98c8a783"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M034",
+      "chunk_sets": [
+        [
+          "058c1cadfacd80b3cea85d543dd4e5b5578666dc0d32765b5d9d6c4918245432"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M035",
+      "chunk_sets": [
+        [
+          "04503f38336adea5d8ff6c600f8ef6c4432808ac6f066ca07ac517fac60fd3cb"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M036",
+      "chunk_sets": [
+        [
+          "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M037",
+      "chunk_sets": [
+        [
+          "00ac5367cab1ecf3c768f01b62965cfc94d4dede7da950030fbae40613fa1b5b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M038",
+      "chunk_sets": [
+        [
+          "dc5eaa400cbe3d062d4f8ea69f2fe21def798b73c63eec6f0ac8b8039a16ef27"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M039",
+      "chunk_sets": [
+        [
+          "6b65d0802b280081e0bd42c2d111fbf3abc0db5b7cc02cd5c77cb5c9126fc797"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M040",
+      "chunk_sets": [
+        [
+          "cec7d0ff9c4244883e985af7db9f18859455c1d249ff6d2e0bb2f463b5995563"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M041",
+      "chunk_sets": [
+        [
+          "e9d5beb3f1caf94e39fc1fcaad021d56905189abef749c9cdb459f763f621a67"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M042",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M043",
+      "chunk_sets": [
+        [
+          "d528e7d2db0319e789e877077486c1dafd695b03eb044156537a20c04f7c9107"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M044",
+      "chunk_sets": [
+        [
+          "841a8fafe36aa2169f7b9c3a951c509a3ec71ff1a15d2050d0fd86d6cedf3567"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M045",
+      "chunk_sets": [
+        [
+          "0ba218db499f7ececf1b98b97f9cc2580d30bc67fdaf913aed7939c7e0a46700"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M046",
+      "chunk_sets": [
+        [
+          "8e1a78d29fee8f0efe8b8d023e76a86c7b2d78dd67e540f571211d709495314f"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M047",
+      "chunk_sets": [
+        [
+          "62ac1a58f5cc29fe7da5f1527a944e9b8678d86a6ef891539968666e43e65844"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M048",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M049",
+      "chunk_sets": [
+        [
+          "2a6894a5f67126eaec6c9ad8239871f6720cfc215ebe9e43da02a394df063460"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M050",
+      "chunk_sets": [
+        [
+          "7d0b8752ac547a857056fb25bcc10ccd3566b1112f03744228542bcef9a54293"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M051",
+      "chunk_sets": [
+        [
+          "0361b2424a60b8b00f09f908ec3aa7be82deb21c3bb241eb2d319d9a88c732f9"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M052",
+      "chunk_sets": [
+        [
+          "05af306b360669e7c32cd7d75ae726c77f7f9c475e10364c6f29cbc702fcbc51"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M053",
+      "chunk_sets": [
+        [
+          "87d86f80185e9bb7c7f2d4a77b04b42a91e24a23ef858a5968e5652b2763b1de"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M054",
+      "chunk_sets": [
+        [
+          "a98e1141b6fa6a49131f1d378096ac70cb073fa3888d0381c574aec58759b575"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M055",
+      "chunk_sets": [
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M056",
+      "chunk_sets": [
+        [
+          "c31e731c3765edb666d9f89b17276830b0003ad16ab2919f70037abda365a3a5"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M057",
+      "chunk_sets": [
+        [
+          "47fb467049db485d943abead6e0ecb56bb9efb4328625b1fe9d2857c6a7fe6cb"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M058",
+      "chunk_sets": [
+        [
+          "caa680ff9c47a23aa18c8f14709ed04b6b940453144ecf6012a34b95cd199441"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M059",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M060",
+      "chunk_sets": [
+        [
+          "726168859735dfb53b378f9fa8f1f10e97663f0f99c78072e3f85a61a8231b59"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M061",
+      "chunk_sets": [
+        [
+          "0c09ce810e5ec62a8b70550ae76217aa531fb7ceb80cb2c7a090de0db88bb477"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M062",
+      "chunk_sets": [
+        [
+          "551afc084f935cde9b550280b10df9a0737a79533147471b20e6d0d009d041ed"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M063",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M064",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M065",
+      "chunk_sets": [
+        [
+          "949ea3029601e24efbf741c587eba9a10133ba86b0f1028b7ff37450c99644dd"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M066",
+      "chunk_sets": [
+        [
+          "d0a6d7137da9d7c4cb740e8598c382e3551f0a7304f38c6370150513f503676c"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M067",
+      "chunk_sets": [
+        [
+          "efd50435bf2533ebc6e527afaefc876770d7d74a17656bc1d5247640e1d44800"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M068",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M069",
+      "chunk_sets": [
+        [
+          "976bc45bf479ae89655d6b10d68717d07afa04594c3953c42dba5c38f33ef66b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M070",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M071",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M072",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M073",
+      "chunk_sets": [
+        [
+          "a4aa66d1af2582cfd09b728089702adbbb00c69fd58afaebe6671610a1df6430"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M074",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M076",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M077",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M078",
+      "chunk_sets": [
+        [
+          "d08869815a6636eb885bd56f862a9766da447b4343b6c456dae87b45892c234e"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M079",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M080",
+      "chunk_sets": [
+        [
+          "3d043fdd3f8e0f566ffc43995ad46e31e48bf5a33e821598ba10cb3ce57fb912"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M081",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M082",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M083",
+      "chunk_sets": [
+        [
+          "2b0f81a7b218236c1eedf82f59625601c004112edb9139ff614e8de611eb68d5"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M084",
+      "chunk_sets": [
+        [
+          "3d043fdd3f8e0f566ffc43995ad46e31e48bf5a33e821598ba10cb3ce57fb912"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M085",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M086",
+      "chunk_sets": [
+        [
+          "124d48af1a23abf3e8e172b17c6502861b5ef60b1915d6ce40933e7ed6715541",
+          "4fde8617e8de443443a6c456acdf31310831d958071fd06f9a560be9ca3d362b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FRAGMENTED_ACROSS_CHUNKS"
+    },
+    {
+      "case_id": "E2E-M087",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M088",
+      "chunk_sets": [
+        [
+          "b6e8647fb431841256974e8ea42e850443b3c5fb00f629215cdade10316a93f6"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M089",
+      "chunk_sets": [
+        [
+          "c3bf7d954b7705a0056dd1caec0aec7a3f6ce5e82cc6fc3b2a7663026aa3cb26"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M090",
+      "chunk_sets": [
+        [
+          "c7abb05768ea6b0144551415fb5675fa37fd7f011d0a44c2592ff0e3c435bff2"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M091",
+      "chunk_sets": [
+        [
+          "197c316461cec31a4952bfb21e9723ebde12f6049f95feca6107af59e71190ea"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M092",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M093",
+      "chunk_sets": [
+        [
+          "ab9fdcb996371ff662ac84d632d4ded1b0e2ac365f129ec177e4f81c0b696a45"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M094",
+      "chunk_sets": [
+        [
+          "d5b9da932691caafaceb0bf2b960d6bd8aa72606b6af20c2522955474a78afc2"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M095",
+      "chunk_sets": [
+        [
+          "ccddf71d9e866f59d987b90ee516de08bcb177ed16434599459b27d67f5378be"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M096",
+      "chunk_sets": [
+        [
+          "261ba6c5e1adf28e23c5993dd1faeb81d08062d5fdb0e398922324c2c8af9785"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M097",
+      "chunk_sets": [
+        [
+          "d6ee2aaa2084e70bdfb2e6912d58fa8c13cad213f1a596674452e54ef8dc3089"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M098",
+      "chunk_sets": [
+        [
+          "9d56dbeac394338b96bc3d25322b8a3793369f5fb30dbed53448ae8dec335ea9"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M099",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M100",
+      "chunk_sets": [
+        [
+          "8c6f3dccffc80f1e6bef36b559c41f8fadcb86cedc70500f63bb81c8763bafea"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M101",
+      "chunk_sets": [
+        [
+          "d1ad3d78fbb236af43adf9eb7e67aab0418e03e1838f413077721639110b819c"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M102",
+      "chunk_sets": [
+        [
+          "ffc2115100abf77c7bd065a092f2e5f3c2f890f0cfd8297d602ba3273cb20009"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M103",
+      "chunk_sets": [
+        [
+          "986b624bc1d1344d6c00224fb01d44acfcb5ffa7927511c93730fd8fb979c7ae"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M104",
+      "chunk_sets": [
+        [
+          "624eb1469ee02c496b851d6dd3a55965134c1f73af82dbe154cb34cc175351b4"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M105",
+      "chunk_sets": [
+        [
+          "5a61e768d8c7d9572284d4256497bada6510b5d86a5396e6476208141261f9a8"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M106",
+      "chunk_sets": [
+        [
+          "e8c4e8581523e07abe870997e19b837a0d8e129fab7dde7f6f9e854a92320ada",
+          "f6bb408176d7b62c7d2562e532c01d0314ac607133a7803e7f5eeca3f9a5d72a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FRAGMENTED_ACROSS_CHUNKS"
+    },
+    {
+      "case_id": "E2E-M107",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M108",
+      "chunk_sets": [
+        [
+          "3f4cf19d23403e37390a0c15cf87bac4671106ad48877ec99aba9cc2fdd3be91"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M109",
+      "chunk_sets": [
+        [
+          "caf68c567e0d4f8b099ecf6b33e0323c875f178a386946dccadabaf04ad6a958"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M110",
+      "chunk_sets": [
+        [
+          "2d5b358992773a01791e60089f7ff09025bdaaf7825338e0106dee515bb30b8a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M111",
+      "chunk_sets": [
+        [
+          "3d043fdd3f8e0f566ffc43995ad46e31e48bf5a33e821598ba10cb3ce57fb912"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M112",
+      "chunk_sets": [
+        [
+          "0ce8117068fa4a31dea8d1d9c0593ad3419421a6f28d97953f67dc1c67942088"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M113",
+      "chunk_sets": [
+        [
+          "5208cdd5bcf5f63d8684ce42e3719d82aa112577d7ff1ad7528722939ab31529"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M113",
+      "chunk_sets": [
+        [
+          "e8da518585f52f3a5ffb46b60219ae59ec612aaf7c823ea57dbd0e0f601fd6bc"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M114",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M114",
+      "chunk_sets": [
+        [
+          "21cfb26f4a0a21764379f13d552b33d4d12db6b9aa497a766b0a7ff166bfb36c"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M115",
+      "chunk_sets": [
+        [
+          "4e888d589ec047a0f9fbdb20e4ba9714c59395c8e2cd8a212ad5f730734507de"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M115",
+      "chunk_sets": [
+        [
+          "058c1cadfacd80b3cea85d543dd4e5b5578666dc0d32765b5d9d6c4918245432"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M116",
+      "chunk_sets": [
+        [
+          "f29b79db558b38f2e330859553d96dee03d5e8230ccd71bf2e752595a6d43324"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M116",
+      "chunk_sets": [
+        [
+          "c753377b9dbf26315c4b7f6d6787ff780f83e9616e22c503042734d611f2e9af"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M118",
+      "chunk_sets": [
+        [
+          "a07b8d91e80bc2f0c8e21d3d22b96ffdf664fcc6cf1497ede60ed1a3cc88a0cd"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M118",
+      "chunk_sets": [
+        [
+          "36271aa4d40b777edeb0bb5c99037246010d314e581921474c6ccb8a8edb0e2d"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M119",
+      "chunk_sets": [
+        [
+          "ace2e8610429a1e849bc21aeeb42ac0ff7d64ab8655001db42d31b3f3748362a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M120",
+      "chunk_sets": [
+        [
+          "72e745149a36503dee73c1cade0a3a7ef1f88cf9fc7ef946de499bbc6538218b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M121",
+      "chunk_sets": [
+        [
+          "8c8498dda695004d7a2dfa630b697ae894277d940f9b3dd275400822434e3f71"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M122",
+      "chunk_sets": [],
+      "group_id": "G1",
+      "status": "UNMAPPED"
+    },
+    {
+      "case_id": "E2E-M201",
+      "chunk_sets": [
+        [
+          "2b0f81a7b218236c1eedf82f59625601c004112edb9139ff614e8de611eb68d5"
+        ],
+        [
+          "398ab8bed53557fb422aab5131781418d7f85736e41b58e72ae0f79b969abc77"
+        ],
+        [
+          "d6ee2aaa2084e70bdfb2e6912d58fa8c13cad213f1a596674452e54ef8dc3089"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M201",
+      "chunk_sets": [
+        [
+          "aeeaeffb53d9816c583efa58d1aa70a5232c294104a850e08078673dccec51c6"
+        ],
+        [
+          "c2a08cc7e01b157fd9a5cfe4d70af3db85133ecbcef4182e9181843440f2b585"
+        ],
+        [
+          "73c30fc951c74565cd55ab3dd78aeeecb12b338deca741f2d8a3951b15f4f00b"
+        ],
+        [
+          "f015fb1591eba60455ca85871891882017802444b9d2a81eeede7cef3bc11477"
+        ],
+        [
+          "5f904261f3d8090b552442cdbff397344cc9e17e3228adc6ce584a938312451c"
+        ],
+        [
+          "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3"
+        ],
+        [
+          "193ee68bc8a30342c65e86837c2a63fc22883366c83ed26e3538ccd80aaaa8bf"
+        ],
+        [
+          "f68368f7737847b9e17bfbf77f851e0feac3a75816d416d2dce97280997d3bab"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M202",
+      "chunk_sets": [
+        [
+          "314aa21eae330034e65c3e55d7bceeff0980d3810b4aef0288c60f0e73682723"
+        ],
+        [
+          "cd6dc6f81e03aca1437531eae29bc370e34d637080190208e4c0a698dd9f9743"
+        ],
+        [
+          "12b6943efe1ebb063c942f0281b1145255708f6e753317f65a1bc56ce79ffa7d"
+        ],
+        [
+          "273051be82e66d1ca8b4e4febf404de3aa555309679fc39b0c19875f60455cf8"
+        ],
+        [
+          "a124eb08eae64e1a6faaa73452fbc103b4248b691e0d35fab704b1b26395e40e"
+        ],
+        [
+          "979b70618b0d59efbe82cb1dfb968500fd9acd74360b460a85892ee07e7f7f9b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M202",
+      "chunk_sets": [
+        [
+          "b1f21a4ed8cb09dd21966f23de92e3d777580e37beb3c906166445587904f666"
+        ],
+        [
+          "2a7b98ee142ffb0f1cff0b57450d6df5a22522234afb11f5663d6a73dc599027"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M203",
+      "chunk_sets": [
+        [
+          "44334d29afb4619179d67693a0669cf311f21a7c6c73c6ba6cf2db77fbe1d97e"
+        ],
+        [
+          "87d86f80185e9bb7c7f2d4a77b04b42a91e24a23ef858a5968e5652b2763b1de"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M203",
+      "chunk_sets": [
+        [
+          "841a8fafe36aa2169f7b9c3a951c509a3ec71ff1a15d2050d0fd86d6cedf3567"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M204",
+      "chunk_sets": [
+        [
+          "387598920e08ed6706a5e3d0ac4870d14761132cf148ee83b021dfe30b4fb50b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M204",
+      "chunk_sets": [
+        [
+          "62ac1a58f5cc29fe7da5f1527a944e9b8678d86a6ef891539968666e43e65844"
+        ],
+        [
+          "5a75084066cce91b732835cd60d97b63ddf1b35c928b28e414cc8ad6e378ede6"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M205",
+      "chunk_sets": [
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M205",
+      "chunk_sets": [
+        [
+          "a40441e1799f6f0cc123cbb7733840d4833d0a55a7f30167771d59375a2e58dc"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M206",
+      "chunk_sets": [
+        [
+          "d7ee9bf24cfa260a9359bdfb3bc5bdd686108a7b254e08ff336e022d09b1c98b"
+        ],
+        [
+          "b514a8de5057ecc52d93c2e403b2d77b0638ed623e69cf57771d800e37fd0423"
+        ],
+        [
+          "ed8c66841e6b3f5d0650748e8a386848b642401f0e2806fc5b34217c2b9b08b3"
+        ],
+        [
+          "6f5cb389eb03ee905b1d8fc218011fbf8de57e683b8f05af1dd8f8945b00f29d"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M206",
+      "chunk_sets": [
+        [
+          "2a7b98ee142ffb0f1cff0b57450d6df5a22522234afb11f5663d6a73dc599027"
+        ],
+        [
+          "640ca42f205db827105bab8985bc9df1389c89c5e903cd30ec4d6ec3309f6403"
+        ],
+        [
+          "afd0bdd249585d02e1aafa44eedf086dbeb90427096f3cd449268163c8d162fb"
+        ],
+        [
+          "b107a5bd4d2df52edb4d9b831f7c2c0677185420d332bf1b86666f28a0ada588"
+        ],
+        [
+          "21131bd0bd1460e6602678685ad8014a9ee536b8a8f08dd27b795baaa7eb495f"
+        ],
+        [
+          "19f24893dd5b0e2056a4b9d1fd7f76d059a83d66802cfb187240e0af80083ba3"
+        ],
+        [
+          "b1f21a4ed8cb09dd21966f23de92e3d777580e37beb3c906166445587904f666"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M207",
+      "chunk_sets": [
+        [
+          "3698c6629adbe88189b2e07b4367294ca28473c84040d7fec641ccc6f3482566"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M207",
+      "chunk_sets": [
+        [
+          "16399088f61ff8e8935fa1e85a5b9b34709cf7482b130947e6ec6f1c8a8be9ad"
+        ],
+        [
+          "182a9b221f23c3fe1ee00590b57f87142a042e828169720c1dcd5fbb12980c42"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M208",
+      "chunk_sets": [
+        [
+          "c61caf9b28116c46791de50f29c2d3c86f92e4ad4a315b0222e75421928805e3"
+        ],
+        [
+          "ec20e8d343b3993a3d03a0e8c70f6e31fa3cffc5a4c69fc7fdf0341da32d5abd"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M208",
+      "chunk_sets": [
+        [
+          "b8d95a901e329961af0ae171faecfdbbb31e82ed8f2d8666e22e5d22a443b1b6"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M209",
+      "chunk_sets": [
+        [
+          "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M209",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M210",
+      "chunk_sets": [
+        [
+          "e0d6499e8d75bf1b480662ef865584ba3ac3897f0045bdf286f5cfe0fb5e8c19"
+        ],
+        [
+          "ccddf71d9e866f59d987b90ee516de08bcb177ed16434599459b27d67f5378be"
+        ],
+        [
+          "823c5102d3320a4e18f6137a91556195e11fe42af5cb8efba086ab7e190000b7"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M210",
+      "chunk_sets": [
+        [
+          "6f5cb389eb03ee905b1d8fc218011fbf8de57e683b8f05af1dd8f8945b00f29d"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M211",
+      "chunk_sets": [
+        [
+          "00f342f509e55d3355258c0c2a994c6f03b8ad5637e9dd264d29eca6edfff98f"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M211",
+      "chunk_sets": [
+        [
+          "6fe4097a42f53e842ceee232c1cced67dd1bc99a6c3897f226b2c629a6f724a9"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M212",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M212",
+      "chunk_sets": [
+        [
+          "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M213",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M213",
+      "chunk_sets": [
+        [
+          "0bea2bb38265956e40b39da2ec73e604ebca13446592579b26192ef58c80e596"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M214",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M214",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M215",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M215",
+      "chunk_sets": [
+        [
+          "d64513778d9e36003c33d8f1a797ed6b6ec5dedfdd504dcd70336e58928f4c9f"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M216",
+      "chunk_sets": [
+        [
+          "910c2ef1d682b51db9e4cc005b8977eb1c3c07f0fe41a391b7f711388ba011c8"
+        ],
+        [
+          "f95bdcbf683b7ae4f392cb29581aac5153871351d33f9f9a3e3dbed67e509343"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M216",
+      "chunk_sets": [
+        [
+          "caa680ff9c47a23aa18c8f14709ed04b6b940453144ecf6012a34b95cd199441"
+        ],
+        [
+          "f30b476856675251bd6617122c99bebc22cd41a7437a0d7fc99737b7f7653ce0"
+        ],
+        [
+          "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3"
+        ],
+        [
+          "68e085b77c14335549de29e627b6cb0b79203924c419095244de5883ac7e4cd2"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M217",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ],
+        [
+          "b9bb9549581684d5c9a0d0c9f95587cf68f9d194071909d22ae8ffe09a899940"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M217",
+      "chunk_sets": [
+        [
+          "a40441e1799f6f0cc123cbb7733840d4833d0a55a7f30167771d59375a2e58dc"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M218",
+      "chunk_sets": [
+        [
+          "d64513778d9e36003c33d8f1a797ed6b6ec5dedfdd504dcd70336e58928f4c9f"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M218",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ],
+        [
+          "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M219",
+      "chunk_sets": [
+        [
+          "949ea3029601e24efbf741c587eba9a10133ba86b0f1028b7ff37450c99644dd"
+        ],
+        [
+          "ddb4b7a3f51e8b0166246395381f76a40a9da816d07db2112679111eaadeb522"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M219",
+      "chunk_sets": [
+        [
+          "4c2df563874a10826cc33c309117f8aa7ce28c2ed71ca36f351d9eee4837128a"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M220",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ],
+        [
+          "63e85bc347ffa55e38505e4431c15e30bc18fe21a2a98125c0e928445fabb786"
+        ],
+        [
+          "197c316461cec31a4952bfb21e9723ebde12f6049f95feca6107af59e71190ea"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M220",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ],
+        [
+          "b9bb9549581684d5c9a0d0c9f95587cf68f9d194071909d22ae8ffe09a899940"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M221",
+      "chunk_sets": [
+        [
+          "0b2f2f5229d154d764ced9fff45cefa09fa6aa4faeda0cd1d75378ca9ce05696"
+        ],
+        [
+          "f015fb1591eba60455ca85871891882017802444b9d2a81eeede7cef3bc11477"
+        ],
+        [
+          "d5340000abf37056d16d3eb2fdae3ebaed9e6ea6a7cf9cc235e31e9d08dba944"
+        ],
+        [
+          "aeeaeffb53d9816c583efa58d1aa70a5232c294104a850e08078673dccec51c6"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M221",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M222",
+      "chunk_sets": [
+        [
+          "f95bdcbf683b7ae4f392cb29581aac5153871351d33f9f9a3e3dbed67e509343"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M222",
+      "chunk_sets": [
+        [
+          "16399088f61ff8e8935fa1e85a5b9b34709cf7482b130947e6ec6f1c8a8be9ad"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M223",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ],
+        [
+          "8f2544df985a3aa932f220f5314c50316eb2a7f95e529cc6b260019629cc69fc"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M223",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M224",
+      "chunk_sets": [
+        [
+          "d7ee9bf24cfa260a9359bdfb3bc5bdd686108a7b254e08ff336e022d09b1c98b"
+        ],
+        [
+          "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781"
+        ],
+        [
+          "a629e4fd0aa525f5ec9bca18158b5f4cedc0ae346184e8797a5ccfba9647dec9"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M224",
+      "chunk_sets": [
+        [
+          "715b6d38bb4b2355203e40efe30f079396992dad2dbe66b4920ff2ce473c2ed2"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M225",
+      "chunk_sets": [
+        [
+          "d057efd9a618d1285519757b43a7c09d929bb4c516affed1f1ef652500e46373"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M225",
+      "chunk_sets": [
+        [
+          "3698c6629adbe88189b2e07b4367294ca28473c84040d7fec641ccc6f3482566"
+        ],
+        [
+          "14a5e725ccec3a686d0f62f0f631ebb9fac133050e3559f682210cce35fa4fd0"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M226",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M226",
+      "chunk_sets": [
+        [
+          "7157387b6e1b1e5b627ed112edb99bb8f1903f0f5463232c425bc1ed25515c3b"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M227",
+      "chunk_sets": [
+        [
+          "715b6d38bb4b2355203e40efe30f079396992dad2dbe66b4920ff2ce473c2ed2"
+        ],
+        [
+          "7069cff3b58c08b29c49bb1d1295875e3e5d6d18f02ec8dc5c913048f499a3c6"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M227",
+      "chunk_sets": [
+        [
+          "90e173810cb973748f308799aa2426cd18d0dc4dcd3a980b45c995edf51b50ef"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M228",
+      "chunk_sets": [
+        [
+          "5f3ef3df1568a62bdfc5d52e11405be6062e925c5c6c4aa6708eee2c869f197b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M228",
+      "chunk_sets": [
+        [
+          "e0d6499e8d75bf1b480662ef865584ba3ac3897f0045bdf286f5cfe0fb5e8c19"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M229",
+      "chunk_sets": [
+        [
+          "a165c991d35462308dd95bb1d06a3c9737c9232d39d91d24e6cd4a3d98c8a783"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M229",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M231",
+      "chunk_sets": [
+        [
+          "a4aa66d1af2582cfd09b728089702adbbb00c69fd58afaebe6671610a1df6430"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M231",
+      "chunk_sets": [
+        [
+          "7745ddefae6ba39ca89b9186c2e2c1862073208f002e4f713906cd2d61a11aa5"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M232",
+      "chunk_sets": [
+        [
+          "5f3ef3df1568a62bdfc5d52e11405be6062e925c5c6c4aa6708eee2c869f197b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M232",
+      "chunk_sets": [
+        [
+          "a124eb08eae64e1a6faaa73452fbc103b4248b691e0d35fab704b1b26395e40e"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M233",
+      "chunk_sets": [
+        [
+          "5a75084066cce91b732835cd60d97b63ddf1b35c928b28e414cc8ad6e378ede6"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M233",
+      "chunk_sets": [
+        [
+          "19f24893dd5b0e2056a4b9d1fd7f76d059a83d66802cfb187240e0af80083ba3"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M234",
+      "chunk_sets": [
+        [
+          "7157387b6e1b1e5b627ed112edb99bb8f1903f0f5463232c425bc1ed25515c3b"
+        ],
+        [
+          "20fdf699e39c24c0cecc1b5b0c9c418adffdde60a167b7539d194f4837dc5f48"
+        ],
+        [
+          "cda3fbd56f5b13c3ea2da468e2bdac192b2f1a191e6203d4b558aec1a630f7d7"
+        ],
+        [
+          "c61caf9b28116c46791de50f29c2d3c86f92e4ad4a315b0222e75421928805e3"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M234",
+      "chunk_sets": [
+        [
+          "a0474c9d638988fc7f37559f76c94037a6c3a69f1a0f66f531cf96cc22d4c4d0"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M235",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M235",
+      "chunk_sets": [
+        [
+          "d64513778d9e36003c33d8f1a797ed6b6ec5dedfdd504dcd70336e58928f4c9f"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M236",
+      "chunk_sets": [
+        [
+          "fc633bc45310d81edf533f53f202ab24f813f32faac9d6e8ed6e8248d6c8e618"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M236",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ],
+        [
+          "63e85bc347ffa55e38505e4431c15e30bc18fe21a2a98125c0e928445fabb786"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M237",
+      "chunk_sets": [
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M237",
+      "chunk_sets": [
+        [
+          "517904ed974955c07edc969701f84d5b873d5d654a07ff3f55d62c8ec89d2a41"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M238",
+      "chunk_sets": [
+        [
+          "6d7be19cdd5d5715f78d2e62e8916972ef64dafab0fc2c6bfd5ebd19b301d9dd"
+        ],
+        [
+          "6224e921d997260a81b2608b5cbbb544c443e36f8a33a77757fc7b7d6710b04f"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M238",
+      "chunk_sets": [
+        [
+          "6d7be19cdd5d5715f78d2e62e8916972ef64dafab0fc2c6bfd5ebd19b301d9dd"
+        ],
+        [
+          "6224e921d997260a81b2608b5cbbb544c443e36f8a33a77757fc7b7d6710b04f"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M238",
+      "chunk_sets": [
+        [
+          "e83f1ab16c21ad3859df97daad553c568c270f506c0531de43048dc6ba80bf5d"
+        ]
+      ],
+      "group_id": "G3",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M239",
+      "chunk_sets": [
+        [
+          "34d20ec8b1832780aece0ec8170e5609e0d212fe1eda8cfaafd0b41694535e49"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M239",
+      "chunk_sets": [
+        [
+          "a40441e1799f6f0cc123cbb7733840d4833d0a55a7f30167771d59375a2e58dc"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M240",
+      "chunk_sets": [
+        [
+          "b097a943643cce75d3bd6590cb4a21242add8fc312e2a2adec7e3b873f6df1f8"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M240",
+      "chunk_sets": [
+        [
+          "6621dd9f924f083f64b0fe598cd2bf0b63d4b501f61f54bc18ef177e7570e660"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M241",
+      "chunk_sets": [
+        [
+          "ddecfd5fdd14ca2b0649aa165d5937d0cc31a742aeb5fc5cb7be81b4a71e59d0"
+        ],
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ],
+        [
+          "00f342f509e55d3355258c0c2a994c6f03b8ad5637e9dd264d29eca6edfff98f"
+        ],
+        [
+          "a4214b15b1a61cd2aa8d52fa8a134303a0664ab774912b952d8f6cbc817ccdbb"
+        ],
+        [
+          "10d277b8e444293f721a58ce25d0701c7c02da4fa3811662026d4d158439b49a"
+        ],
+        [
+          "517904ed974955c07edc969701f84d5b873d5d654a07ff3f55d62c8ec89d2a41"
+        ],
+        [
+          "a9544137f000d4a3bf9db41c9a23ef6502d89f72e8275dc837bd39833bf47c1a"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M241",
+      "chunk_sets": [
+        [
+          "0985e33e4f020f39370bd6307d302f5b4042aef1eeba030943e5858cd24c5924"
+        ],
+        [
+          "4ee5db3193374292a5aa4efaa4e75e5da3a1a345d212f9e40ea3a2a50195c781"
+        ],
+        [
+          "997b8428758f4a1b248e52c61dee9e6efcad023afc4968723d6d9813e6791f9e"
+        ],
+        [
+          "9db0e729a52e89159d3466e1196ce5accd2974e1629eb02c1519cd2a738100cf"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M242",
+      "chunk_sets": [
+        [
+          "d51039a86a19fb772b8d83e08e3ddb18c78450cedaaf821ac06efe4368cd7b8b"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M242",
+      "chunk_sets": [
+        [
+          "ad16fe5389ff6cb3020d5998dc1bab1083b67ba724147ac6344d17e24082b682"
+        ],
+        [
+          "57b27c557fef16ed9ee45ce4e07feb58384d833a7bf61329675ccbd2b16b687b"
+        ],
+        [
+          "4ffa08bdc2ccd336547e5ef3e89ee6bff906f811bd94a62f9c8e3c534a040b77"
+        ],
+        [
+          "d9db643d73c0768d6b18efdf335ca3f331f52026efad881e42e03eba94c5df2b"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M243",
+      "chunk_sets": [
+        [
+          "caa680ff9c47a23aa18c8f14709ed04b6b940453144ecf6012a34b95cd199441"
+        ],
+        [
+          "f30b476856675251bd6617122c99bebc22cd41a7437a0d7fc99737b7f7653ce0"
+        ],
+        [
+          "68e085b77c14335549de29e627b6cb0b79203924c419095244de5883ac7e4cd2"
+        ],
+        [
+          "f58435360569cb918dfbaaf38ef4294e9b2adffad83ea1bd099b41d7a819a5d3"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M243",
+      "chunk_sets": [
+        [
+          "919aedfdf07222df75aae4bd5ba02bfdf8c2bc33beffa063191d68faef6292c0"
+        ],
+        [
+          "b9bb9549581684d5c9a0d0c9f95587cf68f9d194071909d22ae8ffe09a899940"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M244",
+      "chunk_sets": [
+        [
+          "910c2ef1d682b51db9e4cc005b8977eb1c3c07f0fe41a391b7f711388ba011c8"
+        ],
+        [
+          "4c8d0cfdcf00a7e5bbd5514fe20e27e92271472aa567dc80db74b043c84238b9"
+        ],
+        [
+          "f95bdcbf683b7ae4f392cb29581aac5153871351d33f9f9a3e3dbed67e509343"
+        ]
+      ],
+      "group_id": "G1",
+      "status": "FULLY_MAPPED"
+    },
+    {
+      "case_id": "E2E-M244",
+      "chunk_sets": [
+        [
+          "b95ef5bb3e6c6257df103e9b40e56d330d75aacd1b492d5874425d0f2a234f1d"
+        ]
+      ],
+      "group_id": "G2",
+      "status": "FULLY_MAPPED"
+    }
+  ],
+  "index_signature": "b4e9432c7170615ade2c53803a887fa86d0f793949934a57db421f0da57739e5",
+  "schema_version": "rag-e2e-mapping-v1"
+}
