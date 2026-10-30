@@ -178,6 +178,14 @@ class Settings(BaseSettings):
         ge=1,
         description="Agent：检索轮数上限（首轮 + 一次 widen）。",
     )
+    agent_paper_manifest: Path | None = Field(
+        default=None,
+        description=(
+            "Agent：语料 manifest，用标题冒号前的短名（如 PoinTr）识别问题点名的论文，"
+            "做覆盖检查与一次 widen；默认 None = 关闭（A4 离线门槛 +2 组，未达 +3）。"
+            "可设为 evals/research_ingestion/academic_corpus_manifest_v1.json 开启。"
+        ),
+    )
     agent_deadline_seconds: float = Field(
         default=20.0,
         gt=0,

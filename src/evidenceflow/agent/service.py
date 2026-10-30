@@ -11,12 +11,15 @@ from pydantic import BaseModel, ConfigDict
 from evidenceflow.agent.nodes import (
     AgentDeps,
     AgentRetrieverProtocol,
+    coverage_node,
     plan_node,
     retrieve_node,
     synthesize_node,
     terminate_node,
     verify_node,
+    widen_node,
 )
+from evidenceflow.agent.coverage import Widener
 from evidenceflow.agent.state import AgentState, Budget, Support, Terminal, TerminationReason
 from evidenceflow.agent.verify import Verification
 from evidenceflow.citation import CitationValidationError
@@ -45,6 +48,7 @@ class AgentAnswer(BaseModel):
     llm_calls: int
     rerank_pairs: int
     rounds: int
+    coverage_gaps: tuple[str, ...] = ()
     verification: Verification | None = None
     fallback_error: str | None = None
 
@@ -66,6 +70,7 @@ class AgentService:
         rounds_max: int = 2,
         deadline_seconds: float = 20.0,
         clock: Callable[[], float] = time.monotonic,
+        widener: Widener | None = None,
         trace_recorder: TraceRecorder | None = None,
     ) -> None:
         """``fallback`` is normally ``RAGService.answer`` over the same components; None disables it."""
@@ -81,6 +86,7 @@ class AgentService:
         self.rounds_max = rounds_max
         self.deadline_seconds = deadline_seconds
         self.clock = clock
+        self.widener = widener
         self.trace_recorder = trace_recorder
 
     def answer(self, query: str) -> RAGAnswer:
@@ -101,6 +107,7 @@ class AgentService:
             multi_round_pairs=self.multi_round_pairs,
             clock=self.clock,
             recorder=recorder,
+            widener=self.widener,
         )
         state = AgentState(
             query=query,
@@ -117,6 +124,8 @@ class AgentService:
             for stage, node in (
                 ("plan", plan_node),
                 ("retrieval", retrieve_node),
+                ("coverage", coverage_node),
+                ("widen", widen_node),
                 ("synthesis", synthesize_node),
                 ("verify", verify_node),
             ):
@@ -150,6 +159,7 @@ class AgentService:
             llm_calls=state.budget.llm_calls,
             rerank_pairs=state.budget.rerank_pairs,
             rounds=state.budget.rounds,
+            coverage_gaps=state.coverage.uncovered if state.coverage else (),
             verification=state.verification,
             fallback_error=fallback_error,
         )

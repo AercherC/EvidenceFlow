@@ -8,7 +8,8 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from evidenceflow.agent.policy import charge_llm, charge_round, check_deadline, guard_loop, require_llm_call
-from evidenceflow.agent.state import AgentState, Clause, Plan, Terminal
+from evidenceflow.agent.coverage import Widener, named_papers
+from evidenceflow.agent.state import AgentState, Clause, Coverage, Plan, Terminal
 from evidenceflow.agent.verify import verify_against_context
 from evidenceflow.citation import assemble_rag_answer, parse_citations
 from evidenceflow.domain.chunk import RerankedRetrievedChunk, RetrievedChunk
@@ -34,6 +35,7 @@ class AgentDeps:
     multi_round_pairs: int
     clock: Callable[[], float]
     recorder: TraceRecorder | None
+    widener: Widener | None = None
 
 
 def plan_node(state: AgentState, deps: AgentDeps) -> AgentState:
@@ -57,6 +59,53 @@ def retrieve_node(state: AgentState, deps: AgentDeps) -> AgentState:
     state = guard_loop(state, "retrieve", [c.text for c in state.plan.clauses])
     selected = deps.retriever.retrieve(state.query)
     return state.model_copy(update={"selected": tuple(selected)})
+
+
+def coverage_node(state: AgentState, deps: AgentDeps) -> AgentState:
+    """Which named papers have no selected chunk. Without a widener (no paper names) nothing is
+    targeted."""
+
+    papers = deps.widener.papers if deps.widener is not None else {}
+    targets = tuple(named_papers(state.query, papers))
+    coverage = Coverage(targets=targets, uncovered=_uncovered(targets, state.selected, papers))
+    safe_record(
+        deps.recorder,
+        "agent.coverage.completed",
+        target_count=len(coverage.targets),
+        uncovered_count=len(coverage.uncovered),
+    )
+    return state.model_copy(update={"coverage": coverage})
+
+
+def widen_node(state: AgentState, deps: AgentDeps) -> AgentState:
+    """At most once: append the best paper-scoped chunk for each uncovered named paper. Chunks that
+    would not fit the context budget are dropped again, so the earlier selection always fits."""
+
+    if deps.widener is None or not state.coverage.uncovered or state.widened:
+        return state
+    check_deadline(state, deps.clock)
+    uncovered = state.coverage.uncovered
+    state = charge_round(state, deps.widener.max_pairs(len(uncovered)))
+    state = guard_loop(state, "widen", list(uncovered))
+    targets = [(name, _clause_naming(state, name, deps.widener.papers)) for name in uncovered]
+    result = deps.widener.widen(targets, state.selected)
+    added = list(result.added)
+    while added and deps.context_builder.build([*state.selected, *added]).skipped_count:
+        added.pop()
+    selected = (*state.selected, *added)
+    papers = deps.widener.papers
+    coverage = Coverage(
+        targets=state.coverage.targets, uncovered=_uncovered(state.coverage.targets, selected, papers)
+    )
+    safe_record(
+        deps.recorder,
+        "agent.widen.completed",
+        paper_count=min(len(uncovered), deps.widener.max_papers),
+        pair_count=result.pair_count,
+        added_count=len(added),
+        uncovered_after=len(coverage.uncovered),
+    )
+    return state.model_copy(update={"selected": selected, "coverage": coverage, "widened": True})
 
 
 def synthesize_node(state: AgentState, deps: AgentDeps) -> AgentState:
@@ -123,11 +172,27 @@ def terminate_node(state: AgentState, deps: AgentDeps) -> AgentState:
     a tier-1 failure turns ``support`` to partial, never the status."""
 
     if state.answer.status == AnswerStatus.ANSWERED:
-        partial = state.verification is not None and not state.verification.passed
+        partial = (state.verification is not None and not state.verification.passed) or bool(
+            state.coverage is not None and state.coverage.uncovered
+        )
         terminal = Terminal(reason="answered", support="partial" if partial else "full")
     else:
         terminal = Terminal(reason="insufficient_context", support="none")
     return state.model_copy(update={"terminal": terminal})
+
+
+def _uncovered(targets, selected, papers) -> tuple[str, ...]:
+    files = {item.chunk.file_name for item in selected}
+    return tuple(name for name in targets if papers[name] not in files)
+
+
+def _clause_naming(state: AgentState, name: str, papers) -> str:
+    """The first clause that names the paper; the whole query when none does on its own."""
+
+    for clause in state.plan.clauses:
+        if named_papers(clause.text, {name: papers[name]}):
+            return clause.text
+    return state.query
 
 
 def _lang(text: str) -> str:

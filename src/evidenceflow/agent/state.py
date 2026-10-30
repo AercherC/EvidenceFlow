@@ -36,6 +36,13 @@ class Plan(_Frozen):
     clauses: tuple[Clause, ...]
 
 
+class Coverage(_Frozen):
+    """Papers the question names (short names) and those with no selected chunk."""
+
+    targets: tuple[str, ...]
+    uncovered: tuple[str, ...]
+
+
 class Budget(_Frozen):
     """Per-answer limits and what has been used so far. Reranker pairs are charged at the retriever's
     configured cap for the round (an upper bound), since the retriever does not report them."""
@@ -61,6 +68,8 @@ class AgentState(_Frozen):
     plan: Plan | None = None
     selected: tuple[RetrievedChunk | RerankedRetrievedChunk, ...] = ()
     seen_signatures: frozenset[str] = frozenset()
+    coverage: Coverage | None = None
+    widened: bool = False
     context: BuiltContext | None = None
     generated: GeneratedAnswer | None = None
     answer: RAGAnswer | None = None

@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from evidenceflow.agent import AgentService
+from evidenceflow.agent import AgentService, Widener, load_paper_names
 from evidenceflow.config import Settings
 from evidenceflow.context import ContextBuilder
 from evidenceflow.embedding import BgeM3EmbeddingProvider
@@ -361,6 +361,17 @@ def build_agent_service(
     context_builder = build_context_builder(settings)
     generator = build_generator(settings, trace_recorder=trace_recorder)
     fallback = RAGService(retriever, context_builder, generator)
+    papers = load_paper_names(settings.agent_paper_manifest)
+    widener = (
+        Widener(
+            retriever.base.dense_retriever,
+            retriever.base.reranker,
+            papers,
+            dense_depth=retriever.dense_depth,
+        )
+        if papers
+        else None
+    )
     return AgentService(
         retriever,
         context_builder,
@@ -372,6 +383,7 @@ def build_agent_service(
         rerank_pairs_max=settings.agent_rerank_pairs_max,
         rounds_max=settings.agent_rounds_max,
         deadline_seconds=settings.agent_deadline_seconds,
+        widener=widener,
         trace_recorder=trace_recorder,
     )
 

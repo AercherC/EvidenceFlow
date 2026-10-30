@@ -92,6 +92,8 @@ def render_agent_summary(result: AgentAnswer) -> str:
         f"Terminated: {result.termination_reason}",
         f"Budget used: llm_calls={result.llm_calls} rerank_pairs<={result.rerank_pairs} rounds={result.rounds}",
     ]
+    if result.coverage_gaps:
+        lines.append("Coverage gaps: " + ", ".join(result.coverage_gaps))
     if result.verification is not None:
         lines.append(
             f"Verification: {result.verification.checked} checks, "
