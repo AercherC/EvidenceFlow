@@ -2,6 +2,7 @@
 
 from pathlib import Path
 
+from evidenceflow.agent import AgentService
 from evidenceflow.config import Settings
 from evidenceflow.context import ContextBuilder
 from evidenceflow.embedding import BgeM3EmbeddingProvider
@@ -338,6 +339,41 @@ def build_rag_service(
         else build_generator(settings, trace_recorder=trace_recorder)
     )
     return RAGService(retriever, context_builder, generator, trace_recorder=trace_recorder)
+
+
+def build_agent_service(
+    settings: Settings, *, trace_recorder: TraceRecorder | None = None
+) -> AgentService:
+    """Assemble the agent over the production components (``ask --agent``).
+
+    The agent's multi-clause retrieval is always the clause-branch retriever, whatever
+    ``multi_doc_strategy`` says; single questions still go through Dense Top50 -> Reranker -> Top6.
+    The fallback is a plain RAGService over the same components, built without its own recorder so
+    a fallback run does not open a second run in the trace.
+    """
+
+    agent_settings = (
+        settings
+        if settings.multi_doc_strategy == "clause_branch"
+        else settings.model_copy(update={"multi_doc_strategy": "clause_branch"})
+    )
+    retriever = build_retriever(agent_settings, trace_recorder=trace_recorder)
+    context_builder = build_context_builder(settings)
+    generator = build_generator(settings, trace_recorder=trace_recorder)
+    fallback = RAGService(retriever, context_builder, generator)
+    return AgentService(
+        retriever,
+        context_builder,
+        generator,
+        fallback=fallback.answer,
+        single_round_pairs=settings.reranker_input_k,
+        multi_round_pairs=settings.clause_branch_pair_budget,
+        llm_calls_max=settings.agent_llm_calls_max,
+        rerank_pairs_max=settings.agent_rerank_pairs_max,
+        rounds_max=settings.agent_rounds_max,
+        deadline_seconds=settings.agent_deadline_seconds,
+        trace_recorder=trace_recorder,
+    )
 
 
 def build_context_builder(settings: Settings) -> ContextBuilder:

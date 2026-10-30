@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
+from evidenceflow.agent import AgentAnswer, AgentService
 from evidenceflow.config import Settings
 from evidenceflow.citation import CitationValidationError
 from evidenceflow.domain import RAGAnswer
@@ -80,6 +81,22 @@ def render_rag_answer(answer: RAGAnswer) -> str:
     return "\n".join(lines)
 
 
+def render_agent_summary(result: AgentAnswer) -> str:
+    """One block of agent metadata after the answer; counts and labels only."""
+
+    lines = [
+        "",
+        "Agent:",
+        f"Mode: {result.mode or '-'} ({len(result.clauses)} clause(s))",
+        f"Support: {result.support}",
+        f"Terminated: {result.termination_reason}",
+        f"Budget used: llm_calls={result.llm_calls} rerank_pairs<={result.rerank_pairs} rounds={result.rounds}",
+    ]
+    if result.fallback_error is not None:
+        lines.append(f"Fallback after: {result.fallback_error}")
+    return "\n".join(lines)
+
+
 def _render_ask_error(exc: Exception) -> str:
     """Turn known Public Boundary failures into stable user hints that contain no sensitive values."""
 
@@ -104,6 +121,7 @@ def main(
     settings: Settings | None = None,
     ingestion_service: IngestionService | None = None,
     rag_service: RAGService | None = None,
+    agent_service: AgentService | None = None,
 ) -> int:
     """Parse the command and return a shell-friendly exit code."""
 
@@ -119,6 +137,11 @@ def main(
         default=None,
         metavar="PATH",
         help="把本次提问的 RunTrace 写成 JSON（只含 ID、计数、分数、耗时与 token 用量）",
+    )
+    ask_parser.add_argument(
+        "--agent",
+        action="store_true",
+        help="用 Agent 路径回答（计划 → 检索 → 生成 → 终止，带预算与回退），并输出 Agent 元数据",
     )
     args = parser.parse_args(argv)
 
@@ -154,6 +177,15 @@ def main(
         try:
             # Import the Composition Root lazily so Fake Service CLI tests load neither models nor
             # Chroma.
+            if args.agent:
+                if agent_service is None:
+                    from evidenceflow.runtime import build_agent_service
+
+                    agent_service = build_agent_service(active_settings, trace_recorder=recorder)
+                result = agent_service.run(args.query)
+                print(render_rag_answer(result.answer))
+                print(render_agent_summary(result))
+                return 0
             if rag_service is None:
                 from evidenceflow.runtime import build_rag_service
 
