@@ -120,9 +120,9 @@ python -m pytest -q
 ```
 
 The suite is designed to run offline against fixed inputs. Model-backed paths are
-exercised through fakes and stubs rather than real API calls. A small number of tests
-assert on files that are not published in this repository; those are skipped or expected
-to fail in this trimmed checkout.
+exercised through fakes and stubs rather than real API calls. Tests that asserted on
+unpublished historical artifacts, and one-off cleanup/phase scripts, were removed; they are
+recoverable from git history at commit 50b3323.
 
 Tests marked `requires_model` load the real BGE-M3 model. They run when the model is in
 the local Hugging Face cache (honours `HF_HOME`) and are skipped otherwise; set
