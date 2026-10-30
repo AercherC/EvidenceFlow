@@ -9,6 +9,7 @@ from typing import Protocol
 
 from evidenceflow.agent.policy import charge_llm, charge_round, check_deadline, guard_loop, require_llm_call
 from evidenceflow.agent.state import AgentState, Clause, Plan, Terminal
+from evidenceflow.agent.verify import verify_against_context
 from evidenceflow.citation import assemble_rag_answer, parse_citations
 from evidenceflow.domain.chunk import RerankedRetrievedChunk, RetrievedChunk
 from evidenceflow.domain.generation import AnswerStatus
@@ -100,11 +101,30 @@ def synthesize_node(state: AgentState, deps: AgentDeps) -> AgentState:
     return state.model_copy(update={"context": context, "generated": generated, "answer": answer})
 
 
+def verify_node(state: AgentState, deps: AgentDeps) -> AgentState:
+    """Tier-1 check of an answered response (no LLM). A failure is recorded and lowers ``support``;
+    it never changes the answer or its status."""
+
+    if state.answer.status != AnswerStatus.ANSWERED:
+        return state
+    verification = verify_against_context(state.answer.answer, state.query, state.context)
+    safe_record(
+        deps.recorder,
+        "agent.verify.completed",
+        checked=verification.checked,
+        unsupported_numbers=sum(1 for item in verification.unsupported if item.startswith("number:")),
+        unsupported_terms=sum(1 for item in verification.unsupported if item.startswith("term:")),
+    )
+    return state.model_copy(update={"verification": verification})
+
+
 def terminate_node(state: AgentState, deps: AgentDeps) -> AgentState:
-    """The generator stays the abstention authority: its status decides the termination reason."""
+    """The generator stays the abstention authority: its status decides the termination reason;
+    a tier-1 failure turns ``support`` to partial, never the status."""
 
     if state.answer.status == AnswerStatus.ANSWERED:
-        terminal = Terminal(reason="answered", support="full")
+        partial = state.verification is not None and not state.verification.passed
+        terminal = Terminal(reason="answered", support="partial" if partial else "full")
     else:
         terminal = Terminal(reason="insufficient_context", support="none")
     return state.model_copy(update={"terminal": terminal})

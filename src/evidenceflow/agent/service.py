@@ -8,8 +8,17 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict
 
-from evidenceflow.agent.nodes import AgentDeps, AgentRetrieverProtocol, plan_node, retrieve_node, synthesize_node, terminate_node
+from evidenceflow.agent.nodes import (
+    AgentDeps,
+    AgentRetrieverProtocol,
+    plan_node,
+    retrieve_node,
+    synthesize_node,
+    terminate_node,
+    verify_node,
+)
 from evidenceflow.agent.state import AgentState, Budget, Support, Terminal, TerminationReason
+from evidenceflow.agent.verify import Verification
 from evidenceflow.citation import CitationValidationError
 from evidenceflow.domain.answer import RAGAnswer
 from evidenceflow.domain.generation import AnswerStatus
@@ -36,6 +45,7 @@ class AgentAnswer(BaseModel):
     llm_calls: int
     rerank_pairs: int
     rounds: int
+    verification: Verification | None = None
     fallback_error: str | None = None
 
 
@@ -104,7 +114,12 @@ class AgentService:
         stage = "plan"
         fallback_error = None
         try:
-            for stage, node in (("plan", plan_node), ("retrieval", retrieve_node), ("synthesis", synthesize_node)):
+            for stage, node in (
+                ("plan", plan_node),
+                ("retrieval", retrieve_node),
+                ("synthesis", synthesize_node),
+                ("verify", verify_node),
+            ):
                 state = node(state, deps)
             stage = "terminate"
             state = terminate_node(state, deps)
@@ -135,6 +150,7 @@ class AgentService:
             llm_calls=state.budget.llm_calls,
             rerank_pairs=state.budget.rerank_pairs,
             rounds=state.budget.rounds,
+            verification=state.verification,
             fallback_error=fallback_error,
         )
         safe_record(

@@ -3,6 +3,7 @@
 from evidenceflow.agent.policy import AgentPolicyError, BudgetExceeded, DeadlineExceeded, LoopDetected
 from evidenceflow.agent.service import AgentAnswer, AgentService
 from evidenceflow.agent.state import AgentState, Budget, Clause, Plan, Terminal
+from evidenceflow.agent.verify import Verification
 
 __all__ = [
     "AgentAnswer",
@@ -16,4 +17,5 @@ __all__ = [
     "LoopDetected",
     "Plan",
     "Terminal",
+    "Verification",
 ]

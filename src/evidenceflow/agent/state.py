@@ -14,6 +14,7 @@ from evidenceflow.domain.answer import RAGAnswer
 from evidenceflow.domain.chunk import RerankedRetrievedChunk, RetrievedChunk
 from evidenceflow.domain.context import BuiltContext
 from evidenceflow.domain.generation import GeneratedAnswer
+from evidenceflow.agent.verify import Verification
 
 TerminationReason = Literal["answered", "insufficient_context", "budget_exhausted", "fallback"]
 Support = Literal["full", "partial", "none"]
@@ -63,5 +64,6 @@ class AgentState(_Frozen):
     context: BuiltContext | None = None
     generated: GeneratedAnswer | None = None
     answer: RAGAnswer | None = None
+    verification: Verification | None = None
     budget: Budget
     terminal: Terminal | None = None
