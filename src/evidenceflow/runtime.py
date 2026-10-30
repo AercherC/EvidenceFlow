@@ -16,11 +16,14 @@ from evidenceflow.llm import OpenAICompatibleLLMClient
 from evidenceflow.rag import RAGService
 from evidenceflow.rag.service import GeneratorProtocol, RetrieverProtocol
 from evidenceflow.retrieval import (
+    BM25Index,
+    ClauseBranchRetriever,
     DenseRerankerRetriever,
     DenseRetriever,
     ExactDenseIndex,
     ExactDenseIndexError,
     LearnedReranker,
+    SentencePieceTerms,
     TransformersCrossEncoderScorer,
 )
 from evidenceflow.tracing import TraceRecorder
@@ -208,8 +211,12 @@ def build_ingestion_service(settings: Settings) -> IngestionService:
 
 def build_retriever(
     settings: Settings, *, trace_recorder: TraceRecorder | None = None
-) -> DenseRerankerRetriever:
+) -> DenseRerankerRetriever | ClauseBranchRetriever:
     """Assemble production retrieval: Exact Dense Top50 -> Learned Reranker -> Top6 (Settings defaults).
+
+    With ``multi_doc_strategy="clause_branch"`` the same components are wrapped in
+    ``ClauseBranchRetriever``: queries the R2 rule splits get clause branches, every other query
+    still goes through the DenseRerankerRetriever built here, unchanged.
 
     ``trace_recorder`` is optional (default None) and is passed through to
     ``DenseRerankerRetriever`` unchanged; it only observes and does not change behavior.
@@ -265,7 +272,7 @@ def build_retriever(
         dtype=settings.reranker_dtype,
         max_length=settings.reranker_max_length,
     )
-    return DenseRerankerRetriever(
+    retriever = DenseRerankerRetriever(
         dense_retriever,
         LearnedReranker(
             scorer,
@@ -275,6 +282,27 @@ def build_retriever(
         candidate_pool_k=settings.reranker_input_k,
         reranker_input_k=settings.reranker_input_k,
         final_top_k=settings.reranker_final_k,
+        trace_recorder=trace_recorder,
+    )
+    if settings.multi_doc_strategy == "off":
+        return retriever
+    # BM25 covers the same chunks as the Exact index, read from the same Chroma snapshot.
+    bm25 = (
+        BM25Index(
+            {chunk.chunk_id: chunk.content for chunk, _ in pairs},
+            SentencePieceTerms(settings.embedding_model),
+        )
+        if settings.clause_branch_bm25_k
+        else None
+    )
+    return ClauseBranchRetriever(
+        retriever,
+        bm25,
+        dense_depth=exact_index.size,
+        clause_pool_k=settings.clause_branch_pool_k,
+        bm25_k=settings.clause_branch_bm25_k,
+        pair_budget=settings.clause_branch_pair_budget,
+        final_top_k=settings.clause_branch_final_k,
         trace_recorder=trace_recorder,
     )
 

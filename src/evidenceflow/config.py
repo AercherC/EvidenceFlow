@@ -136,6 +136,54 @@ class Settings(BaseSettings):
         gt=0,
         description="Query–Passage 联合编码的最大 Token 长度，超出部分由 tokenizer 截断。",
     )
+    multi_doc_strategy: Literal["off", "clause_branch"] = Field(
+        default="off",
+        description=(
+            "多子问题查询的检索策略：off = 全部走 Dense Top50 -> Reranker -> Top6；clause_branch = "
+            "R2 规则拆出 2–3 个子句时按子句分支检索（W = R2_c25_5en_rr_k8），其余查询不变。"
+        ),
+    )
+    clause_branch_pool_k: int = Field(
+        default=25,
+        gt=0,
+        description="clause_branch：每个子句的 Dense 候选数。",
+    )
+    clause_branch_bm25_k: int = Field(
+        default=5,
+        ge=0,
+        description="clause_branch：不含 CJK 字符的子句额外并入的 BM25 候选数；0 = 不建 BM25 索引。",
+    )
+    clause_branch_pair_budget: int = Field(
+        default=100,
+        gt=0,
+        description="clause_branch：每个查询的 Reranker pair 上限；原查询分支深度 = min(reranker_input_k, 上限 − 子句候选总数)。",
+    )
+    clause_branch_final_k: int = Field(
+        default=8,
+        gt=0,
+        description="clause_branch：子句分支轮转选出的最终候选数（未触发的查询仍为 reranker_final_k）。",
+    )
+    agent_llm_calls_max: int = Field(
+        default=2,
+        ge=1,
+        description="Agent（ask --agent）：每个回答的 LLM 调用上限（生成 + 一次重生成）。",
+    )
+    agent_rerank_pairs_max: int = Field(
+        default=150,
+        gt=0,
+        description="Agent：每个回答的 Reranker pair 上限（clause_branch 100 + widen 50）。",
+    )
+    agent_rounds_max: int = Field(
+        default=2,
+        ge=1,
+        description="Agent：检索轮数上限（首轮 + 一次 widen）。",
+    )
+    agent_deadline_seconds: float = Field(
+        default=20.0,
+        gt=0,
+        allow_inf_nan=False,
+        description="Agent：单个回答的墙钟时限；超时回退到普通 RAGService 结果。",
+    )
     model_device: Literal["auto", "cpu", "cuda"] = Field(
         default="auto",
         description="Embedding 与 Reranker 共用的推理设备；auto 优先 CUDA，不可用时回退 CPU。",
@@ -198,4 +246,12 @@ class Settings(BaseSettings):
         # the final depth is forbidden.
         if self.reranker_final_k > self.reranker_input_k:
             raise ValueError("reranker_final_k must not exceed reranker_input_k")
+        # A clause pool is reranked in one call, which accepts at most reranker_input_k candidates.
+        if (
+            self.multi_doc_strategy == "clause_branch"
+            and self.clause_branch_pool_k + self.clause_branch_bm25_k > self.reranker_input_k
+        ):
+            raise ValueError(
+                "clause_branch_pool_k + clause_branch_bm25_k must not exceed reranker_input_k"
+            )
         return self
