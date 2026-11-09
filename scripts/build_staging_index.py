@@ -274,27 +274,32 @@ def run_staging_build(
     expected_ids = (
         ports.active_chunk_ids(state.active.collection_name) if expected_chunk_ids_from_active else None
     )
-    # This script only performs a full rebuild of the same corpus, so the expected magnitude is
-    # taken
-    # from active; any change in size is faithfully reported as a validation failure.
+    # The staging corpus may differ from the serving one, so its size is not known before the build.
+    # These counts are provisional (they only feed the manifest's shape) and are replaced by the
+    # measured values after validation; inheriting active's chunk_count here used to make every
+    # corpus growth fail validation, because the new index could never equal the old one.
     manifest = build_manifest(
         knowledge_base_id=state.knowledge_base_id,
         sources=sources,
         pipeline=pipeline,
         collection_name=staging_name,
         document_count=len(sources),
-        chunk_count=state.active.chunk_count,
+        chunk_count=0,
         status="STAGING",
         parent_index_signature=state.active.index_signature,
     )
 
     job_store = BuildJobStore(job_dir / "staging_build_job.json")
-    job, report = StagingBuildCoordinator(lifecycle, job_store).build(
+    coordinator = StagingBuildCoordinator(lifecycle, job_store)
+    job, report = coordinator.build(
         manifest,
         ports.build,
         expected_chunk_ids=expected_ids,
         smoke_query_embedding=ports.smoke_embedding(),
         expected_embedding_dimension=EMBEDDING_DIMENSION,
+        # A same-corpus rebuild must reproduce the previous size exactly; a corpus change is not
+        # expected to, and expected_chunk_ids already pins the identity in that case.
+        expected_chunk_count=len(expected_ids) if expected_ids is not None else None,
     )
     summary: dict[str, Any] = {
         "staging_collection": staging_name,
@@ -316,10 +321,13 @@ def run_staging_build(
 
     if activate:
         manifest_path = job_dir / f"{staging_name}.manifest.json"
-        save_manifest(manifest_path, manifest.with_index_state(status="ACTIVE"))
+        # Activate from the manifest the coordinator filled in with the measured counts, not from the
+        # provisional one this function registered before the build.
+        activated = coordinator.measured_manifest or manifest
+        save_manifest(manifest_path, activated.with_index_state(status="ACTIVE"))
         # activate() writes the Collection flags itself (staging -> ACTIVE, old active -> PREVIOUS)
         # before switching the pointer, so the pointer never names a collection that runtime rejects.
-        lifecycle.activate(manifest, report, manifest_path=_repo_relative(manifest_path))
+        lifecycle.activate(activated, report, manifest_path=_repo_relative(manifest_path))
         job_store.save(job.transition("ACTIVATED"))
         summary["actions"].append("activated")
         summary["outcome"] = "ACTIVATED"
@@ -410,7 +418,9 @@ def make_real_ports(settings: Settings) -> StagingPorts:
         build=build,
         smoke_embedding=lambda: provider.embed_query(SMOKE_QUERY),
         delete_collection=lambda name: client.delete_collection(name),
-        set_collection_lifecycle=lambda name, status: ChromaFlagWriter(client)(name, status),
+        set_collection_lifecycle=lambda name, status, *, missing_ok=False: ChromaFlagWriter(client)(
+            name, status, missing_ok=missing_ok
+        ),
     )
 
 

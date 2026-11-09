@@ -106,6 +106,15 @@ class E2EObservation(ContractModel):
     schema_version: Literal["rag-e2e-diagnosis-observation-v1"] = OBSERVATION_SCHEMA_VERSION
     case_id: str = Field(min_length=1)
     collection_name: str = Field(min_length=1)
+    index_signature: str | None = Field(
+        default=None,
+        min_length=1,
+        description=(
+            "观测时 lifecycle active 指针记录的 index_signature。"
+            "collection_name 与 chunk_count 都无法唯一标识一个索引：重建后同名同数但证据内容改变是可能的，"
+            "只有 index_signature 能区分。旧观测（该字段引入之前）为 None，此时不做比对。"
+        ),
+    )
     chunk_count: int = Field(ge=0, description="索引 chunk 总数，用于核对映射文件身份。")
     dense_ranking: list[ObservedChunk] = Field(
         description="Exact Dense 排名（深度 ≥ 候选池），第 i 项名次为 i+1；超出深度的 chunk 视为未排到。"
@@ -354,6 +363,13 @@ def check_identity(mapping: E2EMapping, observations: Sequence[E2EObservation], 
 
     The identity check runs first so a stale mapping or a stale observation cannot silently
     produce meaningless diagnoses.
+
+    Three fields participate, and the collection name alone is not enough: a rebuild can keep the
+    same collection name and the same chunk total while the evidence moves (a corpus change, a
+    chunker change, or a re-embedding that shifts rankings), so ``index_signature`` is the field that
+    actually identifies the indexed representation. An observation recorded before that field existed
+    carries None and is accepted -- refusing it would invalidate every archived observation, which is
+    the evidence the frozen baseline rests on.
     """
 
     if mapping.dataset_fingerprint != dataset_fingerprint:
@@ -363,6 +379,16 @@ def check_identity(mapping: E2EMapping, observations: Sequence[E2EObservation], 
             raise ValueError(
                 f"observation {observation.case_id} is from collection {observation.collection_name!r}, "
                 f"mapping is for {mapping.collection_name!r}"
+            )
+        if (
+            observation.index_signature is not None
+            and observation.index_signature != mapping.index_signature
+        ):
+            raise ValueError(
+                f"observation {observation.case_id} was taken on index_signature "
+                f"{observation.index_signature[:16]}..., mapping is for "
+                f"{mapping.index_signature[:16]}...; same collection name and chunk count do not "
+                "mean the same indexed representation"
             )
         if mapping.chunk_count is not None and observation.chunk_count != mapping.chunk_count:
             raise ValueError(

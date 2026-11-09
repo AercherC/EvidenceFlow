@@ -1,0 +1,66 @@
+{
+ "cap_calls": 100,
+ "cap_tokens": 400000,
+ "runs": [
+  {
+   "run": "base1",
+   "started": "2026-10-29 20:41:25",
+   "state": "complete",
+   "cases_done": 8,
+   "calls": 8,
+   "usages": 8,
+   "usages_missing": 0,
+   "transport_retries": 0,
+   "repairs": 0,
+   "prompt_tokens": 21207,
+   "completion_tokens": 803,
+   "finished": "2026-10-29 20:41:49"
+  },
+  {
+   "run": "cand1",
+   "started": "2026-10-29 20:43:22",
+   "state": "complete",
+   "cases_done": 38,
+   "calls": 38,
+   "usages": 38,
+   "usages_missing": 0,
+   "transport_retries": 0,
+   "repairs": 0,
+   "prompt_tokens": 109115,
+   "completion_tokens": 4579,
+   "finished": "2026-10-29 20:45:30"
+  },
+  {
+   "run": "base2",
+   "started": "2026-10-29 20:45:57",
+   "state": "complete",
+   "cases_done": 8,
+   "calls": 8,
+   "usages": 8,
+   "usages_missing": 0,
+   "transport_retries": 0,
+   "repairs": 0,
+   "prompt_tokens": 21207,
+   "completion_tokens": 730,
+   "finished": "2026-10-29 20:46:21"
+  },
+  {
+   "run": "cand2",
+   "started": "2026-10-29 20:47:59",
+   "state": "complete",
+   "cases_done": 38,
+   "calls": 38,
+   "usages": 38,
+   "usages_missing": 0,
+   "transport_retries": 0,
+   "repairs": 0,
+   "prompt_tokens": 109115,
+   "completion_tokens": 4462,
+   "finished": "2026-10-29 20:50:04"
+  }
+ ],
+ "cumulative": {
+  "calls": 92,
+  "tokens": 271218
+ }
+}

@@ -134,6 +134,9 @@ class StagingBuildCoordinator:
 
         self.lifecycle = lifecycle
         self.job_store = job_store
+        # The manifest with the build's measured counts filled in; None until a build validates.
+        # Callers that activate after build() must pass this one, not their provisional manifest.
+        self.measured_manifest: KnowledgeBaseManifest | None = None
 
     def build(
         self,
@@ -143,6 +146,7 @@ class StagingBuildCoordinator:
         expected_chunk_ids: Sequence[str] | None = None,
         smoke_query_embedding: Sequence[float] | None = None,
         expected_embedding_dimension: int | None = None,
+        expected_chunk_count: int | None = None,
     ) -> tuple[BuildJob, CollectionValidationReport | None]:
         """Run a build on the new Collection under the callback-driven stage contract, then validate.
 
@@ -150,6 +154,10 @@ class StagingBuildCoordinator:
         is given, and it must invoke the stage callback when it actually enters
         PARSING/CHUNKING/EMBEDDING/INDEXING. The Coordinator does not duplicate the ingestion pipeline,
         and it never calls activation when validation fails.
+
+        The build's measured size is written back into the returned manifest before reporting READY,
+        so a caller that activates afterwards publishes the real counts rather than the provisional
+        ones it registered (``expected_chunk_count`` is only for callers that truly know the size).
         """
 
         tracker = BuildJobTracker.create(
@@ -180,10 +188,15 @@ class StagingBuildCoordinator:
                 expected_chunk_ids=expected_chunk_ids,
                 smoke_query_embedding=smoke_query_embedding,
                 expected_embedding_dimension=expected_embedding_dimension,
+                expected_chunk_count=expected_chunk_count,
             )
             if not report.passed:
                 tracker.fail("VALIDATION_ERROR", "; ".join(report.errors) or "staging validation failed")
                 return tracker.job, report
+            self.measured_manifest = manifest.with_index_state(
+                document_count=report.actual_document_count,
+                chunk_count=report.actual_chunk_count,
+            )
             tracker.advance(
                 "READY",
                 document_count=report.actual_document_count,
@@ -274,8 +287,18 @@ def validate_collection(
     smoke_query_embedding: Sequence[float] | None = None,
     expected_embedding_dimension: int | None = None,
     required_metadata_keys: Sequence[str] = ("chunk_strategy", "element_ids"),
+    expected_chunk_count: int | None = None,
 ) -> CollectionValidationReport:
-    """Validate the staging document/Chunk/metadata/dimension/readability and the Dense smoke query."""
+    """Validate the staging document/Chunk/metadata/dimension/readability and the Dense smoke query.
+
+    ``expected_chunk_count`` is the only way to demand an exact Chunk total. The manifest's own
+    ``chunk_count`` is deliberately **not** enforced: a staging rebuild of a changed corpus cannot
+    know its size in advance, so the build registers a provisional value and writes the measured one
+    back afterwards. Enforcing the provisional number made any corpus growth fail validation (the
+    new index could never equal the old one), which is the opposite of what a staging build is for.
+    Callers that genuinely expect a fixed size -- a same-corpus rebuild -- pass the number here and
+    get the equality check back, on top of ``expected_chunk_ids`` which already pins identity.
+    """
 
     errors: list[str] = []
     try:
@@ -321,11 +344,13 @@ def validate_collection(
         errors.append("embedding dimensionality is inconsistent or unavailable")
     if not dense_smoke:
         errors.append("dense retrieval smoke did not pass")
+    if expected_chunk_count is not None and len(chunks) != expected_chunk_count:
+        errors.append(f"chunk count is {len(chunks)}, expected {expected_chunk_count}")
 
     passed = (
         collection_readable
         and len(actual_document_ids) == manifest.index.document_count
-        and len(chunks) == manifest.index.chunk_count
+        and (expected_chunk_count is None or len(chunks) == expected_chunk_count)
         and not (expected_document_ids - actual_document_ids)
         and not (actual_document_ids - expected_document_ids)
         and not duplicate_chunk_ids
@@ -376,13 +401,22 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
         raise
 
 
-LifecycleFlagWriter = Callable[[str, LifecyclePointerStatus], None]
-"""Set the Chroma ``lifecycle`` flag of one Collection (collection name, target status)."""
+LifecycleFlagWriter = Callable[..., bool | None]
+"""Set the Chroma ``lifecycle`` flag of one Collection (collection name, target status, ``missing_ok``).
+
+Returns whether the flag was written; a writer that meets a missing Collection with
+``missing_ok=True`` returns False instead of raising, so a caller can mark a Collection that is
+created later in the same flow.
+"""
 
 
 class LifecycleMetadataMismatch(RuntimeError):
     """A pointer and its Collection disagree about the lifecycle status: the state file was edited,
-    the flag was changed behind the lifecycle's back, or an activation happened without the writer."""
+    the flag was changed behind the lifecycle's back, or an activation happened without the writer.
+
+    Raised only by ``require_consistency``; ``verify_consistency`` keeps returning the problems so an
+    audit can report them without turning a serviceable state into an outage.
+    """
 
 
 class ChromaFlagWriter:
@@ -393,21 +427,48 @@ class ChromaFlagWriter:
     dropped, and everything else is preserved. The distance metric is fixed by the Collection
     configuration and is unaffected by a metadata rewrite (measured on Chroma 1.5.9). A collection
     already at the requested status is left untouched, which keeps every transition idempotent.
+
+    ``missing_ok`` exists for exactly one call site. ``prepare_staging`` runs *before* the builder
+    creates the staging Collection, so a strict ``get_collection`` there raises ``NotFoundError`` on
+    every real build. Passing ``missing_ok=True`` returns False and leaves the flag to whoever
+    creates the Collection (the real builder already sets ``lifecycle=STAGING`` on creation).
+    Activation and rollback stay strict: a missing serving collection is a real error.
     """
 
     def __init__(self, client: Any) -> None:
         self.client = client
 
-    def __call__(self, collection_name: str, status: LifecyclePointerStatus) -> None:
-        collection = self.client.get_collection(name=collection_name)
+    def __call__(
+        self,
+        collection_name: str,
+        status: LifecyclePointerStatus,
+        *,
+        missing_ok: bool = False,
+    ) -> bool:
+        try:
+            collection = self.client.get_collection(name=collection_name)
+        except Exception as exc:  # noqa: BLE001 - only the "not found" shape may be swallowed
+            if missing_ok and _is_missing_collection(exc):
+                return False
+            raise
         merged = {
             key: value
             for key, value in (collection.metadata or {}).items()
             if key != "hnsw:space"
         }
         if merged.get("lifecycle") == status:
-            return
+            return True
         collection.modify(metadata={**merged, "lifecycle": status})
+        return True
+
+
+def _is_missing_collection(exc: BaseException) -> bool:
+    """Recognise Chroma's "collection does not exist" error without importing it at module scope."""
+
+    if type(exc).__name__ == "NotFoundError":
+        return True
+    message = str(exc).lower()
+    return "does not exist" in message and "collection" in message
 
 
 def make_chroma_flag_writer(persist_path: str | Path) -> LifecycleFlagWriter:
@@ -456,17 +517,29 @@ class IndexLifecycle:
             raise ValueError("lifecycle state belongs to another knowledge base")
         return state
 
-    def _apply_flags(self, changes: Mapping[str, LifecyclePointerStatus]) -> None:
+    def _apply_flags(
+        self,
+        changes: Mapping[str, LifecyclePointerStatus],
+        *,
+        missing_ok: bool = False,
+    ) -> tuple[str, ...]:
         """Set the Collection flags named by ``changes`` (collection -> target status), idempotently.
 
         Callers must order their writes so that the collection the pointer currently names is never
         demoted before the pointer moves off it; see ``_commit_transition``.
+
+        ``missing_ok`` is only for a transition that runs before its Collection exists; it returns the
+        names that were skipped so the caller can report them instead of silently claiming success.
         """
 
         if self.flag_writer is None:
-            return
+            return ()
+        skipped: list[str] = []
         for collection_name, status in changes.items():
-            self.flag_writer(collection_name, status)
+            written = self.flag_writer(collection_name, status, missing_ok=missing_ok)
+            if written is False:
+                skipped.append(collection_name)
+        return tuple(skipped)
 
     def _commit_transition(
         self,
@@ -554,7 +627,15 @@ class IndexLifecycle:
         return state
 
     def prepare_staging(self, manifest: KnowledgeBaseManifest) -> LifecycleState:
-        """Register the staging identity; the serving index is untouched."""
+        """Register the staging identity; the serving index is untouched.
+
+        The staging Collection does **not** exist yet at this point: the caller registers the
+        pointer first and the builder creates the Collection afterwards. Writing the flag here is
+        therefore best-effort -- it only succeeds when a Collection with that name is already there
+        (a leftover being re-registered), and the real builder sets ``lifecycle=STAGING`` when it
+        creates the Collection. Before this distinction existed, a strict write here raised
+        ``NotFoundError`` on every real build and no staging rebuild could start.
+        """
 
         if manifest.knowledge_base_id != self.knowledge_base_id:
             raise ValueError("manifest belongs to another knowledge base")
@@ -564,10 +645,9 @@ class IndexLifecycle:
         next_state = state.model_copy(
             update={"staging": IndexPointer.from_manifest(manifest, status="STAGING")}
         )
-        # A staging collection is built with lifecycle=STAGING already, but registering the pointer
-        # is where the lifecycle starts tracking it, so assert the flag rather than assume the builder
-        # got it right.
-        self._apply_flags({manifest.index.collection_name: "STAGING"})
+        # Best effort: the Collection is created later, so a missing name is expected rather than
+        # an error. The pointer is the commit point either way.
+        self._apply_flags({manifest.index.collection_name: "STAGING"}, missing_ok=True)
         _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
         return next_state
 
@@ -578,7 +658,13 @@ class IndexLifecycle:
         *,
         manifest_path: str | None = None,
     ) -> LifecycleState:
-        """Turn staging into active only after validation PASSES, keeping the old active index."""
+        """Turn staging into active only after validation PASSES, keeping the old active index.
+
+        The manifest that names the new active index is not trusted for its size fields: the build
+        registers provisional counts before the corpus is known, so the pointer is written from the
+        validated measurement. Otherwise every activation would publish a pointer whose
+        ``chunk_count`` describes the previous index.
+        """
 
         if manifest.index.status != "STAGING":
             raise ValueError("activation requires a staging manifest")
@@ -591,9 +677,13 @@ class IndexLifecycle:
             raise ValueError("staging pointer does not match manifest")
         if manifest.knowledge_base_id != self.knowledge_base_id:
             raise ValueError("manifest belongs to another knowledge base")
+        measured = manifest.with_index_state(
+            document_count=validation.actual_document_count,
+            chunk_count=validation.actual_chunk_count,
+        )
         next_state = LifecycleState(
             knowledge_base_id=self.knowledge_base_id,
-            active=IndexPointer.from_manifest(manifest, status="ACTIVE", manifest_path=manifest_path),
+            active=IndexPointer.from_manifest(measured, status="ACTIVE", manifest_path=manifest_path),
             previous=state.active.model_copy(update={"status": "PREVIOUS"}),
             staging=None,
         )
@@ -634,6 +724,13 @@ class IndexLifecycle:
         for confirming beforehand that it is neither active nor previous; this method only maintains the
         pointer, avoiding hand-edited JSON. When staging is already null it returns immediately without
         rewriting the state file.
+
+        The discarded Collection's flag is deliberately untouched. It is being deleted by the caller;
+        rewriting its flag to some "orphan" value would invent a fourth lifecycle state that nothing
+        else understands, and a failed deletion would then leave a Collection claiming a status no
+        reader handles. ``scripts/prune_chroma_collections.py`` protects only names referenced by the
+        pointer file, so an undeleted staging Collection is unreferenced and prunable -- which is the
+        intended recovery path. ``verify_consistency`` reports it while the pointer still exists.
         """
 
         state = self.load_state()
@@ -642,3 +739,15 @@ class IndexLifecycle:
         next_state = state.model_copy(update={"staging": None})
         _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
         return next_state
+
+    def require_consistency(self, read_flag: Callable[[str], str | None]) -> None:
+        """Raise ``LifecycleMetadataMismatch`` when any pointer disagrees with its Collection flag.
+
+        This is the startup gate: ``verify_consistency`` remains the reporting form for audits and
+        tests, while the runtime path calls this so a divergence surfaces as a load error instead of
+        a mysterious "runtime refuses to open the collection" much later.
+        """
+
+        problems = self.verify_consistency(read_flag)
+        if problems:
+            raise LifecycleMetadataMismatch("; ".join(problems))

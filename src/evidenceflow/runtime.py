@@ -1,6 +1,9 @@
 """The single composition point that assembles the one official EvidenceFlow RAG runtime."""
 
+import logging
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 from evidenceflow.agent import AgentService, Widener, load_paper_names
 from evidenceflow.config import Settings
@@ -11,6 +14,7 @@ from evidenceflow.ingestion import BgeM3Tokenizer, IngestionService
 from evidenceflow.knowledge import (
     ActiveCollectionError,
     ActiveIndexProtectedError,
+    IndexLifecycle,
     LifecycleState,
 )
 from evidenceflow.llm import OpenAICompatibleLLMClient
@@ -33,6 +37,8 @@ from evidenceflow.storage import (
     VectorStoreConfigurationError,
     read_collection_metadata,
 )
+
+logger = logging.getLogger(__name__)
 
 # BGE-M3 Dense vector dimension; used as the expected value only when the embedding provider does
 # not declare a dimension of its own.
@@ -159,7 +165,30 @@ def guard_ingest_target(settings: Settings, collection_name: str) -> None:
         )
 
 
-def _open_active_store(settings: Settings, collection_name: str) -> ChromaVectorStore:
+def _metadata_cache(settings: Settings) -> Callable[[str], dict[str, Any] | None]:
+    """Return a read-only metadata reader that queries each Collection at most once per startup.
+
+    Both the lifecycle consistency audit and the active-collection open need the same metadata; the
+    cache keeps startup at one read per Collection name instead of one per consumer, and keeps the
+    "validate before loading any model" ordering observable in the event trace.
+    """
+
+    cache: dict[str, dict[str, Any] | None] = {}
+
+    def read(name: str) -> dict[str, Any] | None:
+        if name not in cache:
+            cache[name] = read_collection_metadata(settings.vector_db_path, name)
+        return cache[name]
+
+    return read
+
+
+def _open_active_store(
+    settings: Settings,
+    collection_name: str,
+    *,
+    read_metadata: Callable[[str], dict[str, Any] | None] | None = None,
+) -> ChromaVectorStore:
     """Open the collection resolved from the active pointer; validation completes before any model
     is loaded.
 
@@ -170,7 +199,8 @@ def _open_active_store(settings: Settings, collection_name: str) -> ChromaVector
     collection.
     """
 
-    metadata = read_collection_metadata(settings.vector_db_path, collection_name)
+    read = read_metadata or (lambda name: read_collection_metadata(settings.vector_db_path, name))
+    metadata = read(collection_name)
     if metadata is None:
         raise ActiveCollectionError(
             f"Lifecycle active collection {collection_name!r} does not exist in "
@@ -188,6 +218,35 @@ def _open_active_store(settings: Settings, collection_name: str) -> ChromaVector
         raise ActiveCollectionError(
             f"Cannot open lifecycle active collection {collection_name!r}: {exc}"
         ) from exc
+
+
+def require_lifecycle_consistency(
+    settings: Settings,
+    *,
+    read_metadata: Callable[[str], dict[str, Any] | None] | None = None,
+) -> tuple[str, ...]:
+    """Report every pointer whose Collection flag disagrees with it.
+
+    Only the active pointer decides what production reads, so a divergence does not stop serving by
+    itself -- but it does mean ``rollback`` would restore a Collection whose flag runtime rejects, or
+    that a crash left two Collections claiming ACTIVE. Reporting it at startup is far cheaper than
+    discovering it during an incident, and the caller decides whether it is fatal. The documented
+    benign case (two ACTIVE Collections after a crash between promote and demote) must not take the
+    service down, so ``build_retriever`` logs and continues, while ``repair_lifecycle_flags.py``
+    offers the fix.
+    """
+
+    if not _lifecycle_governed(settings):
+        return ()
+    state = _load_lifecycle_state(settings)
+    lifecycle = IndexLifecycle(settings.index_state_path, state.knowledge_base_id)
+    read = read_metadata or (lambda name: read_collection_metadata(settings.vector_db_path, name))
+
+    def read_flag(name: str) -> str | None:
+        metadata = read(name)
+        return None if metadata is None else metadata.get("lifecycle")
+
+    return lifecycle.verify_consistency(read_flag)
 
 
 def build_ingestion_service(settings: Settings) -> IngestionService:
@@ -236,7 +295,20 @@ def build_retriever(
     # without a state file has no such marker, so it is not validated and keeps the original open
     # order/mode (get_or_create).
     governed = _lifecycle_governed(settings)
-    vector_store = _open_active_store(settings, collection_name) if governed else None
+    read_metadata = _metadata_cache(settings)
+    if governed:
+        # A pointer/flag divergence is reported, not fatal to reads: the active pointer alone
+        # decides what is served, so an over-privileged previous Collection (the documented
+        # post-crash state) must not take the service down. ``verify_active_index.py`` and
+        # ``repair_lifecycle_flags.py`` act on the report.
+        problems = require_lifecycle_consistency(settings, read_metadata=read_metadata)
+        if problems:
+            logger.warning("lifecycle pointer/flag divergence: %s", "; ".join(problems))
+    vector_store = (
+        _open_active_store(settings, collection_name, read_metadata=read_metadata)
+        if governed
+        else None
+    )
     embedding_provider = BgeM3EmbeddingProvider(
         settings.embedding_model, device=settings.model_device
     )
