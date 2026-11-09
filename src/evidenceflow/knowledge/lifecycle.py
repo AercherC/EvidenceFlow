@@ -8,7 +8,7 @@ import os
 import re
 import tempfile
 from collections import Counter
-from collections.abc import Callable, Collection, Iterator, Sequence
+from collections.abc import Callable, Collection, Iterator, Mapping, Sequence
 from pathlib import Path
 from typing import Any, Literal, Protocol
 
@@ -376,16 +376,77 @@ def _write_json_atomic(path: Path, payload: dict[str, Any]) -> None:
         raise
 
 
-class IndexLifecycle:
-    """Manage the single-machine active/staging/previous pointers; it performs no index rebuild or retrieval."""
+LifecycleFlagWriter = Callable[[str, LifecyclePointerStatus], None]
+"""Set the Chroma ``lifecycle`` flag of one Collection (collection name, target status)."""
 
-    def __init__(self, state_path: str | Path, knowledge_base_id: str) -> None:
-        """Inject the state file path and the knowledge base identity; all writes are confined to that state file."""
+
+class LifecycleMetadataMismatch(RuntimeError):
+    """A pointer and its Collection disagree about the lifecycle status: the state file was edited,
+    the flag was changed behind the lifecycle's back, or an activation happened without the writer."""
+
+
+class ChromaFlagWriter:
+    """Rewrite one Collection's ``lifecycle`` metadata through an existing Chroma client.
+
+    Chroma's ``modify`` replaces a Collection's metadata wholesale and rejects metadata containing
+    the legacy ``hnsw:space`` key, so the existing fields are read back, that obsolete key is
+    dropped, and everything else is preserved. The distance metric is fixed by the Collection
+    configuration and is unaffected by a metadata rewrite (measured on Chroma 1.5.9). A collection
+    already at the requested status is left untouched, which keeps every transition idempotent.
+    """
+
+    def __init__(self, client: Any) -> None:
+        self.client = client
+
+    def __call__(self, collection_name: str, status: LifecyclePointerStatus) -> None:
+        collection = self.client.get_collection(name=collection_name)
+        merged = {
+            key: value
+            for key, value in (collection.metadata or {}).items()
+            if key != "hnsw:space"
+        }
+        if merged.get("lifecycle") == status:
+            return
+        collection.modify(metadata={**merged, "lifecycle": status})
+
+
+def make_chroma_flag_writer(persist_path: str | Path) -> LifecycleFlagWriter:
+    """Build the production ``flag_writer`` against a Chroma persist directory."""
+
+    import chromadb
+
+    return ChromaFlagWriter(chromadb.PersistentClient(path=str(persist_path)))
+
+
+class IndexLifecycle:
+    """The single authority over which index is serving, and the one place that keeps the
+    ``index_state.json`` pointers and the per-Collection ``lifecycle`` flags in agreement.
+
+    Two records describe the same reality: the pointer file decides what production reads, while
+    each Collection carries a ``lifecycle`` flag that runtime validates before it will open the
+    collection (and that the ingest guard reads to protect a serving index). Keeping them in step by
+    hand leaked that responsibility to scripts/ and left ``activate()``/``rollback()`` able to return
+    a state whose Collections runtime refuses to open, so the writer is injected here instead and
+    every state transition owns both records.
+
+    ``flag_writer`` stays optional so pure pointer tests can run without Chroma. When it is absent
+    the transitions keep their historical pointer-only behaviour, and ``verify_consistency`` reports
+    the resulting disagreement instead of hiding it."""
+
+    def __init__(
+        self,
+        state_path: str | Path,
+        knowledge_base_id: str,
+        *,
+        flag_writer: LifecycleFlagWriter | None = None,
+    ) -> None:
+        """Inject the state file path, the knowledge base identity and the optional flag writer."""
 
         if not knowledge_base_id.strip():
             raise ValueError("knowledge_base_id must not be empty")
         self.state_path = Path(state_path)
         self.knowledge_base_id = knowledge_base_id
+        self.flag_writer = flag_writer
 
     def load_state(self) -> LifecycleState:
         """Read and validate the current active pointer state."""
@@ -394,6 +455,43 @@ class IndexLifecycle:
         if state.knowledge_base_id != self.knowledge_base_id:
             raise ValueError("lifecycle state belongs to another knowledge base")
         return state
+
+    def _apply_flags(self, changes: Mapping[str, LifecyclePointerStatus]) -> None:
+        """Write the Collection flags for one transition, ignoring collections already at the target.
+
+        Ordering contract for every caller: flags first, pointer second. The pointer file is the
+        commit point, so a failure here leaves the system on the old index and the transition can be
+        retried; the reverse order could publish a pointer to a Collection that runtime rejects.
+        """
+
+        if self.flag_writer is None:
+            return
+        for collection_name, status in changes.items():
+            self.flag_writer(collection_name, status)
+
+    def verify_consistency(self, read_flag: Callable[[str], str | None]) -> tuple[str, ...]:
+        """Return one message per pointer whose Collection flag disagrees; empty means consistent.
+
+        ``read_flag`` returns the Collection's current ``lifecycle`` value (None when the collection
+        or the flag is missing). This is a read-only audit, used by startup checks and tests.
+        """
+
+        state = self.load_state()
+        problems: list[str] = []
+        for name, pointer in (
+            ("active", state.active),
+            ("previous", state.previous),
+            ("staging", state.staging),
+        ):
+            if pointer is None:
+                continue
+            actual = read_flag(pointer.collection_name)
+            if actual != pointer.status:
+                problems.append(
+                    f"{name} pointer {pointer.collection_name!r} says {pointer.status} "
+                    f"but the collection flag is {actual!r}"
+                )
+        return tuple(problems)
 
     def initialize_active(
         self,
@@ -415,11 +513,12 @@ class IndexLifecycle:
                 manifest_path=manifest_path,
             ),
         )
+        self._apply_flags({manifest.index.collection_name: "ACTIVE"})
         _write_json_atomic(self.state_path, state.model_dump(mode="json"))
         return state
 
     def prepare_staging(self, manifest: KnowledgeBaseManifest) -> LifecycleState:
-        """Register the staging identity; this step does not touch the active Collection."""
+        """Register the staging identity; the serving index is untouched."""
 
         if manifest.knowledge_base_id != self.knowledge_base_id:
             raise ValueError("manifest belongs to another knowledge base")
@@ -429,6 +528,10 @@ class IndexLifecycle:
         next_state = state.model_copy(
             update={"staging": IndexPointer.from_manifest(manifest, status="STAGING")}
         )
+        # A staging collection is built with lifecycle=STAGING already, but registering the pointer
+        # is where the lifecycle starts tracking it, so assert the flag rather than assume the builder
+        # got it right.
+        self._apply_flags({manifest.index.collection_name: "STAGING"})
         _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
         return next_state
 
@@ -458,6 +561,14 @@ class IndexLifecycle:
             previous=state.active.model_copy(update={"status": "PREVIOUS"}),
             staging=None,
         )
+        # Both sides move: the incoming index becomes ACTIVE and the outgoing one is demoted to
+        # PREVIOUS, so exactly one collection claims ACTIVE at any time.
+        self._apply_flags(
+            {
+                manifest.index.collection_name: "ACTIVE",
+                state.active.collection_name: "PREVIOUS",
+            }
+        )
         _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
         return next_state
 
@@ -472,6 +583,14 @@ class IndexLifecycle:
             active=state.previous.model_copy(update={"status": "ACTIVE"}),
             previous=state.active.model_copy(update={"status": "PREVIOUS"}),
             staging=None,
+        )
+        # Symmetric to activate: the collection being restored must carry lifecycle=ACTIVE or runtime
+        # refuses to open it, and the one it replaces must stop claiming ACTIVE.
+        self._apply_flags(
+            {
+                state.previous.collection_name: "ACTIVE",
+                state.active.collection_name: "PREVIOUS",
+            }
         )
         _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
         return next_state

@@ -47,6 +47,7 @@ if str(ROOT / "src") not in sys.path:
 from evidenceflow.config import Settings  # noqa: E402
 from evidenceflow.knowledge import (  # noqa: E402
     BuildJobStore,
+    ChromaFlagWriter,
     IndexLifecycle,
     LifecycleState,
     PipelineIdentity,
@@ -133,7 +134,7 @@ class StagingPorts:
     build: Callable[[str, Callable[[BuildJobStatus], None]], CollectionReader]
     smoke_embedding: Callable[[], list[float]]
     delete_collection: Callable[[str], None]
-    mark_collection_active: Callable[[str], None]
+    set_collection_lifecycle: Callable[[str, str], None]
 
 
 def _protected_names(state: LifecycleState) -> set[str]:
@@ -180,17 +181,15 @@ def mark_collection_lifecycle(client: Any, collection_name: str, lifecycle: str)
     """Rewrite the lifecycle flag in the collection metadata through the Chroma API, keeping every other
     business metadata field unchanged.
 
-    Chroma's modify replaces the metadata wholesale and rejects metadata that **contains** the
-    ``hnsw:space`` key. Dropping that legacy key while merging lets historical collections created with
-    it (such as v2) be rewritten too: the distance metric is decided by the collection configuration and
-    modify metadata does not change it (measured on Chroma 1.5.9, see the corresponding test).
-    After the rewrite the metadata no longer carries ``hnsw:space``; nothing in the source reads that
-    key.
+    Thin adapter over ``evidenceflow.knowledge.lifecycle.make_chroma_flag_writer`` so the metadata
+    rewrite lives in one place: ``IndexLifecycle`` owns the flags for every transition (staging,
+    activate, rollback), and this helper only exists for the legacy ``--activate`` path of this
+    script and its tests.
     """
 
-    collection = client.get_collection(name=collection_name)
-    merged = {key: value for key, value in (collection.metadata or {}).items() if key != "hnsw:space"}
-    collection.modify(metadata={**merged, "lifecycle": lifecycle})
+    from evidenceflow.knowledge.lifecycle import ChromaFlagWriter
+
+    ChromaFlagWriter(client)(collection_name, lifecycle)
 
 
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
@@ -226,7 +225,14 @@ def run_staging_build(
 # be
 # read instead of guessing it.
     state = LifecycleState.model_validate_json(Path(settings.index_state_path).read_text(encoding="utf-8"))
-    lifecycle = IndexLifecycle(settings.index_state_path, state.knowledge_base_id)
+    # The lifecycle owns the Collection lifecycle flags for every transition, so activate() flips
+    # the incoming index to ACTIVE and the outgoing one to PREVIOUS itself; the script no longer
+    # has to remember a separate mark-collection-active call before switching the pointer.
+    lifecycle = IndexLifecycle(
+        settings.index_state_path,
+        state.knowledge_base_id,
+        flag_writer=ports.set_collection_lifecycle,
+    )
     if state.staging is not None:
         raise StagingBuildRefused(
             f"a staging pointer is already registered ({state.staging.collection_name!r}); "
@@ -311,10 +317,8 @@ def run_staging_build(
     if activate:
         manifest_path = job_dir / f"{staging_name}.manifest.json"
         save_manifest(manifest_path, manifest.with_index_state(status="ACTIVE"))
-        # Mark the collection lifecycle ACTIVE before switching the pointer; otherwise runtime
-        # validation
-        # rejects the new active index.
-        ports.mark_collection_active(staging_name)
+        # activate() writes the Collection flags itself (staging -> ACTIVE, old active -> PREVIOUS)
+        # before switching the pointer, so the pointer never names a collection that runtime rejects.
         lifecycle.activate(manifest, report, manifest_path=_repo_relative(manifest_path))
         job_store.save(job.transition("ACTIVATED"))
         summary["actions"].append("activated")
@@ -406,7 +410,7 @@ def make_real_ports(settings: Settings) -> StagingPorts:
         build=build,
         smoke_embedding=lambda: provider.embed_query(SMOKE_QUERY),
         delete_collection=lambda name: client.delete_collection(name),
-        mark_collection_active=lambda name: mark_collection_lifecycle(client, name, "ACTIVE"),
+        set_collection_lifecycle=lambda name, status: ChromaFlagWriter(client)(name, status),
     )
 
 
