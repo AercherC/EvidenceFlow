@@ -384,9 +384,16 @@ def chunk_document_structured(
 
     raw_windows: list[dict[str, Any]] = []
     # Standalone elements are packed one by one (an oversized one is split into several windows at
-    # word level).
+    # word level). Each one still carries its own section attribution: a table, caption or equation
+    # sits inside a section, and losing that link makes the Chunk tell the reader nothing about
+    # where it came from. ``_hybrid_section_key`` reads the element's own ``section_path``, which
+    # the structure parser resolves for every element regardless of type.
     for unit in standalone_units:
-        raw_windows.extend(_pack_element_windows([unit], tokenizer, chunk_size, overlap))
+        section_path = _hybrid_section_key(unit[2])
+        heading_path = " > ".join(section_path) if section_path else None
+        for window in _pack_element_windows([unit], tokenizer, chunk_size, overlap):
+            window["heading_path"] = heading_path
+            raw_windows.append(window)
     # Body text is grouped by consecutive section_path with forced breaks at group boundaries, and
     # each group is greedily packed.
     body_groups: list[list[tuple[str, list[str], dict[str, Any]]]] = []
