@@ -14,7 +14,6 @@ from evidenceflow.concurrency import PerThread
 from evidenceflow.domain.chunk import (
     DocumentChunk,
     RerankedRetrievedChunk,
-    RetrievedChunk,
 )
 from evidenceflow.model_device import resolve_model_device
 from evidenceflow.retrieval.retriever import DenseRetriever, InvalidQueryError
