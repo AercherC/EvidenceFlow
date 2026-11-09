@@ -457,17 +457,53 @@ class IndexLifecycle:
         return state
 
     def _apply_flags(self, changes: Mapping[str, LifecyclePointerStatus]) -> None:
-        """Write the Collection flags for one transition, ignoring collections already at the target.
+        """Set the Collection flags named by ``changes`` (collection -> target status), idempotently.
 
-        Ordering contract for every caller: flags first, pointer second. The pointer file is the
-        commit point, so a failure here leaves the system on the old index and the transition can be
-        retried; the reverse order could publish a pointer to a Collection that runtime rejects.
+        Callers must order their writes so that the collection the pointer currently names is never
+        demoted before the pointer moves off it; see ``_commit_transition``.
         """
 
         if self.flag_writer is None:
             return
         for collection_name, status in changes.items():
             self.flag_writer(collection_name, status)
+
+    def _commit_transition(
+        self,
+        next_state: LifecycleState,
+        *,
+        promote: str | None = None,
+        demote: str | None = None,
+    ) -> LifecycleState:
+        """Publish a new state, then retire the collection it replaced.
+
+        The obvious order -- write every flag, then the pointer -- is wrong in the direction that
+        matters. If the pointer write fails after the old collection has already been demoted, the
+        pointer still names a collection whose flag is now PREVIOUS, so ``runtime`` refuses to open
+        *any* index and the system is unusable. That is strictly worse than the pointer-only
+        behaviour this class used to have.
+
+        So the two flag writes are split around the pointer:
+
+          1. promote the incoming collection to ACTIVE -- the outgoing one is still ACTIVE, so the
+             current pointer remains serviceable if this fails;
+          2. write the pointer -- the commit point; the incoming collection is already ACTIVE, so it
+             is serviceable the moment the pointer names it;
+          3. demote the outgoing collection to PREVIOUS -- now the state converges.
+
+        A crash between 1 and 2 leaves two collections flagged ACTIVE, which serving ignores (the
+        pointer decides) and which only makes the ingest guard more conservative. Re-running the
+        transition is idempotent. A crash between 2 and 3 leaves the old collection over-privileged
+        but the system serving correctly; ``verify_consistency`` reports it and the next transition
+        repairs it.
+        """
+
+        if promote is not None:
+            self._apply_flags({promote: "ACTIVE"})
+        _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
+        if demote is not None and demote != promote:
+            self._apply_flags({demote: "PREVIOUS"})
+        return next_state
 
     def verify_consistency(self, read_flag: Callable[[str], str | None]) -> tuple[str, ...]:
         """Return one message per pointer whose Collection flag disagrees; empty means consistent.
@@ -562,15 +598,13 @@ class IndexLifecycle:
             staging=None,
         )
         # Both sides move: the incoming index becomes ACTIVE and the outgoing one is demoted to
-        # PREVIOUS, so exactly one collection claims ACTIVE at any time.
-        self._apply_flags(
-            {
-                manifest.index.collection_name: "ACTIVE",
-                state.active.collection_name: "PREVIOUS",
-            }
+        # PREVIOUS. The commit helper promotes first, moves the pointer, and only then demotes, so a
+        # failure at any point leaves a serviceable index rather than a pointer to a demoted one.
+        return self._commit_transition(
+            next_state,
+            promote=manifest.index.collection_name,
+            demote=state.active.collection_name,
         )
-        _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
-        return next_state
 
     def rollback(self) -> LifecycleState:
         """Restore the previous pointer directly, without re-parsing, re-Embedding or rebuilding the old index."""
@@ -585,15 +619,13 @@ class IndexLifecycle:
             staging=None,
         )
         # Symmetric to activate: the collection being restored must carry lifecycle=ACTIVE or runtime
-        # refuses to open it, and the one it replaces must stop claiming ACTIVE.
-        self._apply_flags(
-            {
-                state.previous.collection_name: "ACTIVE",
-                state.active.collection_name: "PREVIOUS",
-            }
+        # refuses to open it, and the one it replaces must stop claiming ACTIVE -- but only after the
+        # pointer has moved, so the outgoing index is never demoted while still being served.
+        return self._commit_transition(
+            next_state,
+            promote=state.previous.collection_name,
+            demote=state.active.collection_name,
         )
-        _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
-        return next_state
 
     def discard_staging(self) -> LifecycleState:
         """Clear only the staging pointer; active/previous are untouched and no Chroma collection is deleted.
