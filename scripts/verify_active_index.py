@@ -179,7 +179,16 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     settings = Settings()
     path = args.path or settings.vector_db_path
-    collection = args.collection or settings.collection_name
+    if args.collection is not None:
+        collection = args.collection
+    else:
+        # Follow the lifecycle active pointer, the same source of truth production uses. Falling
+        # back to Settings.collection_name here would silently re-check a stale collection (for
+        # example the previous index after an activation) and report success for an index that is
+        # no longer serving.
+        from evidenceflow.runtime import resolve_active_collection
+
+        collection = resolve_active_collection(settings)
     result = inspect_active_index(
         path,
         collection,
