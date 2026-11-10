@@ -134,13 +134,23 @@ class Settings(BaseSettings):
     reranker_max_length: int = Field(
         default=512,
         gt=0,
-        description="Query–Passage 联合编码的最大 Token 长度，超出部分由 tokenizer 截断。",
+        description=(
+            "Query–Passage 联合编码的最大 Token 长度，超出部分由 tokenizer 截断。"
+            "上限由模型架构决定，不是可调性能旋钮：bge-reranker-base 是 XLM-RoBERTa，"
+            "max_position_embeddings = 514（512 + 2 special tokens），超过会触发 CUDA "
+            "scatter-gather 越界。实测 640 会在第一次前向就崩溃，因此默认值保持 512 —— 即便"
+            " chunk_size 也是 512、而本参数计的是 query + passage + specials，导致约 11% 的 "
+            "chunk 尾部被截断，也不能靠调大本参数解决；要消除截断只能调小 chunk_size 或换"
+            "长上下文重排器。"
+        ),
     )
     multi_doc_strategy: Literal["off", "clause_branch"] = Field(
-        default="off",
+        default="clause_branch",
         description=(
             "多子问题查询的检索策略：off = 全部走 Dense Top50 -> Reranker -> Top6；clause_branch = "
             "R2 规则拆出 2–3 个子句时按子句分支检索（W = R2_c25_5en_rr_k8），其余查询不变。"
+            "默认 clause_branch：W 已通过两道 gate（161/233 组 vs P0 152，0 context drop，"
+            "pairs ≤100，p95 1.91 s），代价是 38 道题答案变化。off 保留为可回滚通道。"
         ),
     )
     clause_branch_pool_k: int = Field(

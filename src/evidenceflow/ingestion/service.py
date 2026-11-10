@@ -117,13 +117,13 @@ class IngestionService:
             if exists and self.vector_store.contains_document(document.document_id, document.content_hash):
                 return DocumentIngestionResult(relative_path, document.document_id, "skipped")
 
-            stage = "clean"
-            cleaned = clean_document(document)
             stage = "chunk"
             if self.chunk_strategy == "hybrid" and document.file_type == "pdf":
-                # §9.3: hybrid + PDF goes through structural parsing -> hybrid chunking; parsing
-                # runs on the
-                # block view of the original page text and does not depend on Cleaner output.
+                # §9.3: hybrid + PDF goes through structural parsing -> hybrid chunking. The parser
+                # runs on the block view of the original page text and does NOT consume Cleaner
+                # output, so cleaning is skipped entirely on this path: running it here cost a full
+                # extra pass and, worse, let a DocumentCleaningError fail an ingest that the
+                # structural path could have completed.
                 stage = "structure"
                 structured = parse_structured_document(document, path)
                 stage = "chunk"
@@ -132,7 +132,10 @@ class IngestionService:
                 )
             else:
                 # The fixed strategy and Markdown/TXT (no structural information) keep the original
-                # fixed-window path unchanged.
+                # fixed-window path unchanged, and that path does consume Cleaner output.
+                stage = "clean"
+                cleaned = clean_document(document)
+                stage = "chunk"
                 chunks = chunk_document(cleaned, self.tokenizer, self.chunk_size, self.chunk_overlap)
             stage = "embedding"
             # One Batch per document, avoiding a model inference startup per Chunk.
