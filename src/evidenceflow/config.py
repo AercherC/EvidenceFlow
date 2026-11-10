@@ -122,9 +122,17 @@ class Settings(BaseSettings):
         description="Original Dense ANN 送入 Reranker 的固定候选数量。默认 50（原 20，rag_e2e_v1 实测）。",
     )
     reranker_final_k: int = Field(
-        default=6,
+        default=8,
         gt=0,
-        description="Learned Reranker 最终交给 Context 的最大候选数量。默认 6（原 5，rag_e2e_v1 实测）。",
+        description=(
+            "Learned Reranker 最终交给 Context 的最大候选数量。默认 8（原 6）。"
+            "提为 8 的实测依据（207 题，配对 bootstrap）：k=6 时 4096 token 预算从不触底"
+            "（207/207 skipped=0），说明 6 是未经检验的保守默认值而非预算所迫；"
+            "P0 口径 6→8 为 152→159（+7，CI [+2,+12]，p=0.0012），"
+            "W 口径 161→167（+6，CI [+2,+11]，p=0.0028，仅 1/207 触底）；"
+            "逐级 6→30 验证提高 k 从不丢失已入包 chunk。"
+            "收益在 k≈15 饱和（预算截断），并非无条件越多越好。"
+        ),
     )
     reranker_batch_size: int = Field(
         default=4,
