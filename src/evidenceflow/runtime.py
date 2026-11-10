@@ -111,6 +111,26 @@ def _load_lifecycle_state(settings: Settings) -> LifecycleState:
         ) from exc
 
 
+def _warn_if_unmanaged_fallback(settings: Settings) -> None:
+    """Announce that the collection did NOT come from a lifecycle pointer.
+
+    The state file is deployment state and is not version-controlled, so a fresh clone falls back
+    to ``Settings.collection_name`` with no pointer at all. That is legitimate for a brand-new
+    environment, but it also silently bypasses the ingest guard and any active/previous/rollback
+    bookkeeping. A silent fallback makes "which index am I actually serving?" unanswerable, so it is
+    logged at warning level instead.
+    """
+
+    logger.warning(
+        "no lifecycle state file at %s: serving collection %r from Settings.collection_name. "
+        "The active pointer is NOT in effect, so ingest protection and rollback are unavailable. "
+        "Run scripts/build_staging_index.py or restore the state file if this environment is "
+        "supposed to serve a managed index.",
+        settings.index_state_path,
+        settings.collection_name,
+    )
+
+
 def resolve_active_collection(settings: Settings) -> str:
     """Decide which collection production reads; the single entry point for the runtime's
     collection choice.
@@ -120,10 +140,11 @@ def resolve_active_collection(settings: Settings) -> str:
     silently picking one: otherwise a stale .env after activate/rollback would quietly make
     production read the old index.
     When the state file does not exist (tests, brand-new environments) it falls back to
-    ``Settings.collection_name``.
+    ``Settings.collection_name``, and says so loudly (see ``_warn_if_unmanaged_fallback``).
     """
 
     if not _lifecycle_governed(settings):
+        _warn_if_unmanaged_fallback(settings)
         return settings.collection_name
     active = _load_lifecycle_state(settings).active.collection_name
     # Only an "explicitly set" value counts as a conflict: a default differing from active is
