@@ -277,7 +277,7 @@ FastAPI 在 `lifespan` 装配并绑定一次只读快照。`GET /healthz` 检查
 `focused-current-diagnostics.json`、`focused-source-scope.json` 和 `focused-verified-context-generation.json`。
 M216 验收需要明确新增带噪查询与自适应查询一起输入 decoder，以及 PF-Net 对抗训练目标。
 M221 验收需要核对 CMLP 确实属于 PF-Net 编码器，并在答案写出论文名时核对 SVDFormer 的名称。
-两题的关键词分数用于快速回归；逐项验收见 `evals/rag_e2e_v1.5/AGENT_ANSWER_REVIEW.md`，生产替换另需独立留出集验证。
+两题的关键词分数用于快速回归。逐项验收记录保存在本地开发目录的 `evals/rag_e2e_v1.5/AGENT_ANSWER_REVIEW.md`。生产替换另需独立留出集验证。
 
 ---
 

@@ -22,6 +22,11 @@
 /scripts/e2e_*.py
 /scripts/rebaseline_post_promotion.py
 /evals/**/evidence/tools/*.py
+
+# 本地技术笔记和内部评测复核记录。
+/README.technical.md
+/evals/rag_e2e_v1.[45]/NOTES.md
+/evals/rag_e2e_v1.5/AGENT_ANSWER_REVIEW.md
 *.webui/
 *.write.lock
 tmp/
