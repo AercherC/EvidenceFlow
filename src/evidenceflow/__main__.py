@@ -1,4 +1,4 @@
-"""EvidenceFlow command-line entry point."""
+"""EvidenceFlow 命令行入口，知识问答统一交由证据 Agent。"""
 
 from __future__ import annotations
 
@@ -8,7 +8,8 @@ import sys
 from pathlib import Path
 from typing import Sequence
 
-from evidenceflow.agent import AgentAnswer, AgentService
+from evidenceflow.agent.adaptive import AdaptiveActionError, AdaptiveAgentAnswer, AdaptiveAgentService
+from evidenceflow.agent.policy import AgentPolicyError
 from evidenceflow.config import Settings
 from evidenceflow.citation import CitationValidationError
 from evidenceflow.domain import RAGAnswer
@@ -16,7 +17,6 @@ from evidenceflow.generation import GenerationContractError
 from evidenceflow.ingestion.service import IngestionService, IngestionSummary
 from evidenceflow.knowledge import ActiveCollectionError, ActiveIndexProtectedError
 from evidenceflow.llm import LLMConfigurationError, LLMRequestError
-from evidenceflow.rag import RAGService
 from evidenceflow.tracing import RunTraceRecorder
 
 
@@ -81,26 +81,19 @@ def render_rag_answer(answer: RAGAnswer) -> str:
     return "\n".join(lines)
 
 
-def render_agent_summary(result: AgentAnswer) -> str:
-    """One block of agent metadata after the answer; counts and labels only."""
+def render_agent_summary(result: AdaptiveAgentAnswer) -> str:
+    """在答案之后输出证据 Agent 的动作、终止原因和预算用量。"""
 
     lines = [
         "",
         "Agent:",
-        f"Mode: {result.mode or '-'} ({len(result.clauses)} clause(s))",
         f"Support: {result.support}",
         f"Terminated: {result.termination_reason}",
         f"Budget used: llm_calls={result.llm_calls} rerank_pairs<={result.rerank_pairs} rounds={result.rounds}",
     ]
-    if result.coverage_gaps:
-        lines.append("Coverage gaps: " + ", ".join(result.coverage_gaps))
-    if result.verification is not None:
-        lines.append(
-            f"Verification: {result.verification.checked} checks, "
-            f"{len(result.verification.unsupported)} unsupported"
-        )
-    if result.fallback_error is not None:
-        lines.append(f"Fallback after: {result.fallback_error}")
+    if result.searches or result.opens or result.actions:
+        lines.append(f"Adaptive: searches={result.searches} opens={result.opens}")
+        lines.append("Actions: " + (" -> ".join(result.actions) if result.actions else "-"))
     return "\n".join(lines)
 
 
@@ -113,12 +106,16 @@ def _render_ask_error(exc: Exception) -> str:
         prefix = "LLM configuration error"
     elif isinstance(exc, LLMRequestError):
         prefix = "LLM request failed"
+    elif isinstance(exc, AdaptiveActionError):
+        prefix = "Adaptive action rejected"
+    elif isinstance(exc, AgentPolicyError):
+        prefix = "Agent budget or deadline exceeded"
     elif isinstance(exc, GenerationContractError):
         prefix = "Generation format error"
     elif isinstance(exc, CitationValidationError):
         prefix = "Citation validation failed"
     else:
-        prefix = "Retrieval or RAG processing failed"
+        prefix = "Agent execution failed"
     return f"{prefix}: {exc}"
 
 
@@ -127,16 +124,15 @@ def main(
     *,
     settings: Settings | None = None,
     ingestion_service: IngestionService | None = None,
-    rag_service: RAGService | None = None,
-    agent_service: AgentService | None = None,
+    agent_service: AdaptiveAgentService | None = None,
 ) -> int:
-    """Parse the command and return a shell-friendly exit code."""
+    """解析命令并返回进程退出码，测试可注入已装配的服务。"""
 
     parser = argparse.ArgumentParser(prog="python -m evidenceflow")
     subparsers = parser.add_subparsers(dest="command", required=True)
     ingest_parser = subparsers.add_parser("ingest", help="增量更新本地知识库")
     ingest_parser.add_argument("path", nargs="?", type=Path, help="root 内的单文件或子目录")
-    ask_parser = subparsers.add_parser("ask", help="基于本地知识库回答单个问题")
+    ask_parser = subparsers.add_parser("ask", help="由证据 Agent 查询本地知识库并回答")
     ask_parser.add_argument("query", help="使用引号包裹的完整问题")
     ask_parser.add_argument(
         "--trace",
@@ -145,11 +141,8 @@ def main(
         metavar="PATH",
         help="把本次提问的 RunTrace 写成 JSON（只含 ID、计数、分数、耗时与 token 用量）",
     )
-    ask_parser.add_argument(
-        "--agent",
-        action="store_true",
-        help="用 Agent 路径回答（计划 → 检索 → 生成 → 终止，带预算与回退），并输出 Agent 元数据",
-    )
+    # 兼容旧命令写法，带不带 --agent 都进入同一服务。
+    ask_parser.add_argument("--agent", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
 
     active_settings = settings or Settings()
@@ -182,29 +175,17 @@ def main(
         recorder.start_run(args.query)
     try:
         try:
-            # Import the Composition Root lazily so Fake Service CLI tests load neither models nor
-            # Chroma.
-            if args.agent:
-                if agent_service is None:
-                    from evidenceflow.runtime import build_agent_service
+            # 延迟导入组合根，注入测试服务时不加载模型和 Chroma。
+            if agent_service is None:
+                from evidenceflow.runtime import build_agent_service
 
-                    agent_service = build_agent_service(active_settings, trace_recorder=recorder)
-                result = agent_service.run(args.query)
-                print(render_rag_answer(result.answer))
-                print(render_agent_summary(result))
-                return 0
-            if rag_service is None:
-                from evidenceflow.runtime import build_rag_service
-
-                if recorder is None:
-                    rag_service = build_rag_service(active_settings)
-                else:
-                    rag_service = build_rag_service(active_settings, trace_recorder=recorder)
-            answer = rag_service.answer(args.query)
+                agent_service = build_agent_service(active_settings, trace_recorder=recorder)
+            result = agent_service.run(args.query)
         except Exception as exc:
             print(_render_ask_error(exc), file=sys.stderr)
             return 1
-        print(render_rag_answer(answer))
+        print(render_rag_answer(result.answer))
+        print(render_agent_summary(result))
         return 0
     finally:
         # Write the trace on both success and failure (KeyboardInterrupt also passes through here,

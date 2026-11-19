@@ -7,9 +7,10 @@ from evidenceflow.domain.chunk import (
     RetrievedChunk,
 )
 from evidenceflow.domain.citation import CitationParseResult
-from evidenceflow.domain.context import BuiltContext, ContextEntry
+from evidenceflow.domain.context import BuiltContext, ContextEntry, ContextEvidence
 from evidenceflow.domain.document import Document, DocumentSegment
 from evidenceflow.domain.evaluation import EvaluationQuestion, EvaluationSource
+from evidenceflow.domain.evidence import EvidenceIndexIdentity, EvidenceNeighborhood
 from evidenceflow.domain.generation import (
     AnswerStatus,
     GeneratedAnswer,
@@ -26,11 +27,14 @@ __all__ = [
     "AnswerStatus",
     "BuiltContext",
     "ContextEntry",
+    "ContextEvidence",
     "CitationParseResult",
     "DocumentChunk",
     "DocumentSegment",
     "EvaluationQuestion",
     "EvaluationSource",
+    "EvidenceIndexIdentity",
+    "EvidenceNeighborhood",
     "GeneratedAnswer",
     "GeneratorOutput",
     "LLMMessage",

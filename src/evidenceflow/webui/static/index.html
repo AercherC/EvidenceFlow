@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f5">
+  <title>EvidenceFlow · 论文证据工作台</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/assets/workspace.css">
+  <script type="module" src="/assets/workspace.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand-lockup">
+      <button class="icon-button mobile-menu" id="open-history" type="button" title="打开对话历史" aria-label="打开对话历史" aria-controls="sidebar" aria-expanded="false">
+        <span class="icon i-sidebar" aria-hidden="true"></span>
+      </button>
+      <button class="brand" id="brand-home" type="button" aria-label="EvidenceFlow 论文问答">
+        <span class="brand-mark" aria-hidden="true"><span class="icon i-book"></span></span>
+        <span>EvidenceFlow</span>
+      </button>
+    </div>
+    <nav class="workspace-nav" aria-label="工作台">
+      <button type="button" id="nav-chat" aria-current="page"><span class="icon i-messages" aria-hidden="true"></span>论文问答</button>
+      <button type="button" id="nav-library"><span class="icon i-books" aria-hidden="true"></span>文档库</button>
+      <button type="button" id="nav-settings">设置</button>
+    </nav>
+    <div class="masthead-actions">
+      <span class="index-status" id="index-status" data-status="loading" role="status">
+        <i aria-hidden="true"></i><span id="index-status-text">正在读取索引</span>
+      </span>
+      <button class="icon-button evidence-toggle" id="toggle-evidence" type="button" title="证据面板" aria-label="证据面板" aria-controls="evidence" aria-expanded="true">
+        <span class="icon i-panel" aria-hidden="true"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="workspace" id="workspace" data-view="chat" data-evidence="open">
+    <button class="drawer-backdrop" id="drawer-backdrop" type="button" aria-label="关闭侧栏" hidden></button>
+    <aside class="sidebar" id="sidebar" aria-label="对话历史">
+      <div class="sidebar-heading">
+        <button class="button primary new-chat" id="new-chat" type="button">
+          <span class="icon i-plus" aria-hidden="true"></span>新对话
+        </button>
+        <div class="history-heading">
+          <h2>对话历史</h2>
+          <button class="icon-button drawer-close" id="close-history" type="button" title="关闭对话历史" aria-label="关闭对话历史">
+            <span class="icon i-close" aria-hidden="true"></span>
+          </button>
+        </div>
+        <label class="search-box">
+          <span class="icon i-search" aria-hidden="true"></span>
+          <input id="thread-search" type="search" placeholder="搜索对话" aria-label="搜索对话">
+        </label>
+      </div>
+      <ul class="history-list" id="history-list"></ul>
+      <div class="sidebar-footer">
+        <button class="index-card" id="open-library" type="button">
+          <span class="index-icon"><span class="icon i-database" aria-hidden="true"></span></span>
+          <span class="index-info">
+            <strong>本地索引</strong>
+            <small id="sidebar-index-text">正在读取文档目录…</small>
+          </span>
+          <span class="icon i-chevron-right" aria-hidden="true"></span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-pane">
+      <section id="chat-screen" class="chat-screen">
+        <div class="chat-heading">
+          <div class="breadcrumbs">
+            <span class="icon i-messages" aria-hidden="true"></span>
+            <span class="breadcrumb-label">对话</span>
+            <span class="icon i-chevron-right" aria-hidden="true"></span>
+            <strong id="thread-title">新对话</strong>
+          </div>
+          <details class="thread-menu" id="thread-menu" hidden>
+            <summary class="icon-button" title="对话选项" aria-label="对话选项"><span class="icon i-more" aria-hidden="true"></span></summary>
+            <div class="menu-items">
+              <button id="rename-thread" type="button"><span class="icon i-pencil" aria-hidden="true"></span>重命名</button>
+              <button id="export-thread" type="button"><span class="icon i-download" aria-hidden="true"></span>导出 Markdown</button>
+              <button id="delete-thread" class="danger-text" type="button"><span class="icon i-trash" aria-hidden="true"></span>删除对话</button>
+            </div>
+          </details>
+        </div>
+
+        <div class="chat-scroll" id="chat-scroll">
+          <section class="welcome" id="welcome" aria-labelledby="welcome-title">
+            <div class="welcome-identity" aria-hidden="true">
+              <span class="welcome-orbit"></span>
+              <span class="welcome-symbol"><span class="icon i-book"></span></span>
+              <span class="welcome-spark"></span>
+            </div>
+            <h1 id="welcome-title">从论文中找证据</h1>
+            <p class="welcome-copy">输入研究问题，或从下方选一个问法。</p>
+            <div class="prompt-grid" aria-label="示例问题">
+              <button type="button" class="prompt-card" data-prompt="请概括 PoinTr 的点云补全方法，说明它如何表示点云，并标注论文依据。">
+                <span class="prompt-icon mint"><span class="icon i-list" aria-hidden="true"></span></span>
+                <span class="prompt-copy"><strong>概括研究方法</strong><small>梳理 PoinTr 的表示与流程</small></span>
+                <span class="icon i-up-right" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="prompt-card" data-prompt="对比 PoinTr 和 SVDFormer 的点云补全方法，它们的编码器如何设计？请分别标注引文。">
+                <span class="prompt-icon sand"><span class="icon i-route" aria-hidden="true"></span></span>
+                <span class="prompt-copy"><strong>对比论文方案</strong><small>比较 PoinTr 与 SVDFormer</small></span>
+                <span class="icon i-up-right" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="prompt-card" data-prompt="PoinTr 使用了哪些数据集和评价指标？请区分数据集与指标，并给出论文依据。">
+                <span class="prompt-icon blue"><span class="icon i-chart" aria-hidden="true"></span></span>
+                <span class="prompt-copy"><strong>查找实验设置</strong><small>定位数据集和评价指标</small></span>
+                <span class="icon i-up-right" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="prompt-card" data-prompt="PoinTr 的几何感知模块解决了什么问题？请区分论文中的结论和实验支持，并标注原文出处。">
+                <span class="prompt-icon lilac"><span class="icon i-quote" aria-hidden="true"></span></span>
+                <span class="prompt-copy"><strong>核对关键结论</strong><small>核对几何感知模块的证据</small></span>
+                <span class="icon i-up-right" aria-hidden="true"></span>
+              </button>
+            </div>
+          </section>
+          <div class="messages" id="messages" aria-label="问答消息" hidden></div>
+        </div>
+
+        <div class="composer-dock">
+          <form class="composer" id="composer">
+            <button type="button" class="corpus-button document-scope" id="clear-document-scope" title="检索整个文档库" hidden>
+              <span id="document-scope-label"></span><span class="icon i-close" aria-hidden="true"></span>
+            </button>
+            <textarea id="question" name="question" rows="2" placeholder="问一个论文相关的问题…" aria-label="问题" required></textarea>
+            <div class="composer-controls">
+              <button type="button" class="corpus-button" id="composer-library" title="查看当前检索的文档">
+                <span class="icon i-books" aria-hidden="true"></span>本地论文库
+              </button>
+              <button class="button primary send-button" id="send-question" type="submit" disabled>
+                <span>发送</span><span class="icon i-arrow-up" aria-hidden="true"></span>
+              </button>
+              <button class="button secondary send-button" id="stop-question" type="button" title="在当前步骤结束后停止" hidden>
+                <span class="icon i-stop" aria-hidden="true"></span><span id="stop-label">停止</span>
+              </button>
+            </div>
+          </form>
+          <div class="composer-caption">
+            <label id="fresh-search-control"><input id="force-search" type="checkbox" form="composer"> 本轮重新检索</label>
+            <span id="composer-status" role="status" hidden></span>
+            <span class="keyboard-hint"><kbd>Enter</kbd> 发送 <span aria-hidden="true">·</span> <kbd>Shift</kbd> + <kbd>Enter</kbd> 换行</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="library-screen" id="library-screen" aria-labelledby="library-title" hidden>
+        <div class="library-inner">
+          <header class="library-heading">
+            <div>
+              <h1 id="library-title">文档库</h1>
+              <p>浏览当前索引里可用于问答的文档和片段。</p>
+            </div>
+            <div class="library-actions">
+              <button class="button secondary" id="refresh-library" type="button"><span class="icon i-refresh" aria-hidden="true"></span>刷新列表</button>
+              <button class="button primary" id="add-pdf" type="button" disabled><span class="icon i-plus" aria-hidden="true"></span>添加 PDF</button>
+              <input id="pdf-file" type="file" accept=".pdf,application/pdf" hidden>
+            </div>
+          </header>
+          <section class="library-import" id="pdf-import" aria-labelledby="import-title" hidden>
+            <div class="import-header">
+              <span class="file-icon"><span class="icon i-file" aria-hidden="true"></span></span>
+              <div>
+                <h2 id="import-title" role="status"></h2>
+                <p id="import-file"></p>
+              </div>
+            </div>
+            <ol class="import-stages" id="import-stages" aria-label="入库步骤" hidden></ol>
+            <p class="import-message" id="import-message" role="status" hidden></p>
+            <div class="import-actions" id="import-actions" hidden>
+              <button class="button primary" id="publish-pdf" type="button" hidden><span class="icon i-check" aria-hidden="true"></span>重试发布</button>
+              <button class="button secondary" id="discard-import" type="button">放弃此次入库</button>
+            </div>
+          </section>
+          <dl class="library-metrics" aria-label="索引概览">
+            <div><dt><span class="icon i-books" aria-hidden="true"></span>已索引文档</dt><dd id="library-document-count">—</dd></div>
+            <div><dt><span class="icon i-file" aria-hidden="true"></span>可检索片段</dt><dd id="library-chunk-count">—</dd></div>
+            <div><dt><span class="icon i-database" aria-hidden="true"></span>索引集合</dt><dd id="library-collection">—</dd></div>
+          </dl>
+          <div class="library-grid">
+            <section class="library-card" aria-label="文档列表">
+              <div class="library-card-heading">
+                <h2>文档列表</h2>
+                <span class="count" id="library-filter-count">—</span>
+              </div>
+              <label class="search-box document-search">
+                <span class="icon i-search" aria-hidden="true"></span>
+                <input id="document-search" type="search" placeholder="按文件名筛选" aria-label="按文件名筛选">
+              </label>
+              <ul class="document-list" id="document-list"></ul>
+            </section>
+            <section class="library-card document-reader" id="document-reader" aria-label="文档片段阅读"></section>
+          </div>
+        </div>
+      </section>
+      <section class="library-screen settings-screen" id="settings-screen" aria-labelledby="settings-title" hidden>
+        <div class="library-inner">
+          <header class="library-heading">
+            <div><h1 id="settings-title">Agent 设置</h1><p id="settings-thread"></p></div>
+          </header>
+          <form class="library-card agent-settings" id="agent-settings-form">
+            <div class="settings-fields">
+              <label>检索轮数 <input id="setting-searches" type="number" min="1" max="3" step="1"><small>包含首轮检索。</small></label>
+              <label>相邻原文阅读次数 <input id="setting-opens" type="number" min="0" max="20" step="1"></label>
+              <label>每轮截止时间（秒） <input id="setting-deadline" type="number" min="0.1" max="600" step="any"></label>
+              <label class="settings-check"><input id="setting-memory" type="checkbox" checked> 复用会话证据</label>
+            </div>
+            <p class="inline-note">留空使用服务默认值。保存后从下一轮提问生效。</p>
+            <div class="import-actions">
+              <button class="button primary" id="save-agent-settings" type="submit">保存设置</button>
+              <button class="button secondary" id="reset-agent-settings" type="button">恢复服务默认值</button>
+            </div>
+            <p class="inline-note" id="settings-message" role="status" hidden></p>
+          </form>
+          <section class="library-card settings-summary" aria-labelledby="settings-effective-title">
+            <div class="library-card-heading"><h2 id="settings-effective-title">实际运行预算</h2></div>
+            <dl id="settings-effective"></dl>
+          </section>
+        </div>
+      </section>
+    </main>
+
+    <aside class="evidence-pane" id="evidence" aria-label="证据面板">
+      <header class="evidence-heading">
+        <span class="evidence-heading-icon"><span class="icon i-quote" aria-hidden="true"></span></span>
+        <h2>证据面板</h2>
+        <button class="icon-button drawer-close" id="close-evidence" type="button" title="关闭证据面板" aria-label="关闭证据面板">
+          <span class="icon i-close" aria-hidden="true"></span>
+        </button>
+      </header>
+      <div class="evidence-tabs" role="group" aria-label="证据视图">
+        <button type="button" id="tab-citations" aria-pressed="true"><span class="icon i-file" aria-hidden="true"></span>引用 <span class="count" id="citation-count">0</span></button>
+        <button type="button" id="tab-trace" aria-pressed="false"><span class="icon i-route" aria-hidden="true"></span>取证记录</button>
+      </div>
+      <div class="evidence-content" id="evidence-content"></div>
+      <div class="evidence-footer"><span class="icon i-database" aria-hidden="true"></span>引用与原文来自同一索引版本</div>
+    </aside>
+  </div>
+
+  <dialog class="thread-dialog" id="thread-dialog" aria-labelledby="dialog-title">
+    <form id="dialog-form" method="dialog">
+      <h2 id="dialog-title"></h2>
+      <p id="dialog-description" hidden>将删除本地对话及其已保存的会话证据。</p>
+      <label class="dialog-label" id="dialog-label">对话名称<input id="dialog-input" type="text" maxlength="100" aria-label="对话名称"></label>
+      <div class="dialog-actions">
+        <button class="button secondary" value="dismiss" formnovalidate>取消</button>
+        <button class="button primary" id="dialog-confirm" value="confirm">保存</button>
+      </div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status" hidden></div>
+</body>
+</html>

@@ -340,11 +340,9 @@ def chunk_document_structured(
     tokenizer: TokenizerProtocol,
     chunk_size: int,
 ) -> list[DocumentChunk]:
-    """Split the structured element stream with the PH1 frozen semantics (hybrid strategy, §9.3).
+    """按章节和 token 预算切分结构化原文，并保留检索邻段所需的阅读位置。
 
-    - standalone types (table / table_caption / figure_caption / equation) become their own Chunk
-      and are removed from the body stream, placed at the front of the document's Chunk sequence
-      (element reading order);
+    - 表、图注、表注和公式独立成块；最终各块按首个来源元素的阅读位置排列，供邻段补证使用。
     - body text is grouped by consecutive identical section_path, group boundaries force a break,
       and each group is greedily packed in order;
     - window overlap is frozen at 0 (``HYBRID_OVERLAP_TOKENS``), and groups are naturally separated
@@ -413,6 +411,10 @@ def chunk_document_structured(
 
     if not raw_windows:
         raise ChunkingError("Document produced no hybrid chunks")
+
+    # 正文与独立元素分别装包，写入索引前按原文位置归并；同一元素的拆分窗口保持先后顺序。
+    element_order = {element["element_id"]: position for position, element in enumerate(elements)}
+    raw_windows.sort(key=lambda window: element_order[window["element_ids"][0]])
 
     # Build the DocumentChunks uniformly: chunk_index is contiguous from 0; the page range is the
     # owner elements' real min/max.

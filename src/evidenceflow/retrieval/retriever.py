@@ -13,6 +13,8 @@ class DenseSearch(Protocol):
         self,
         query_embedding: list[float],
         top_k: int,
+        *,
+        document_id: str | None = None,
     ) -> list[RetrievedChunk]:
         """Return Dense candidates in the project's stable ordering."""
 
@@ -50,8 +52,10 @@ class DenseRetriever:
         self,
         query: str,
         top_k: int | None = None,
+        *,
+        document_id: str | None = None,
     ) -> list[RetrievedChunk]:
-        """Perform one Embedding and one Vector Store query using the raw Query."""
+        """生成查询向量，按指定文档或全库召回 Dense 候选。"""
 
         if not isinstance(query, str) or not query.strip():
             # strip() is only used to detect whitespace; the processed text is not passed to the
@@ -63,6 +67,8 @@ class DenseRetriever:
         # The Retriever does not load an index, compute cosine, or rerank; it only orchestrates the
         # injected search interface.
         query_embedding = self.embedding_provider.embed_query(query)
+        if document_id is not None:
+            return self.vector_store.search(query_embedding, effective_top_k, document_id=document_id)
         return self.vector_store.search(
             query_embedding=query_embedding,
             top_k=effective_top_k,

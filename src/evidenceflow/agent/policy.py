@@ -7,6 +7,7 @@ import json
 from collections.abc import Callable
 
 from evidenceflow.agent.state import AgentState
+from evidenceflow.domain.context import BuiltContext
 
 
 class AgentPolicyError(RuntimeError):
@@ -19,6 +20,10 @@ class BudgetExceeded(AgentPolicyError):
 
 class DeadlineExceeded(AgentPolicyError):
     """The wall-clock deadline has passed."""
+
+
+class RunCancelled(AgentPolicyError):
+    """调用方请求停止本轮问答，Agent 在步骤边界退出。"""
 
 
 class LoopDetected(AgentPolicyError):
@@ -55,6 +60,14 @@ def charge_llm(state: AgentState, calls: int) -> AgentState:
 
     budget = state.budget
     return state.model_copy(update={"budget": budget.model_copy(update={"llm_calls": budget.llm_calls + calls})})
+
+
+def generation_call_count(generator: object, context: BuiltContext) -> int:
+    """按本题生成诊断计入格式修复；没有诊断的生成器按常规单次调用估算。"""
+    diagnostics = getattr(generator, "last_diagnostics", None)
+    if isinstance(diagnostics, dict) and "usages" in diagnostics:
+        return len(diagnostics["usages"])
+    return 1 if context.entries else 0
 
 
 def guard_loop(state: AgentState, step: str, *parts: object) -> AgentState:

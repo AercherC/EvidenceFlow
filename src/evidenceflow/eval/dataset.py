@@ -10,7 +10,6 @@ from pathlib import Path
 from pydantic import TypeAdapter, ValidationError
 
 from evidenceflow.domain.evaluation import EvaluationQuestion
-from evidenceflow.domain.evaluation_v2 import EvaluationDatasetV2
 
 
 class EvaluationDatasetError(ValueError):
@@ -73,27 +72,3 @@ def load_evaluation_questions(path: Path) -> list[EvaluationQuestion]:
         raise EvaluationDatasetError("Evaluation dataset contains duplicate question text")
 
     return questions
-
-
-def adapt_research_v1(payload: dict, content_versions: dict[str, str]) -> EvaluationDatasetV2:
-    """Explicitly migrate the research v1 source groups, keeping query IDs and inventing no Claims or Holdout."""
-    return EvaluationDatasetV2.model_validate({
-        "schema_version": "2.0",
-        "dataset_id": f"research-v2-from-{payload['dataset_hash']}",
-        "split": "legacy_dev_diagnostic",
-        "corpus_version": payload["corpus_hash"],
-        "questions": [{
-            "question_id": q["question_id"], "family_id": q["question_id"],
-            "query": q["query"], "query_language": q["language"], "corpus_language": "en",
-            "question_type": q["question_type"], "evidence_type": q["evidence_type"],
-            "answerability": "answerable", "reference_claims": [],
-            "required_evidence_groups": [{
-                "group_id": f"G{index}", "alternatives": [{
-                    "document_id": source["document_id"],
-                    "content_version": content_versions[source["document_id"]],
-                    "locator": {"page_start": source["page_start"], "page_end": source["page_end"]},
-                    "evidence_anchor": source["evidence_anchor"],
-                }],
-            } for index, source in enumerate(q["gold_sources"], 1)],
-        } for q in payload["questions"]],
-    })

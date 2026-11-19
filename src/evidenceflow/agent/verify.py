@@ -32,6 +32,8 @@ _THOUSANDS_GROUPED = re.compile(r"(?<![\d.])(?<!\d,)\d{1,3}(?:,\d{3})+(?!,?\d)")
 # Sentence ends: . ! ? followed by whitespace or the end, and CJK terminators. A decimal point has
 # a digit right after it, so 6.53 is never cut.
 _SENTENCE_END = re.compile(r"(?<=[.!?])(?=\s)|(?<=[。！？；])")
+# 逐项答案的序号在切句前移除，避免被当作句末数字事实。
+_ORDERED_ITEM_START = re.compile(r"(?m)^[ \t]*\d+\.[ \t]+")
 _LEADING_LABELS = re.compile(r"^(\s*\[S\d+\])+")
 # A number: digits with optional decimal part, after thousands separators are dropped.
 _NUMBER = re.compile(r"(?<![\w.])\d+(?:\.\d+)?(?![\w])")
@@ -100,20 +102,19 @@ def _term_variants(term_norm: str) -> tuple[str, ...]:
 
 
 def split_sentences(answer: str) -> list[tuple[str, tuple[str, ...]]]:
-    """Sentences with their own labels. Labels that open a sentence ("… loss. [S2] Next …") are
-    moved back to the sentence they close."""
+    """按列表项和句末标点分配引文，句首标签可归到同项的上一句。"""
 
-    pieces = [p for p in _SENTENCE_END.split(answer) if p.strip()]
-    sentences: list[list] = []
-    for piece in pieces:
-        lead = _LEADING_LABELS.match(piece)
-        if lead and sentences:
-            sentences[-1][0] += lead.group(0)
-            piece = piece[lead.end():]
-            if not piece.strip():
-                continue
-        sentences.append([piece, None])
-    return [(text, tuple(dict.fromkeys(_CITATION.findall(text)))) for text, _ in sentences]
+    sentences: list[str] = []
+    for item in _ORDERED_ITEM_START.split(answer):
+        first_sentence = len(sentences)
+        for piece in _SENTENCE_END.split(item):
+            lead = _LEADING_LABELS.match(piece)
+            if lead and len(sentences) > first_sentence:
+                sentences[-1] += lead.group(0)
+                piece = piece[lead.end():]
+            if piece.strip():
+                sentences.append(piece)
+    return [(text, tuple(dict.fromkeys(_CITATION.findall(text)))) for text in sentences]
 
 
 def numbers_in(text: str) -> list[str]:

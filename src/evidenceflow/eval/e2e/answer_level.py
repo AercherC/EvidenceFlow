@@ -38,6 +38,7 @@ from math import comb
 from typing import Any, Mapping
 
 from evidenceflow.domain.generation import AnswerStatus
+from evidenceflow.eval.e2e.dataset import answer_status_matches
 from evidenceflow.eval.e2e.key_match import claim_hits
 
 
@@ -77,42 +78,24 @@ def gradable_claims(case: Mapping[str, Any]) -> tuple[list[dict], list[dict]]:
 
 
 def grade_answer(case: Mapping[str, Any], answer_text: str, status: str) -> tuple[bool, int, int, int]:
-    """Return (passed, claims_required, claims_covered, forbidden_hit).
+    """返回通过标记、必需论断数、命中数和禁止论断命中数。
 
-    Passing requires every gradable required claim covered, no forbidden claim asserted, and a
-    non-abstention status when the dataset says the question is answerable. Abstention is accepted
-    only where ``acceptable_abstention`` allows it.
+    状态符合题集规则且未命中禁止论断时，允许的拒答通过；正式作答还需覆盖全部可评分论断。
     """
 
     required, forbidden = gradable_claims(case)
     covered = sum(1 for claim in required if claim_hits(claim["answer_keys"], answer_text))
     forbidden_hit = sum(1 for claim in forbidden if claim_hits(claim["answer_keys"], answer_text))
 
-    expected = case.get("expected_status", "answered")
-    if expected == "answered":
-        # An answerable question must be answered, and every gradable claim must be covered. A case
-        # with no gradable claim cannot be judged and therefore cannot pass.
-        passed = (
-            bool(required)
-            and covered == len(required)
-            and forbidden_hit == 0
-            and status == AnswerStatus.ANSWERED.value
-        )
-    else:
-        # An unanswerable question is scored on abstention, not on claim coverage. The live dataset
-        # gives these cases no required claims at all (verified: all five have 0), so requiring
-        # `required` here would make a correct abstention impossible to pass.
-        #
-        # Abstaining is always the safe answer. Answering is only acceptable when the dataset marks
-        # the case `acceptable_abstention` -- and even then no forbidden claim may be asserted.
-        if forbidden_hit:
-            passed = False
-        elif status == AnswerStatus.INSUFFICIENT_CONTEXT.value:
-            passed = True
-        else:
-            passed = status == AnswerStatus.ANSWERED.value and bool(
-                case.get("acceptable_abstention")
-            )
+    status_matches = answer_status_matches(
+        case.get("expected_status", AnswerStatus.ANSWERED),
+        status,
+        acceptable_abstention=bool(case.get("acceptable_abstention")),
+    )
+    passed = forbidden_hit == 0 and status_matches and (
+        status == AnswerStatus.INSUFFICIENT_CONTEXT
+        or (status == AnswerStatus.ANSWERED and bool(required) and covered == len(required))
+    )
     return passed, len(required), covered, forbidden_hit
 
 

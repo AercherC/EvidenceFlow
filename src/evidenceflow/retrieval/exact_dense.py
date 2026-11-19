@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections import defaultdict
 from collections.abc import Sequence
 from typing import Any
 
@@ -80,6 +81,10 @@ class ExactDenseIndex:
 
         self._chunk_ids = tuple(item[0] for item in records)
         self._chunks = tuple(item[1] for item in records)
+        # 在装配快照时记录文档行号，定向提问只读取对应的向量行。
+        self._document_rows: dict[str, list[int]] = defaultdict(list)
+        for position, chunk in enumerate(self._chunks):
+            self._document_rows[chunk.document_id].append(position)
         self._dimension = dimension
         self._matrix = (
             np.ascontiguousarray(
@@ -121,8 +126,10 @@ class ExactDenseIndex:
         self,
         query_embedding: Sequence[float],
         top_k: int,
+        *,
+        document_id: str | None = None,
     ) -> list[RetrievedChunk]:
-        """Run the full Inner Product and apply similarity DESC, chunk_id ASC ordering."""
+        """按相似度与片段 ID 排序，document_id 在分配 Top-K 之前限定候选。"""
 
         if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k <= 0:
             raise ValueError("top_k must be a positive integer")
@@ -136,8 +143,11 @@ class ExactDenseIndex:
 
         # float32 matrix multiplication yields the full inner products; the candidate order is
         # decided entirely by the project-level sort below.
-        scores = self._matrix @ query
-        size = len(self._chunk_ids)
+        scope = None if document_id is None else self._document_rows.get(document_id, [])
+        if scope == []:
+            return []
+        scores = (self._matrix if scope is None else self._matrix[scope]) @ query
+        size = len(scores)
         effective_top_k = min(top_k, size)
         if effective_top_k < size:
             # Only candidates that can reach the Top-K go through the Python sort: take the K-th
@@ -148,7 +158,10 @@ class ExactDenseIndex:
             positions = np.flatnonzero(scores >= threshold).tolist()
         else:
             positions = range(size)
-        scored = [(float(scores[position]), self._chunk_ids[position], position) for position in positions]
+        scored = []
+        for position in positions:
+            source_position = position if scope is None else scope[position]
+            scored.append((float(scores[position]), self._chunk_ids[source_position], source_position))
 
         scored.sort(key=lambda item: (-item[0], item[1]))
         return [

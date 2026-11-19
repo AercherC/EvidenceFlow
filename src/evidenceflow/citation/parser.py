@@ -14,6 +14,7 @@ from evidenceflow.domain.citation import CitationParseResult
 from evidenceflow.domain.context import BuiltContext
 from evidenceflow.domain.generation import GeneratedAnswer
 from evidenceflow.domain.generation import AnswerStatus
+from evidenceflow.tracing import TraceRecorder, safe_record
 
 # S0 is captured as a well-formed candidate too, then explicitly judged unknown against the Context
 # allowlist.
@@ -79,8 +80,9 @@ def assemble_rag_answer(
     generated_answer: GeneratedAnswer,
     built_context: BuiltContext,
     retrieved_chunks: Sequence[RetrievedChunk | RerankedRetrievedChunk],
+    trace_recorder: TraceRecorder | None = None,
 ) -> RAGAnswer:
-    """Validate the model's labels and assemble the final structured answer from the existing SourceReference objects."""
+    """从 Context 组装真实引用，并将校验通过的标签写入本次 Trace。"""
 
     if not isinstance(query, str) or not query.strip():
         raise ValueError("query must not be blank")
@@ -94,7 +96,7 @@ def assemble_rag_answer(
     # Reuse the already-validated source objects from Context; never guess file names, pages, or
     # Chunk identity from the Answer.
     sources = [source_by_label[label] for label in parsed.valid_labels]
-    return RAGAnswer(
+    answer = RAGAnswer(
         query=query,
         # status comes straight from the Generator, so downstream code can tell "answered" from
         # "abstained" without guessing from natural language.
@@ -103,3 +105,12 @@ def assemble_rag_answer(
         sources=sources,
         retrieved_chunks=list(retrieved_chunks),
     )
+    if trace_recorder is not None:
+        safe_record(
+            trace_recorder,
+            "citation_validation.completed",
+            valid_labels=list(parsed.valid_labels),
+            invalid_labels=list(parsed.invalid_labels),
+            source_count=len(sources),
+        )
+    return answer

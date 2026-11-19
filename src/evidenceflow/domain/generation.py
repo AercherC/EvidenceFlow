@@ -25,7 +25,7 @@ class LLMMessage(BaseModel):
 
 
 class AnswerStatus(StrEnum):
-    """Distinguish an evidence-backed answer from an explicit knowledge-base shortfall, so downstream code need not guess from natural language."""
+    """区分至少提供一项有证据的所求信息与整题无可答信息，完整程度独立评估。"""
 
     ANSWERED = "answered"
     INSUFFICIENT_CONTEXT = "insufficient_context"
@@ -49,11 +49,11 @@ class GeneratedAnswer(BaseModel):
 
 
 class GeneratorOutput(BaseModel):
-    """The JSON contract that rag-generator-v3 requires the model to emit; every extra field is rejected."""
+    """自由文本生成路径的模型输出合同，额外字段视为格式错误。"""
 
     model_config = ConfigDict(extra="forbid")
 
-    status: AnswerStatus = Field(description="模型判断：证据足够 answered，否则 insufficient_context。")
+    status: AnswerStatus = Field(description="含至少一项有证据的所求信息为 answered，整题无法作答为 insufficient_context。")
     answer: str = Field(min_length=1, description="面向用户的回答，含 [S1] 等来源标签。")
 
     @field_validator("answer")

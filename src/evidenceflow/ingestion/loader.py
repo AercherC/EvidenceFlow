@@ -46,11 +46,12 @@ def _resolve_source_path(path: Path, ingestion_root: Path) -> tuple[Path, str]:
     return resolved_path, normalized_relative_path
 
 
-def _load_pdf(path: Path) -> tuple[list[DocumentSegment], dict[str, int]]:
-    """Extract PDF text in original page order, preserving the real 1-based page numbers."""
+def _load_pdf(file_bytes: bytes) -> tuple[list[DocumentSegment], dict[str, int]]:
+    """从用于计算源文件哈希的同一份 bytes 解析 PDF，保留实际页码。"""
 
     segments: list[DocumentSegment] = []
-    with pymupdf.open(path) as pdf:
+    # Windows 上损坏的 PDF 也不能留下阻止撤回上传的文件句柄。
+    with pymupdf.open(stream=file_bytes, filetype="pdf") as pdf:
         page_count = pdf.page_count
         for page_index, page in enumerate(pdf):
             content = page.get_text()
@@ -111,7 +112,7 @@ def load_document(path: Path, ingestion_root: Path) -> Document:
 
     metadata: dict[str, int] = {"file_size": len(file_bytes)}
     if file_type == "pdf":
-        segments, pdf_metadata = _load_pdf(source_path)
+        segments, pdf_metadata = _load_pdf(file_bytes)
         metadata.update(pdf_metadata)
     else:
         # Markdown/TXT stay as the complete original text at the Loader stage; no heading parsing

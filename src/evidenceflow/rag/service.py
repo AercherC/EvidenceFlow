@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-import hashlib
 from typing import Protocol
 
-from evidenceflow.citation import assemble_rag_answer, parse_citations
+from evidenceflow.citation import assemble_rag_answer
 from evidenceflow.domain.answer import RAGAnswer
 from evidenceflow.domain.chunk import (
     RerankedRetrievedChunk,
@@ -13,7 +12,7 @@ from evidenceflow.domain.chunk import (
 )
 from evidenceflow.domain.context import BuiltContext
 from evidenceflow.domain.generation import GeneratedAnswer
-from evidenceflow.tracing import TraceRecorder, resolve_recorder, safe_record
+from evidenceflow.tracing import TraceRecorder, record_built_context, resolve_recorder, safe_record
 
 
 class RetrieverProtocol(Protocol):
@@ -79,27 +78,7 @@ class RAGService:
             stage = "context"
             safe_record(recorder, "context.started")
             built_context = self._context_builder.build(retrieved_chunks)
-            if recorder is not None:
-                # Record only labels, chunk_id, token counts, and the UTF-8 sha256 of context_text;
-                # never the body.
-                safe_record(
-                    recorder,
-                    "context.completed",
-                    included_count=built_context.included_count,
-                    skipped_count=built_context.skipped_count,
-                    total_tokens=built_context.total_tokens,
-                    entries=[
-                        {
-                            "source_label": entry.source_label,
-                            "chunk_id": entry.chunk_id,
-                            "token_count": entry.token_count,
-                        }
-                        for entry in built_context.entries
-                    ],
-                    context_text_sha256=hashlib.sha256(
-                        built_context.context_text.encode("utf-8")
-                    ).hexdigest(),
-                )
+            record_built_context(recorder, built_context)
             stage = "generation"
             generated_answer = self._generator.generate(query, built_context)
             stage = "citation_validation"
@@ -108,6 +87,7 @@ class RAGService:
                 generated_answer=generated_answer,
                 built_context=built_context,
                 retrieved_chunks=retrieved_chunks,
+                trace_recorder=recorder,
             )
         except Exception as exc:
             # Record run.failed first (only the exception class name and stage, never the message),
@@ -116,16 +96,5 @@ class RAGService:
             # exactly the same exception as without tracing.
             safe_record(recorder, "run.failed", error_type=type(exc).__name__, stage=stage)
             raise
-        if recorder is not None:
-            # Recompute labels with the same parser after assemble_rag_answer succeeds; this cost
-            # is paid only when tracing is enabled.
-            parsed = parse_citations(answer.answer, built_context)
-            safe_record(
-                recorder,
-                "citation_validation.completed",
-                valid_labels=list(parsed.valid_labels),
-                invalid_labels=list(parsed.invalid_labels),
-                source_count=len(answer.sources),
-            )
         safe_record(recorder, "run.completed")
         return answer

@@ -15,7 +15,9 @@ Two levels of output:
   pool recover it), whether a fragmented set is only partly in the candidate pool (a chunking
   artefact), whether the required document never reached the candidates (document-level recall)
   or reached them with the wrong passage (passage-level), where the Reranker placed it, and the
-  Top-K document diversity and the space taken by back matter such as references.
+  Top-K document diversity and the space taken by back matter such as references. For a clause
+  branch, candidate diagnostics include global Dense Top-K plus returned branch-only items; this
+  is a provable lower bound because the full internal branch pools are not recorded here.
 
 "Fully in" follows the §13.1(e) definition: every chunk of one chunk set is present in that stage's
 result; across multiple sets inside a group the relation is "or".
@@ -32,7 +34,7 @@ from pydantic import Field, model_validator
 
 from evidenceflow.domain.evaluation_v2 import ContractModel
 from evidenceflow.domain.generation import AnswerStatus
-from evidenceflow.eval.e2e.dataset import MULTI_DOC_TAG, E2EDataset, EvalCase
+from evidenceflow.eval.e2e.dataset import MULTI_DOC_TAG, E2EDataset, EvalCase, answer_status_matches
 from evidenceflow.eval.e2e.key_match import claim_hits
 from evidenceflow.eval.e2e.mapping import E2EGroupMapping, E2EMapping, is_usable
 
@@ -77,7 +79,7 @@ _BACK_MATTER = re.compile(r"\b(references?|bibliography|acknowledg\w*|appendix|a
 
 
 class ObservedChunk(ContractModel):
-    """A chunk in the Dense ranking: identity, document and heading path only, no text."""
+    """评测中的原文块身份，只保留文档、块和可用的章节路径。"""
 
     chunk_id: str = Field(min_length=1)
     document_id: str = Field(min_length=1)
@@ -119,9 +121,16 @@ class E2EObservation(ContractModel):
     dense_ranking: list[ObservedChunk] = Field(
         description="Exact Dense 排名（深度 ≥ 候选池），第 i 项名次为 i+1；超出深度的 chunk 视为未排到。"
     )
-    candidate_pool_k: int = Field(gt=0, description="线上送入 Reranker 的 Dense 候选数（reranker_input_k；当前默认 50，rag_e2e_v1 初测为 20）。")
-    reranked_pool: list[str] = Field(description="Reranker 对候选池的完整排序（chunk_id）。")
-    final_top_k: int = Field(gt=0, description="线上交给 Context 的最终深度（reranker_final_k；当前默认 6，rag_e2e_v1 初测为 5）。")
+    candidate_pool_k: int = Field(gt=0, description="全局 Dense 候选深度；子句分支额外返回项另记在 reranked_outside_dense。")
+    reranked_pool: list[str] = Field(description="生产 retriever 返回的完整排序；子句分支可合并多个重排池。")
+    reranked_outside_dense: list[ObservedChunk] = Field(
+        default_factory=list,
+        description="生产子句分支返回、但不在全局 Dense 候选深度内的真实片段；旧观测为空。",
+    )
+    rerank_candidates: list[ObservedChunk] | None = Field(
+        default=None, description="实际参与重排的去重候选；None 表示旧观测或检索器未提供完整候选。",
+    )
+    final_top_k: int = Field(gt=0, description="线上交给 Context 的最终深度。")
     context_chunk_ids: list[str] = Field(description="完整纳入 BuiltContext 的 chunk，按标签顺序。")
     generation_ran: bool = Field(description="False = --retrieval-only，只观测检索与上下文层。")
     status: AnswerStatus | None = None
@@ -134,13 +143,21 @@ class E2EObservation(ContractModel):
 
     @model_validator(mode="after")
     def validate_consistency(self):
-        """Stage results must nest: context ⊆ final top-k ⊆ candidate pool ⊆ Dense ranking."""
+        """Context 必须来自最终排序；子句返回项可超出全局 Dense 候选。"""
 
         dense_ids = [item.chunk_id for item in self.dense_ranking]
         if len(dense_ids) != len(set(dense_ids)) or len(self.reranked_pool) != len(set(self.reranked_pool)):
             raise ValueError("duplicate chunk ids in a ranking")
-        if not set(self.reranked_pool) <= set(dense_ids[: self.candidate_pool_k]):
-            raise ValueError("reranked_pool must come from the dense candidate pool")
+        outside_ids = [item.chunk_id for item in self.reranked_outside_dense]
+        if len(outside_ids) != len(set(outside_ids)):
+            raise ValueError("duplicate chunk ids outside dense candidates")
+        expected_outside = set(self.reranked_pool) - set(dense_ids[: self.candidate_pool_k])
+        if set(outside_ids) != expected_outside:
+            raise ValueError("reranked_outside_dense must describe exactly the results outside dense candidates")
+        if self.rerank_candidates is not None:
+            candidate_ids = {item.chunk_id for item in self.rerank_candidates}
+            if len(candidate_ids) != len(self.rerank_candidates) or not set(self.reranked_pool) <= candidate_ids:
+                raise ValueError("rerank_candidates must be unique and include every reranked result")
         if not set(self.context_chunk_ids) <= set(self.reranked_pool[: self.final_top_k]):
             raise ValueError("context chunks must come from the final top-k")
         if not set(self.source_chunk_ids) <= set(self.context_chunk_ids):
@@ -225,6 +242,13 @@ def retrieval_stage(
     return "REACHED"
 
 
+def _rerank_candidates(observation: E2EObservation) -> list[ObservedChunk]:
+    """优先使用真实候选。已冻结的旧观测沿用历史估算口径。"""
+    if observation.rerank_candidates is not None:
+        return observation.rerank_candidates
+    return observation.dense_ranking[: observation.candidate_pool_k] + observation.reranked_outside_dense
+
+
 def _diagnose_group(
     case: EvalCase, group_mapping: E2EGroupMapping, observation: E2EObservation
 ) -> GroupDiagnosis:
@@ -242,10 +266,10 @@ def _diagnose_group(
         return GroupDiagnosis(stage="UNMAPPABLE", **base)
 
     bundles = group_mapping.chunk_sets
-    candidates = observation.dense_ranking[: observation.candidate_pool_k]
+    candidates = _rerank_candidates(observation)
     candidate_ids = {item.chunk_id for item in candidates}
     final_ids = observation.reranked_pool[: observation.final_top_k]
-    doc_of = {item.chunk_id: item.document_id for item in observation.dense_ranking}
+    doc_of = {item.chunk_id: item.document_id for item in (*observation.dense_ranking, *observation.reranked_outside_dense)}
 
     stage = retrieval_stage(bundles, candidate_ids, final_ids)
     diagnosis = dict(
@@ -269,18 +293,6 @@ def _diagnose_group(
     return GroupDiagnosis(stage=stage, **diagnosis)
 
 
-def _status_correct(case: EvalCase, actual: AnswerStatus) -> bool:
-    """§13.1(a) status is correct: equal, or answered expected while abstaining is allowed."""
-
-    if actual == case.expected_status:
-        return True
-    return (
-        case.expected_status == AnswerStatus.ANSWERED
-        and actual == AnswerStatus.INSUFFICIENT_CONTEXT
-        and case.acceptable_abstention
-    )
-
-
 def _evidence_chunk_union(case_id: str, mapping: E2EMapping) -> set[str]:
     """All chunks mapped by this case's evidence groups and claim anchors.
 
@@ -300,10 +312,15 @@ def _question_layer(
 
     if observation.error_type is not None:
         return _ERROR_LAYERS.get(observation.error_type, "ERROR")
+    status_matches = answer_status_matches(
+        case.expected_status,
+        observation.status,
+        acceptable_abstention=case.acceptable_abstention,
+    )
     if case.expected_status == AnswerStatus.INSUFFICIENT_CONTEXT:
         if not observation.generation_ran:
             return "NOT_RUN"
-        return "STATUS" if observation.status == AnswerStatus.ANSWERED else "PASS"
+        return "PASS" if status_matches else "STATUS"
     stages = {group.stage for group in groups}
     for layer, stage in (
         ("UNATTRIBUTABLE", "UNMAPPABLE"),
@@ -315,7 +332,7 @@ def _question_layer(
             return layer
     if not observation.generation_ran:
         return "RETRIEVAL_PASS"
-    if not _status_correct(case, observation.status):
+    if not status_matches:
         return "STATUS"
     if observation.status == AnswerStatus.INSUFFICIENT_CONTEXT:
         # Acceptable abstention: the status is correct, so §13.1(e) rule 7 records PASS directly.
@@ -341,10 +358,10 @@ def diagnose_case(case: EvalCase, mapping: E2EMapping, observation: E2EObservati
         raise ValueError(f"mapping has no record for {case.case_id} groups {missing}")
     groups = [_diagnose_group(case, by_group[g.group_id], observation) for g in case.required_evidence_groups]
 
-    doc_of = {item.chunk_id: item for item in observation.dense_ranking}
+    doc_of = {item.chunk_id: item for item in (*observation.dense_ranking, *observation.reranked_outside_dense)}
     final = [doc_of[chunk_id] for chunk_id in observation.reranked_pool[: observation.final_top_k]]
     final_docs = Counter(item.document_id for item in final)
-    candidate_docs = {item.document_id for item in observation.dense_ranking[: observation.candidate_pool_k]}
+    candidate_docs = {item.document_id for item in _rerank_candidates(observation)}
     return CaseDiagnosis(
         case_id=case.case_id,
         tags=list(case.tags),

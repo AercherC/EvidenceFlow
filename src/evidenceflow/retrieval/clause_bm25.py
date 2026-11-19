@@ -1,8 +1,6 @@
-"""In-process BM25 over the indexed chunk texts, used only for clause pools in clause-branch retrieval.
+"""索引内的 BM25 候选补充，供子句池和实验 Agent 的单要点补证复用。
 
-This is not the retired full-query BM25 + RRF chain (`evidenceflow.retrieval.bm25`, still banned by
-tests/test_architecture_boundaries.py): it never ranks a whole query and never fuses scores; it only
-adds up to b chunks to an English clause's dense pool before the reranker.
+BM25 只提供少量词项候选，最终排序仍由重排器决定。
 
 The spec is fixed by the round-2 pre-registration (work/agent_design/candidate_miss): terms are the
 embedding model's SentencePiece pieces, lowercased, with '▁'-only and pure-punctuation pieces
@@ -72,6 +70,7 @@ class BM25Index:
             raise ValueError("BM25Index needs at least one document")
         self._terms = terms
         self._ids = tuple(sorted(documents))
+        self._positions = {chunk_id: position for position, chunk_id in enumerate(self._ids)}
         self.k1, self.b = k1, b
         self._tf = [Counter(terms(documents[chunk_id])) for chunk_id in self._ids]
         self._lengths = [sum(tf.values()) for tf in self._tf]
@@ -89,20 +88,29 @@ class BM25Index:
     def size(self) -> int:
         return len(self._ids)
 
-    def search(self, query: str, top_k: int) -> list[str]:
-        """Return the top_k chunk IDs; a query term counts once per occurrence."""
+    def search(
+        self, query: str, top_k: int, *, positive_only: bool = False,
+        allowed_ids: set[str] | None = None,
+    ) -> list[str]:
+        """在可选的片段范围内取前 K，沿用同一快照的 IDF。"""
 
         if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k <= 0:
             raise ValueError("top_k must be a positive integer")
         query_terms = self._terms(query)
         scored = []
-        for chunk_id, tf, length in zip(self._ids, self._tf, self._lengths):
+        positions = (
+            range(len(self._ids)) if allowed_ids is None else
+            (self._positions[chunk_id] for chunk_id in allowed_ids if chunk_id in self._positions)
+        )
+        for position in positions:
+            chunk_id, tf, length = self._ids[position], self._tf[position], self._lengths[position]
             score = 0.0
             norm = self.k1 * (1 - self.b + self.b * length / self._average_length)
             for term in query_terms:
                 frequency = tf.get(term, 0)
                 if frequency:
                     score += self._idf[term] * frequency * (self.k1 + 1) / (frequency + norm)
-            scored.append((score, chunk_id))
+            if score > 0 or not positive_only:
+                scored.append((score, chunk_id))
         scored.sort(key=lambda item: (-item[0], item[1]))
         return [chunk_id for _, chunk_id in scored[:top_k]]

@@ -39,10 +39,7 @@ from evidenceflow.domain.document import Document, DocumentSegment
 # Key constraint (a Phase 13 measurement): PyMuPDF flattens a two-column page into one text
 # stream, so captions often share a line with body text; and the BGE-M3 (XLM-R SentencePiece)
 # decode collapses newlines into spaces.
-# Therefore caption matching must not be anchored to the line start only, or all that noise is
-# missed. Whether the match really sits at the line start is recorded separately
-# (at_line_start), to distinguish a "high-confidence caption" from "a citation that merely
-# appears in body text".
+# 文本诊断保留行内图表引用。结构分类只检查 PDF 块首，避免把含图表引用的正文移出正文流。
 # --------------------------------------------------------------------------------------
 
 _FIGURE_ANY = re.compile(r"(?:Figure|Fig\.)\s*(\d{1,2})\b")
@@ -68,6 +65,10 @@ _CONFERENCE_HEADER = re.compile(
 # Section headings: numbered ("1" / "2.1" / "3.2.1") and unnumbered named ones.
 _NUMBERED_HEADING = re.compile(
     r"(?m)^[ \t]*(\d{1,2}(?:\.\d{1,2}){0,3})[ \t]*\.?[ \t]+([A-Z][^\n]{1,80}?)[ \t]*$"
+)
+# PDF 可能将编号和标题写成同一文本块的两行。整数行只有接全大写标题时才采用。
+_SPLIT_NUMBERED_HEADING = re.compile(
+    r"(?m)^[ \t]*(\d{1,2}(?:\.\d{1,2}){0,3})\.?[ \t]*\n[ \t]*([A-Z][^\n]{1,80}?)[ \t]*$"
 )
 _NAMED_HEADINGS = [
     "abstract",
@@ -165,12 +166,13 @@ TABLE_NUMERIC_MIN_TOKENS = 4
 # --------------------------------------------------------------------------------------
 
 
-def detect_headings(segments: Sequence[DocumentSegment]) -> list[dict[str, Any]]:
+def detect_headings(
+    segments: Sequence[DocumentSegment], *, page_blocks: dict[int, list[dict[str, Any]]] | None = None,
+) -> list[dict[str, Any]]:
     """Locate section headings in the text and return them in document order.
 
-    It recognizes only "numbered headings on their own line" and "named headings on their own line". To avoid misjudging
-    body text, tables or references as sections, four exclusion layers are applied (each one comes from a false positive
-    observed in Phase 13):
+    常规识别按行进行。传入 `page_blocks` 时，也识别同一个 PDF 文本块内分行的章节编号与标题；
+    返回原始文本偏移，用于后续章节归属。过滤规则用于避免将正文、表格和引用误识别成章节：
 
     1. Numbered headings: major number <= 20, at most 8 words in the title, no year/citation feature/math symbol, and no
        trailing punctuation; within one document a level-1 number must not repeat (a table cell was actually read as
@@ -185,8 +187,16 @@ def detect_headings(segments: Sequence[DocumentSegment]) -> list[dict[str, Any]]
     named: list[dict[str, Any]] = []
     for segment_index, segment in enumerate(segments):
         content = segment.content
-        for match in _NUMBERED_HEADING.finditer(content):
-            number, title = match.group(1), match.group(2).strip()
+        matches = [(m.start(), m[1], m[2]) for m in _NUMBERED_HEADING.finditer(content)]
+        # 只补识别完整同块标题，避免把上一块的表格数字与下一块正文拼成标题。
+        for block in (page_blocks or {}).get(segment.page_number, ()):
+            if not block["is_text"]:
+                continue
+            match = _SPLIT_NUMBERED_HEADING.fullmatch(block["raw_text"].rstrip("\n"))
+            if match and ("." in match[1] or match[2].isupper()):
+                matches.append((block["char_start"] + match.start(), match[1], match[2]))
+        for offset, number, title in sorted(matches):
+            title = title.strip()
             major = int(number.split(".")[0])
             # Rule 1: filter on numbering and title shape.
             if major > 20 or len(title) < 3 or len(title.split()) > 8:
@@ -200,7 +210,7 @@ def detect_headings(segments: Sequence[DocumentSegment]) -> list[dict[str, Any]]
             numbered.append(
                 {
                     "segment_index": segment_index,
-                    "char_offset": match.start(),
+                    "char_offset": offset,
                     "page_number": segment.page_number,
                     "level": number.count(".") + 1,
                     "number": number,
@@ -578,9 +588,10 @@ def _classify_block_text(text: str) -> str:
     lines = _block_lines(text)
     if not lines:
         return "paragraph"
-    if any(_FIGURE_CAPTION_FORM.search(line) for line in lines):
+    # 只有块首的图表标签才表示图注，段落中出现图号不改变正文类型。
+    if _FIGURE_CAPTION_FORM.match(lines[0].lstrip()):
         return "figure_caption"
-    if any(_TABLE_CAPTION_FORM.search(line) for line in lines):
+    if _TABLE_CAPTION_FORM.match(lines[0].lstrip()):
         return "table_caption"
     # An all-caps "TABLE N" occupying the first line (the caption style of papers such as
     # adapointr, with no colon):
@@ -842,16 +853,18 @@ def parse_structured_document(document: Document, pdf_path: Path) -> StructuredP
     # coordinate system for
     # heading/furniture detection.
     canonical_segments: list[DocumentSegment] = []
+    page_blocks: dict[int, list[dict[str, Any]]] = {}
     with pymupdf.open(pdf_path) as pdf:
         for page_index in range(pdf.page_count):
             blocks = parse_page_blocks(pdf[page_index])
+            page_blocks[page_index + 1] = blocks
             text = "".join(block["raw_text"] for block in blocks)
             if text.strip():
                 canonical_segments.append(
                     DocumentSegment(content=text, page_number=page_index + 1, metadata={})
                 )
 
-    headings = detect_headings(canonical_segments)
+    headings = detect_headings(canonical_segments, page_blocks=page_blocks)
     repeated = detect_document_furniture(
         [{"document_id": document.document_id, "segments": canonical_segments}]
     )[document.document_id]

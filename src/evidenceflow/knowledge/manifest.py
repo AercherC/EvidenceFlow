@@ -18,13 +18,15 @@ from evidenceflow.domain.document import Document
 
 # Version tokens must be maintained explicitly in code, so a parser/chunker behaviour change is
 # never silently treated as the same index.
-CURRENT_PARSER_VERSION = "evidenceflow.p0-structure.v1"
+# v2 识别同块分行标题，并保留含行内图表引用的正文。
+CURRENT_PARSER_VERSION = "evidenceflow.p0-structure.v2"
 CURRENT_CLEANER_VERSION = "evidenceflow.cleaner.v1"
+# v3 按原文来源元素的位置编号，邻段查找随索引重建更新。
 # v2: standalone elements (table / table_caption / figure_caption / equation) now record the
 # section they sit in. v1 dropped that attribution for 499 of 817 chunks, so any index built
 # before v2 must be rebuilt rather than reused: the chunk text is unchanged, but the metadata
 # contract is not.
-CURRENT_CHUNKER_VERSION = "evidenceflow.hybrid-chunker.v2"
+CURRENT_CHUNKER_VERSION = "evidenceflow.hybrid-chunker.v3"
 CURRENT_EMBEDDING_VERSION = "evidenceflow.bge-m3-dense-l2-normalized.v1"
 
 ManifestIndexStatus = Literal["ACTIVE", "STAGING", "PREVIOUS", "FAILED"]

@@ -148,6 +148,16 @@ class E2EDataset(ContractModel):
     fingerprint: str | None = Field(default=None, description="除本字段外整个数据集规范化 JSON 的 sha256。")
 
 
+def answer_status_matches(expected: str, actual: str | None, *, acceptable_abstention: bool) -> bool:
+    """按 D7 匹配状态，仅可答题能通过题目配置接受拒答。"""
+
+    return actual == expected or (
+        expected == AnswerStatus.ANSWERED
+        and actual == AnswerStatus.INSUFFICIENT_CONTEXT
+        and acceptable_abstention
+    )
+
+
 def compute_fingerprint(dataset: E2EDataset) -> str:
     """Compute the fingerprint per §13.1(a): the sha256 of the canonical JSON with the
     `fingerprint` field excluded.

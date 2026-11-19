@@ -4,10 +4,9 @@ from __future__ import annotations
 
 import time
 from collections.abc import Callable
-from typing import Literal
 
-from pydantic import BaseModel, ConfigDict
 
+from evidenceflow.agent.result import AgentAnswer
 from evidenceflow.agent.nodes import (
     AgentDeps,
     AgentRetrieverProtocol,
@@ -33,24 +32,6 @@ from evidenceflow.tracing import TraceRecorder, resolve_recorder, safe_record
 # Errors of the generation contract itself. They propagate unchanged, exactly as from RAGService:
 # the fallback would repeat the same LLM call and fail the same way.
 PROPAGATED_ERRORS = (LLMError, GenerationContractError, CitationValidationError)
-
-
-class AgentAnswer(BaseModel):
-    """The RAGAnswer plus agent metadata. ``AnswerStatus`` is unchanged; ``support`` is extra."""
-
-    model_config = ConfigDict(frozen=True)
-
-    answer: RAGAnswer
-    mode: Literal["single", "multi"] | None
-    clauses: tuple[str, ...]
-    support: Support
-    termination_reason: TerminationReason
-    llm_calls: int
-    rerank_pairs: int
-    rounds: int
-    coverage_gaps: tuple[str, ...] = ()
-    verification: Verification | None = None
-    fallback_error: str | None = None
 
 
 class AgentService:

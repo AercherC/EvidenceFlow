@@ -1,4 +1,4 @@
-"""Provides the Learned Cross-Encoder rerank boundary and the Transformers implementation used by the online retrieval chain (Exact Dense Top50 -> Reranker -> Top6 by default; see Settings.reranker_input_k / reranker_final_k)."""
+"""真实 Cross-Encoder 重排及 Dense 检索装配，默认 Exact Dense Top50 → Reranker → Top8。"""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ import math
 import logging
 import threading
 import time
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from typing import Protocol
 
@@ -21,6 +21,9 @@ from evidenceflow.tracing import TraceRecorder, resolve_recorder, safe_record
 
 
 logger = logging.getLogger(__name__)
+
+# RRF 使用名次而非分数，避免直接混合 Dense 余弦值和 Cross-Encoder logits。
+RRF_RANK_CONSTANT = 60
 
 
 class RerankerError(RuntimeError):
@@ -78,8 +81,9 @@ class LearnedReranker:
         candidates: Sequence[DocumentChunk],
         *,
         top_k: int | None = None,
+        passage_text: Callable[[DocumentChunk], str] | None = None,
     ) -> list[RerankedChunk]:
-        """Rerank the frozen candidates; only the order changes, chunks are never added, removed or modified."""
+        """重排原始候选。passage_text 仅定制模型输入，返回的块保留原文和溯源。"""
 
         if not isinstance(query, str) or not query.strip():
             raise ValueError("query must not be blank")
@@ -88,12 +92,8 @@ class LearnedReranker:
         ids = [chunk.chunk_id for chunk in candidates]
         if len(ids) != len(set(ids)):
             raise ValueError("candidate chunk IDs must be unique")
-        if top_k is None:
-            effective_top_k = len(candidates)
-        else:
-            if isinstance(top_k, bool) or not isinstance(top_k, int) or top_k <= 0:
-                raise ValueError("top_k must be a positive integer")
-            effective_top_k = min(top_k, len(candidates))
+        if top_k is not None and (isinstance(top_k, bool) or not isinstance(top_k, int) or top_k <= 0):
+            raise ValueError("top_k must be a positive integer")
 
         scores: list[float] = []
         self.last_truncated_pair_count = 0
@@ -102,9 +102,11 @@ class LearnedReranker:
         # never changes the result.
         for start in range(0, len(candidates), self.batch_size):
             batch = candidates[start : start + self.batch_size]
-            batch_scores = self.scorer.score_pairs(
-                [(query, chunk.content) for chunk in batch]
-            )
+            pairs = [
+                (query, passage_text(chunk) if passage_text else chunk.content)
+                for chunk in batch
+            ]
+            batch_scores = self.scorer.score_pairs(pairs)
             # The real Transformers scorer exposes the per-batch truncation count; a test double
             # without that field counts as 0.
             self.last_truncated_pair_count += int(
@@ -118,7 +120,7 @@ class LearnedReranker:
                 raise ValueError("pair scorer returned a non-finite score")
             scores.extend(float(score) for score in batch_scores)
 
-        return rank_scored_candidates(candidates, scores, top_k=effective_top_k)
+        return rank_scored_candidates(candidates, scores, top_k=top_k)
 
 
 def rank_scored_candidates(
@@ -137,8 +139,8 @@ def rank_scored_candidates(
     if isinstance(effective_top_k, bool) or not isinstance(effective_top_k, int) or effective_top_k < 0:
         raise ValueError("top_k must be a non-negative integer")
     indexed = list(enumerate(zip(candidates, scores), start=1))
-    # Ties keep the frozen candidate order first; chunk_id is the final stable-identity tiebreaker.
-    indexed.sort(key=lambda item: (-item[1][1], item[0], item[1][0].chunk_id))
+    # Python 的稳定排序在同分时保留候选顺序。
+    indexed.sort(key=lambda item: -item[1][1])
     return [
         RerankedChunk(
             chunk=chunk.model_copy(deep=True),
@@ -147,7 +149,7 @@ def rank_scored_candidates(
             original_rank=original_rank,
         )
         for rank, (original_rank, (chunk, score)) in enumerate(
-            indexed[: min(effective_top_k, len(indexed))], start=1
+            indexed[:effective_top_k], start=1
         )
     ]
 
@@ -281,11 +283,15 @@ class DenseRerankerRetriever:
         reranker_input_k: int = 20,
         final_top_k: int = 5,
         trace_recorder: TraceRecorder | None = None,
+        passage_text: Callable[[DocumentChunk], str] | None = None,
+        dense_rrf_weight: float = 0.0,
     ) -> None:
         """Freeze the layered contract of candidate pool, Reranker input and final depth.
 
         ``trace_recorder`` is optional (default None): it only observes retrieval.dense.* and rerank.* events and does not
         affect candidates, ordering, scores, exceptions or logging (PROJECT_SPEC §12.5).
+        `passage_text` 只影响交叉编码器的输入，检索结果仍携带原文和来源。
+        `dense_rrf_weight` 为零时沿用模型排序；非零时用 Dense 名次与模型名次加权融合。
         """
 
         for value, name in (
@@ -299,11 +305,15 @@ class DenseRerankerRetriever:
             raise ValueError("reranker_input_k must not exceed candidate_pool_k")
         if final_top_k > reranker_input_k:
             raise ValueError("final_top_k must not exceed reranker_input_k")
+        if not 0 <= dense_rrf_weight <= 1:
+            raise ValueError("dense_rrf_weight must be between 0 and 1")
         self.dense_retriever = dense_retriever
         self.reranker = reranker
         self.candidate_pool_k = candidate_pool_k
         self.reranker_input_k = reranker_input_k
         self.final_top_k = final_top_k
+        self.passage_text = passage_text
+        self.dense_rrf_weight = dense_rrf_weight
         # Public attribute: callers (including the B2 trace comparison experiment) may swap the
         # recorder between two retrieve calls. When one instance serves concurrent requests, use
         # tracing.trace_scope instead of replacing this attribute.
@@ -313,8 +323,10 @@ class DenseRerankerRetriever:
         self,
         query: str,
         top_k: int | None = None,
+        *,
+        document_id: str | None = None,
     ) -> list[RerankedRetrievedChunk]:
-        """Generate candidates via ANN Top-K and rerank them; on failure raise explicitly and never return the Dense order."""
+        """先从指定文档或全库召回候选，再使用同一重排流程。"""
 
         if not isinstance(query, str) or not query.strip():
             raise InvalidQueryError("query must not be empty or whitespace")
@@ -333,7 +345,12 @@ class DenseRerankerRetriever:
         # payload is built below, so the cost matches an untraced run.
         recorder = resolve_recorder(self.trace_recorder)
         safe_record(recorder, "retrieval.dense.started")
-        candidates = self.dense_retriever.retrieve(query, top_k=self.candidate_pool_k)
+        candidates = (
+            self.dense_retriever.retrieve(query, top_k=self.candidate_pool_k)
+            if document_id is None else self.dense_retriever.retrieve(
+                query, top_k=self.candidate_pool_k, document_id=document_id,
+            )
+        )
         if recorder is not None:
             # Record only IDs and the raw float32 similarity, never the chunk body.
             safe_record(
@@ -360,7 +377,9 @@ class DenseRerankerRetriever:
             reranked = self.reranker.rerank(
                 query,
                 [item.chunk for item in selected],
-                top_k=effective_top_k,
+                # 融合须在成绩截断前进行，仍对同一份候选仅打分一次。
+                top_k=None if self.dense_rrf_weight else effective_top_k,
+                passage_text=self.passage_text,
             )
         except Exception as exc:
             # An unvalidated raw Dense ordering must not pass itself off as a successful Reranker
@@ -368,15 +387,24 @@ class DenseRerankerRetriever:
             raise RerankerError("learned reranker failed") from exc
         latency = time.perf_counter() - started
         candidate_by_id = {item.chunk.chunk_id: item for item in selected}
+        if self.dense_rrf_weight:
+            weight = self.dense_rrf_weight
+            reranked.sort(
+                key=lambda item: (
+                    weight / (RRF_RANK_CONSTANT + candidate_by_id[item.chunk.chunk_id].rank)
+                    + (1 - weight) / (RRF_RANK_CONSTANT + item.rank)
+                ),
+                reverse=True,
+            )
         results = [
             RerankedRetrievedChunk(
                 chunk=item.chunk,
-                rank=item.rank,
+                rank=rank,
                 candidate_rank=candidate_by_id[item.chunk.chunk_id].rank,
                 similarity_score=candidate_by_id[item.chunk.chunk_id].similarity_score,
                 reranker_score=item.relevance_score,
             )
-            for item in reranked
+            for rank, item in enumerate(reranked[:effective_top_k], start=1)
         ]
         logger.info(
             "retrieval completed",

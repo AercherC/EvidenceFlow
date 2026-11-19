@@ -1,6 +1,8 @@
 """Define the vendor-neutral synchronous LLM text-generation contract and the minimal exception hierarchy."""
 
-from collections.abc import Sequence
+from collections.abc import Callable, Iterator, Sequence
+from contextlib import contextmanager
+from contextvars import ContextVar
 from typing import Protocol, runtime_checkable
 
 from evidenceflow.domain.generation import LLMMessage
@@ -16,6 +18,34 @@ class LLMConfigurationError(LLMError):
 
 class LLMRequestError(LLMError):
     """Signals that an LLM request failed or the vendor response does not satisfy the plain-text contract."""
+
+
+class LLMDeadlineExceeded(LLMRequestError):
+    """本次调用的上游截止时间已到，不能再发送请求或使用迟到的回复。"""
+
+
+_REMAINING_TIME: ContextVar[Callable[[], float] | None] = ContextVar("llm_remaining_time", default=None)
+
+
+@contextmanager
+def llm_deadline(remaining_time: Callable[[], float]) -> Iterator[None]:
+    """让本次编排的决策、生成及修复共享同一截止时间。"""
+    token = _REMAINING_TIME.set(remaining_time)
+    try:
+        yield
+    finally:
+        _REMAINING_TIME.reset(token)
+
+
+def remaining_llm_time() -> float | None:
+    """取发起本次传输前的剩余秒数，普通调用没有上游时限。"""
+    remaining = _REMAINING_TIME.get()
+    if remaining is None:
+        return None
+    seconds = remaining()
+    if seconds <= 0:
+        raise LLMDeadlineExceeded("LLM deadline exceeded")
+    return seconds
 
 
 @runtime_checkable

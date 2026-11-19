@@ -651,6 +651,44 @@ class IndexLifecycle:
         _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
         return next_state
 
+    def record_staging_measurement(
+        self,
+        manifest: KnowledgeBaseManifest,
+        *,
+        manifest_path: str | None = None,
+    ) -> LifecycleState:
+        """Write the build's measured document/chunk counts back onto the staging pointer.
+
+        ``prepare_staging`` runs before the Collection exists, so it can only register provisional
+        counts (the corpus size is unknown until ingestion finishes). A read-only evaluation of the
+        staging index needs the real counts: ``runtime.build_evaluation_index(target="staging")``
+        refuses a snapshot whose size disagrees with the pointer, and a quality report must be bound
+        to the true ``chunk_count``. This only refreshes the staging pointer's numbers (and its
+        manifest path); active/previous and every Collection flag stay untouched, and the pointer
+        remains STAGING.
+        """
+
+        if manifest.knowledge_base_id != self.knowledge_base_id:
+            raise ValueError("manifest belongs to another knowledge base")
+        if manifest.index.status != "STAGING":
+            raise ValueError("recording a staging measurement requires a STAGING manifest")
+        state = self.load_state()
+        if state.staging is None:
+            raise ValueError("no staging pointer is registered")
+        if (
+            state.staging.collection_name != manifest.index.collection_name
+            or state.staging.index_signature != manifest.index.index_signature
+        ):
+            raise ValueError("staging pointer does not match manifest")
+        pointer = IndexPointer.from_manifest(
+            manifest,
+            status="STAGING",
+            manifest_path=manifest_path or state.staging.manifest_path,
+        )
+        next_state = state.model_copy(update={"staging": pointer})
+        _write_json_atomic(self.state_path, next_state.model_dump(mode="json"))
+        return next_state
+
     def activate(
         self,
         manifest: KnowledgeBaseManifest,

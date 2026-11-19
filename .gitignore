@@ -9,9 +9,14 @@
 .ruff_cache/
 *.egg-info/
 
-# Local model caches, vector index and one-off intermediate artifacts.
+# 本机模型、PDF 语料、索引和实验产物。
 .cache/
-data/chroma/
+/data/chroma/
+/data/source_docs/
+/artifacts/
+/work/
+*.webui/
+*.write.lock
 tmp/
 
 # Local state of developer tooling.

@@ -101,9 +101,11 @@ class BgeM3EmbeddingProvider:
 
     @property
     def dimension(self) -> int | None:
-        """The Dense vector dimension declared by the model; None when the model declares none."""
+        """读取模型声明的向量维度，兼容旧版 Sentence Transformers。"""
 
-        getter = getattr(self._model, "get_sentence_embedding_dimension", None)
+        getter = getattr(self._model, "get_embedding_dimension", None)
+        if not callable(getter):
+            getter = getattr(self._model, "get_sentence_embedding_dimension", None)
         value = getter() if callable(getter) else None
         if isinstance(value, bool) or not isinstance(value, int) or value <= 0:
             return None

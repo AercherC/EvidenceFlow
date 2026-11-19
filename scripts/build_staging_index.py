@@ -19,7 +19,10 @@ already exists, the generated staging name collides with active/previous or with
 collection, the options conflict, or --discard-staging was requested with no registered staging or
 with a target that is active/previous); 3 = validation passed but the wrap-up action after the build
 was refused by the guard (staging collection and pointer are kept; this can only happen when the
-state file was changed externally during the build).
+state file was changed externally during the build); 4 = structural validation passed but
+--activate was refused by the quality gate (no quality report, an unreadable report, an identity
+mismatch, blockers, or a final-Context coverage loss). Staging and the pointer are kept, the active
+pointer is untouched, and the reasons are written to the summary's ``quality_gate``.
 
 --discard-staging exit codes (A3.2): 0 = the collection was deleted and the pointer cleared;
 2 = refused, nothing was changed (the state file is missing, unreadable or fails validation, with
@@ -35,393 +38,32 @@ from __future__ import annotations
 import argparse
 import json
 import sys
-from collections.abc import Callable
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
 from evidenceflow.config import Settings  # noqa: E402
-from evidenceflow.knowledge import (  # noqa: E402
-    BuildJobStore,
-    ChromaFlagWriter,
-    IndexLifecycle,
-    LifecycleState,
-    PipelineIdentity,
-    SourceRecord,
-    StagingBuildCoordinator,
-    build_corpus_signature,
-    build_index_signature,
-    build_manifest,
+from evidenceflow.knowledge import IndexLifecycle, LifecycleState  # noqa: E402
+from evidenceflow.knowledge.staging import (  # noqa: E402
+    EMBEDDING_DIMENSION,
+    Observed,
+    ProtectedCollectionError,
+    StageReporter,
+    StagingBuildRefused,
+    StagingPorts,
+    activate_validated_staging,
     build_staging_collection_name,
-    current_pipeline_from_settings,
-    manifest_sources_from_documents,
-    save_manifest,
+    discard_staging_collection,
+    index_update,
+    make_real_ports,
+    mark_collection_lifecycle,
+    run_staging_build,
+    verify_quality_report_for_activation,
 )
-from evidenceflow.knowledge.job import BuildJobStatus  # noqa: E402
-from evidenceflow.knowledge.lifecycle import CollectionReader  # noqa: E402
 
 DEFAULT_JOB_DIR = ROOT / "artifacts/stage_a/A3_staging_jobs"
-# BGE-M3 Dense vector dimension; the same value as runtime.EMBEDDING_DIMENSION (runtime is not
-# imported here, to avoid pulling in the model dependencies).
-EMBEDDING_DIMENSION = 1024
-SMOKE_QUERY = "PoinTr point cloud representation for Transformer"
-# Build stages may only move forward; ingestion loops per file so the same stage recurs, and it is
-# reported only on first entry.
-_STAGE_ORDER: tuple[BuildJobStatus, ...] = ("PARSING", "CHUNKING", "EMBEDDING", "INDEXING")
-
-
-class StagingBuildRefused(RuntimeError):
-    """Refusal before a build starts (exit code 2): no collection is created and the state file is untouched."""
-
-
-class ProtectedCollectionError(RuntimeError):
-    """Raised when something tries to delete the active or previous collection; those two are the
-    indexes that serving and rollback depend on.
-
-    Scenarios that can be detected up front (the generated staging name collides with them) are
-    refused before the build via ``StagingBuildRefused``; this exception still being raised after the
-    build means the state file changed during the build, and maps to exit code 3.
-    """
-
-
-class StageReporter:
-    """Report the "first entry into a stage" facts from ingestion one-way to the Coordinator."""
-
-    def __init__(self, report: Callable[[BuildJobStatus], None]) -> None:
-        self._report = report
-        self._reached = -1
-
-    def reach(self, stage: BuildJobStatus) -> None:
-        """Advance to stage; skipped intermediate stages are reported one by one, and repeated or backward events are ignored."""
-
-        target = _STAGE_ORDER.index(stage)
-        while self._reached < target:
-            self._reached += 1
-            self._report(_STAGE_ORDER[self._reached])
-
-
-class Observed:
-    """Transparent proxy: the configured hooks fire when the named method is first called, and every other attribute or method is forwarded unchanged."""
-
-    def __init__(self, inner: Any, hooks: dict[str, Callable[[], None]]) -> None:
-        self._inner = inner
-        self._hooks = hooks
-
-    def __getattr__(self, name: str) -> Any:
-        attribute = getattr(self._inner, name)
-        hook = self._hooks.get(name)
-        if hook is None or not callable(attribute):
-            return attribute
-
-        def wrapped(*args: Any, **kwargs: Any) -> Any:
-            hook()
-            return attribute(*args, **kwargs)
-
-        return wrapped
-
-
-@dataclass
-class StagingPorts:
-    """Every contact point between the script and the outside world (disk, Chroma, models); tests replace the whole set with Fakes."""
-
-    scan_sources: Callable[[], list[SourceRecord]]
-    list_collections: Callable[[], set[str]]
-    active_chunk_ids: Callable[[str], list[str]]
-    build: Callable[[str, Callable[[BuildJobStatus], None]], CollectionReader]
-    smoke_embedding: Callable[[], list[float]]
-    delete_collection: Callable[[str], None]
-    set_collection_lifecycle: Callable[[str, str], None]
-
-
-def _protected_names(state: LifecycleState) -> set[str]:
-    """Active and previous are the collections serving and rollback depend on, so any deletion or reuse must avoid them."""
-
-    names = {state.active.collection_name}
-    if state.previous is not None:
-        names.add(state.previous.collection_name)
-    return names
-
-
-def discard_staging_collection(
-    lifecycle: IndexLifecycle,
-    delete_collection: Callable[[str], None],
-    list_collections: Callable[[], set[str]],
-) -> LifecycleState:
-    """Delete the registered staging collection, then clear the staging pointer; safe to repeat (idempotent).
-
-    The target is confirmed not to be active or previous first: deleting either of those would break
-    serving or rollback. The order is collection first, pointer second, so a failed deletion leaves the
-    pointer unchanged and the state still matches reality.
-    If a previous run already deleted the collection but failed to clear the pointer, the collection no
-    longer exists on the next run, so only the pointer is cleared and the call succeeds; otherwise that
-    half-finished state would make every later build fail with "a staging pointer is already registered".
-    """
-
-    state = lifecycle.load_state()
-    if state.staging is None:
-        raise StagingBuildRefused("no staging pointer is registered; nothing to discard")
-    name = state.staging.collection_name
-    if name in _protected_names(state):
-        raise ProtectedCollectionError(
-            f"refusing to delete collection {name!r}: it is the active or previous index"
-        )
-    # When the collection no longer exists (last deletion succeeded, clearing the pointer failed),
-    # skip
-    # the deletion and only finish the pointer cleanup.
-    if name in list_collections():
-        delete_collection(name)
-    return lifecycle.discard_staging()
-
-
-def mark_collection_lifecycle(client: Any, collection_name: str, lifecycle: str) -> None:
-    """Rewrite the lifecycle flag in the collection metadata through the Chroma API, keeping every other
-    business metadata field unchanged.
-
-    Thin adapter over ``evidenceflow.knowledge.lifecycle.make_chroma_flag_writer`` so the metadata
-    rewrite lives in one place: ``IndexLifecycle`` owns the flags for every transition (staging,
-    activate, rollback), and this helper only exists for the legacy ``--activate`` path of this
-    script and its tests.
-    """
-
-    from evidenceflow.knowledge.lifecycle import ChromaFlagWriter
-
-    ChromaFlagWriter(client)(collection_name, lifecycle)
-
-
-def _write_json(path: Path, payload: dict[str, Any]) -> None:
-    """Match the project's write_json: UTF-8, non-ASCII characters left unescaped, keys sorted."""
-
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-
-
-def _repo_relative(path: Path) -> str:
-    """Use a repo-relative path for manifest_path in the state file; paths outside the repo stay as they are."""
-
-    try:
-        return path.resolve().relative_to(ROOT).as_posix()
-    except ValueError:
-        return str(path)
-
-
-def run_staging_build(
-    settings: Settings,
-    ports: StagingPorts,
-    *,
-    job_dir: Path,
-    expected_chunk_ids_from_active: bool,
-    activate: bool,
-    discard_after_validate: bool,
-) -> tuple[int, dict[str, Any]]:
-    """Run one full staging rebuild and return (exit code, summary); the summary is also written to job_dir."""
-
-    if activate and discard_after_validate:
-        raise StagingBuildRefused("--activate and --discard-after-validate are mutually exclusive")
-# The state file is the single source of truth; fail here when the knowledge-base identity cannot
-# be
-# read instead of guessing it.
-    state = LifecycleState.model_validate_json(Path(settings.index_state_path).read_text(encoding="utf-8"))
-    # The lifecycle owns the Collection lifecycle flags for every transition, so activate() flips
-    # the incoming index to ACTIVE and the outgoing one to PREVIOUS itself; the script no longer
-    # has to remember a separate mark-collection-active call before switching the pointer.
-    lifecycle = IndexLifecycle(
-        settings.index_state_path,
-        state.knowledge_base_id,
-        flag_writer=ports.set_collection_lifecycle,
-    )
-    if state.staging is not None:
-        raise StagingBuildRefused(
-            f"a staging pointer is already registered ({state.staging.collection_name!r}); "
-            "inspect it and discard it before starting another build"
-        )
-
-    sources = ports.scan_sources()
-    pipeline: PipelineIdentity = current_pipeline_from_settings(settings)
-    index_signature = build_index_signature(build_corpus_signature(sources), pipeline)
-    protected = _protected_names(state)
-    # active/previous are passed in as reserved so the generator steers around them (for example
-    # when
-    # rebuilding with the same signature after a rollback, the preferred name is exactly previous).
-    staging_name = build_staging_collection_name(
-        state.active.collection_name, index_signature, reserved=protected
-    )
-    # Defense in depth: whatever the naming rule, the staging name must never equal the collection
-    # that
-    # serving or rollback depends on, otherwise the build would write into the ACTIVE/PREVIOUS
-    # index and
-    # discard would even delete it.
-    # A3.2 note: the current generator already avoids active/previous through reserved, so this
-    # check
-    # cannot fire with the current implementation; it is kept on purpose as a backstop against
-    # future
-    # generator regressions (covered in tests by monkeypatching the generator).
-    if staging_name in protected:
-        raise StagingBuildRefused(
-            f"generated staging name {staging_name!r} equals the active or previous collection; "
-            "refusing to build. Do not delete or modify that collection: it is a live or rollback "
-            "index. This indicates a staging naming bug"
-        )
-    if staging_name in ports.list_collections():
-        raise StagingBuildRefused(
-            f"collection {staging_name!r} already exists and is neither active nor previous "
-            "(likely left over from an earlier build); inspect it before deciding what to do. "
-            "This script never reuses or deletes an existing collection"
-        )
-    expected_ids = (
-        ports.active_chunk_ids(state.active.collection_name) if expected_chunk_ids_from_active else None
-    )
-    # The staging corpus may differ from the serving one, so its size is not known before the build.
-    # These counts are provisional (they only feed the manifest's shape) and are replaced by the
-    # measured values after validation; inheriting active's chunk_count here used to make every
-    # corpus growth fail validation, because the new index could never equal the old one.
-    manifest = build_manifest(
-        knowledge_base_id=state.knowledge_base_id,
-        sources=sources,
-        pipeline=pipeline,
-        collection_name=staging_name,
-        document_count=len(sources),
-        chunk_count=0,
-        status="STAGING",
-        parent_index_signature=state.active.index_signature,
-    )
-
-    job_store = BuildJobStore(job_dir / "staging_build_job.json")
-    coordinator = StagingBuildCoordinator(lifecycle, job_store)
-    job, report = coordinator.build(
-        manifest,
-        ports.build,
-        expected_chunk_ids=expected_ids,
-        smoke_query_embedding=ports.smoke_embedding(),
-        expected_embedding_dimension=EMBEDDING_DIMENSION,
-        # A same-corpus rebuild must reproduce the previous size exactly; a corpus change is not
-        # expected to, and expected_chunk_ids already pins the identity in that case.
-        expected_chunk_count=len(expected_ids) if expected_ids is not None else None,
-    )
-    summary: dict[str, Any] = {
-        "staging_collection": staging_name,
-        "index_signature": index_signature,
-        "active_collection": state.active.collection_name,
-        "expected_chunk_ids_from_active": expected_chunk_ids_from_active,
-        "job": json.loads(job.model_dump_json()),
-        "validation": report.model_dump(mode="json") if report is not None else None,
-        "actions": [],
-    }
-    passed = job.status == "READY" and report is not None and report.passed
-    if not passed:
-        # On failure keep the staging collection and the pointer: they are diagnostic evidence and
-        # the
-        # user decides how to handle them.
-        summary["outcome"] = "FAILED_KEPT_STAGING"
-        _write_json(job_dir / "staging_build_summary.json", summary)
-        return 1, summary
-
-    if activate:
-        manifest_path = job_dir / f"{staging_name}.manifest.json"
-        # Activate from the manifest the coordinator filled in with the measured counts, not from the
-        # provisional one this function registered before the build.
-        activated = coordinator.measured_manifest or manifest
-        save_manifest(manifest_path, activated.with_index_state(status="ACTIVE"))
-        # activate() writes the Collection flags itself (staging -> ACTIVE, old active -> PREVIOUS)
-        # before switching the pointer, so the pointer never names a collection that runtime rejects.
-        lifecycle.activate(activated, report, manifest_path=_repo_relative(manifest_path))
-        job_store.save(job.transition("ACTIVATED"))
-        summary["actions"].append("activated")
-        summary["outcome"] = "ACTIVATED"
-    elif discard_after_validate:
-        try:
-            discard_staging_collection(lifecycle, ports.delete_collection, ports.list_collections)
-        except ProtectedCollectionError as exc:
-            # The staging name was confirmed not to be active/previous before the build; reaching
-            # this
-            # point means the state file changed during the build. The build has already happened,
-            # so
-            # "2 = refused to start" no longer applies: use exit code 3 and keep staging and the
-            # pointer.
-            summary["outcome"] = "VALIDATED_DISCARD_REFUSED"
-            summary["error"] = str(exc)
-            _write_json(job_dir / "staging_build_summary.json", summary)
-            return 3, summary
-        summary["actions"].append("staging_collection_deleted")
-        summary["actions"].append("staging_pointer_cleared")
-        summary["outcome"] = "VALIDATED_AND_DISCARDED"
-    else:
-        summary["outcome"] = "VALIDATED_STAGING_KEPT"
-    _write_json(job_dir / "staging_build_summary.json", summary)
-    return 0, summary
-
-
-def make_real_ports(settings: Settings) -> StagingPorts:
-    """Assemble the ports from the real disk, Chroma and local models; the model and Chroma dependencies are imported lazily when called."""
-
-    import chromadb
-
-    from evidenceflow.embedding import BgeM3EmbeddingProvider
-    from evidenceflow.ingestion import BgeM3Tokenizer, IngestionService
-    from evidenceflow.ingestion.loader import load_document
-    from evidenceflow.ingestion.service import discover_source_files
-    from evidenceflow.storage import ChromaVectorStore
-
-    root = Path(settings.source_docs_path)
-    client = chromadb.PersistentClient(path=str(settings.vector_db_path))
-    provider = BgeM3EmbeddingProvider(settings.embedding_model, device=settings.model_device)
-
-    def scan_sources() -> list[SourceRecord]:
-        documents = [load_document(path, root) for path in discover_source_files(root, root)]
-        return manifest_sources_from_documents(documents)
-
-    def active_chunk_ids(collection_name: str) -> list[str]:
-        # Open active read-only: ChromaVectorStore does not modify the metadata of an existing
-        # collection.
-        return [chunk.chunk_id for chunk in ChromaVectorStore(settings.vector_db_path, collection_name).iter_all_chunks()]
-
-    def build(collection_name: str, report_stage: Callable[[BuildJobStatus], None]) -> ChromaVectorStore:
-        reporter = StageReporter(report_stage)
-        reporter.reach("PARSING")
-        store = ChromaVectorStore(
-            settings.vector_db_path,
-            collection_name,
-            # Do not write the legacy "hnsw:space" key: nothing in the source reads it and cosine
-            # is
-            # guaranteed by ChromaVectorStore's configuration. (Collections carrying that key can
-            # still be
-            # rewritten for lifecycle, see mark_collection_lifecycle.)
-            collection_metadata={
-                "chunk_strategy": settings.chunk_strategy,
-                "storage_contract": "domain_chunk_metadata_v2",
-                "lifecycle": "STAGING",
-            },
-        )
-        service = IngestionService(
-            root,
-            Observed(BgeM3Tokenizer(settings.embedding_model), {"encode": lambda: reporter.reach("CHUNKING")}),
-            Observed(provider, {"embed_documents": lambda: reporter.reach("EMBEDDING")}),
-            Observed(store, {"add_chunks": lambda: reporter.reach("INDEXING")}),
-            chunk_size=settings.chunk_size,
-            chunk_overlap=settings.chunk_overlap,
-            chunk_strategy=settings.chunk_strategy,
-        )
-        summary = service.ingest()
-        if summary.files_discovered == 0 or summary.failed:
-            failures = [f"{item.source_path}: {item.failed_stage}: {item.error_message}" for item in summary.results if item.status == "failed"]
-            raise RuntimeError(f"staging ingestion incomplete (files={summary.files_discovered}): {failures}")
-        reporter.reach("INDEXING")
-        return store
-
-    return StagingPorts(
-        scan_sources=scan_sources,
-        list_collections=lambda: {item.name for item in client.list_collections()},
-        active_chunk_ids=active_chunk_ids,
-        build=build,
-        smoke_embedding=lambda: provider.embed_query(SMOKE_QUERY),
-        delete_collection=lambda name: client.delete_collection(name),
-        set_collection_lifecycle=lambda name, status, *, missing_ok=False: ChromaFlagWriter(client)(
-            name, status, missing_ok=missing_ok
-        ),
-    )
 
 
 def _one_line(exc: BaseException) -> str:
@@ -486,6 +128,15 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--activate", action="store_true", help="校验通过后激活（默认不激活）")
     parser.add_argument(
+        "--quality-report",
+        type=Path,
+        default=None,
+        help=(
+            "激活所需的 active/staging 质量报告（scripts/e2e_index_quality.py 生成）。"
+            "--activate 时必须提供；结构校验通过但报告缺失、身份不符或结论非 passed 时拒绝激活。"
+        ),
+    )
+    parser.add_argument(
         "--discard-after-validate",
         action="store_true",
         help="校验通过后通过 Chroma API 删除 staging collection 并清空 staging 指针；校验失败时保留",
@@ -495,15 +146,67 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="不构建，只删除已登记的 staging collection 并清空指针（幂等，用于恢复中途失败的 discard）",
     )
+    parser.add_argument(
+        "--activate-staging",
+        action="store_true",
+        help=(
+            "不构建，激活已经完成评测的 staging：重跑独立结构校验并通过 --quality-report 门禁后才切换 active 指针"
+        ),
+    )
     parser.add_argument("--job-dir", type=Path, default=DEFAULT_JOB_DIR, help="BuildJob 与摘要输出目录")
     args = parser.parse_args(argv)
 
     settings = Settings()
+    try:
+        with index_update(settings.index_state_path):
+            return _run(args, settings)
+    except StagingBuildRefused as exc:
+        print(f"REFUSED: {exc}", file=sys.stderr)
+        return 2
+
+
+def _run(args: argparse.Namespace, settings: Settings) -> int:
+    """在持有生命周期写锁时执行 CLI 指定的索引操作。"""
+
     if args.discard_staging:
         if args.activate or args.discard_after_validate or args.expected_chunk_ids_from_active:
             print("REFUSED: --discard-staging cannot be combined with build options", file=sys.stderr)
             return 2
+        if args.quality_report is not None or args.activate_staging:
+            print("REFUSED: --discard-staging cannot be combined with --quality-report / --activate-staging", file=sys.stderr)
+            return 2
         return run_discard_only(settings)
+    if args.activate_staging:
+        if args.activate or args.discard_after_validate or args.expected_chunk_ids_from_active:
+            print("REFUSED: --activate-staging cannot be combined with build options", file=sys.stderr)
+            return 2
+        try:
+            code, summary = activate_validated_staging(
+                settings,
+                make_real_ports(settings),
+                job_dir=args.job_dir,
+                quality_report_path=args.quality_report,
+                repo_root=ROOT,
+            )
+        except StagingBuildRefused as exc:
+            print(f"REFUSED: {exc}", file=sys.stderr)
+            return 2
+        gate = summary.get("quality_gate") or {}
+        print(
+            json.dumps(
+                {
+                    "outcome": summary["outcome"],
+                    "staging_collection": summary["staging_collection"],
+                    "validation_passed": summary["validation"].get("passed"),
+                    "quality_gate_passed": gate.get("passed"),
+                    "quality_gate_errors": gate.get("errors", []),
+                    "error": summary.get("error"),
+                },
+                ensure_ascii=False,
+                indent=2,
+            )
+        )
+        return code
     try:
         code, summary = run_staging_build(
             settings,
@@ -512,6 +215,8 @@ def main(argv: list[str] | None = None) -> int:
             expected_chunk_ids_from_active=args.expected_chunk_ids_from_active,
             activate=args.activate,
             discard_after_validate=args.discard_after_validate,
+            quality_report_path=args.quality_report,
+            repo_root=ROOT,
         )
     except StagingBuildRefused as exc:
         # Only pre-build refusals reach this point; post-build guard refusals are returned by
@@ -519,6 +224,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"REFUSED: {exc}", file=sys.stderr)
         return 2
     validation = summary["validation"] or {}
+    gate = summary.get("quality_gate") or {}
     print(
         json.dumps(
             {
@@ -530,6 +236,8 @@ def main(argv: list[str] | None = None) -> int:
                 "missing_chunk_ids": len(validation.get("missing_chunk_ids", [])),
                 "unexpected_chunk_ids": len(validation.get("unexpected_chunk_ids", [])),
                 "errors": validation.get("errors", []),
+                "quality_gate_passed": gate.get("passed"),
+                "quality_gate_errors": gate.get("errors", []),
                 "job_error": summary["job"].get("error_message"),
             },
             ensure_ascii=False,

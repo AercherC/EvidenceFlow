@@ -119,7 +119,15 @@ class Settings(BaseSettings):
     reranker_input_k: int = Field(
         default=50,
         gt=0,
-        description="Original Dense ANN 送入 Reranker 的固定候选数量。默认 50（原 20，rag_e2e_v1 实测）。",
+        description="Exact Dense 送入 Reranker 的固定候选数量。默认 50（原 20，rag_e2e_v1 实测）。",
+    )
+    reranker_use_document_context: bool = Field(
+        default=False,
+        description="重排时把文档名和章节与正文一起评分。候选池、引用原文和重排对数不变。",
+    )
+    reranker_dense_rrf_weight: float = Field(
+        default=0.0, ge=0, le=1, allow_inf_nan=False,
+        description="基础 Dense 路径中 Dense 排名的 RRF 权重；0 沿用模型重排，候选池与对数不变。",
     )
     reranker_final_k: int = Field(
         default=8,
@@ -155,7 +163,7 @@ class Settings(BaseSettings):
     multi_doc_strategy: Literal["off", "clause_branch"] = Field(
         default="clause_branch",
         description=(
-            "多子问题查询的检索策略：off = 全部走 Dense Top50 -> Reranker -> Top6；clause_branch = "
+            "多子问题查询的检索策略：off = 全部走 Dense Top50 -> Reranker -> Top8；clause_branch = "
             "R2 规则拆出 2–3 个子句时按子句分支检索（W = R2_c25_5en_rr_k8），其余查询不变。"
             "默认 clause_branch：W 已通过两道 gate（161/233 组 vs P0 152，0 context drop，"
             "pairs ≤100，p95 1.91 s），代价是 38 道题答案变化。off 保留为可回滚通道。"
@@ -166,10 +174,18 @@ class Settings(BaseSettings):
         gt=0,
         description="clause_branch：每个子句的 Dense 候选数。",
     )
+    clause_branch_balance_two_part_queries: bool = Field(
+        default=True,
+        description="双题项共享重排预算时优先扩大题项候选，可唯一识别的论文题项单独定向。",
+    )
     clause_branch_bm25_k: int = Field(
         default=5,
         ge=0,
         description="clause_branch：不含 CJK 字符的子句额外并入的 BM25 候选数；0 = 不建 BM25 索引。",
+    )
+    clause_branch_single_query_bm25: bool = Field(
+        default=False,
+        description="常规非 CJK 单句保留 Dense 候选，在整题重排上限内追加正分 BM25 命中，Top-K 不变。",
     )
     clause_branch_pair_budget: int = Field(
         default=100,
@@ -181,10 +197,26 @@ class Settings(BaseSettings):
         gt=0,
         description="clause_branch：子句分支轮转选出的最终候选数（未触发的查询仍为 reranker_final_k）。",
     )
+    clause_branch_fusion_order: Literal["clause_first", "original_first", "rank_aware"] = Field(
+        default="rank_aware",
+        description="每轮优先取整题证据，子问题按本路与整题逆名次轮转；另保留两种历史顺序。",
+    )
+    clause_branch_paper_manifest: Path | None = Field(
+        default=None,
+        description="可选语料清单。启用论文候选补充、章节信息和点名英文子句的 MiniLM 重排。",
+    )
+    clause_branch_file_aliases: bool = Field(
+        default=False,
+        description="从索引中唯一的 PDF 文件名识别点名查询，复用定向召回与章节重排，适用于未维护手工别名的新资料。",
+    )
+    clause_branch_parallel_papers: bool = Field(
+        default=False,
+        description="使用已配置的论文别名，为含明确比较词且未拆句的双论文问答分配同文档候选。",
+    )
     agent_llm_calls_max: int = Field(
         default=2,
         ge=1,
-        description="Agent（ask --agent）：每个回答的 LLM 调用上限（生成 + 一次重生成）。",
+        description="固定 Agent 评测对照：每个回答的 LLM 调用上限（生成 + 一次重生成）。",
     )
     agent_rerank_pairs_max: int = Field(
         default=150,
@@ -209,6 +241,60 @@ class Settings(BaseSettings):
         gt=0,
         allow_inf_nan=False,
         description="Agent：单个回答的墙钟时限；超时回退到普通 RAGService 结果。",
+    )
+    agent_adaptive_llm_calls_max: int = Field(
+        default=5,
+        ge=3,
+        description=(
+            "自适应路径：每个回答的 LLM 调用总上限，必须同时覆盖决策调用、生成和一次格式修复；"
+            "生成预留固定为 2 次，其余额度供决策（含一次无效动作修复）。"
+        ),
+    )
+    agent_adaptive_decision_calls_max: int = Field(
+        default=3,
+        ge=1,
+        description="自适应路径：决策模型调用上限，含无效动作后的那一次修复。",
+    )
+    agent_adaptive_searches_max: int = Field(
+        default=2,
+        ge=1,
+        le=3,
+        description="自适应路径：含首轮的检索上限；默认允许一次改写，设为 3 可对照两次改写。",
+    )
+    agent_adaptive_opens_max: int = Field(
+        default=2,
+        ge=0,
+        description="自适应路径：open 工具调用上限；半径固定为 1，模型不能指定。",
+    )
+    agent_adaptive_targeted_evidence: bool = Field(
+        default=False,
+        description="候选策略：多子问题摘要保留各分支候选，首轮在现有 open 预算内补读前页续接原文。",
+    )
+    agent_adaptive_rerank_pairs_max: int = Field(
+        default=200,
+        gt=0,
+        description=(
+            "自适应路径：每个回答的 Reranker pair 上界。每次真实 search 按生产 retriever 的"
+            "单次 pair 上限记账，因此总成本上界 = search 次数 × 单次上限。"
+        ),
+    )
+    agent_adaptive_deadline_seconds: float = Field(
+        default=20.0,
+        gt=0,
+        allow_inf_nan=False,
+        description=(
+            "自适应路径：单个回答的墙钟截止时间。LLM 传输和重试使用剩余时间；"
+            "已开始的本地计算和同步网络请求无法强制截断。"
+        ),
+    )
+    api_max_concurrent_requests: int = Field(
+        default=1, ge=1, description="每个 API 进程同时执行的问答数，从单模型实例串行起步。"
+    )
+    api_max_queued_requests: int = Field(
+        default=4, ge=0, description="每个 API 进程可等待执行的问答数，超出立即返回 503。"
+    )
+    api_queue_timeout_seconds: float = Field(
+        default=5.0, gt=0, allow_inf_nan=False, description="问答的最长排队时间，和 Agent 执行时限分别计时。"
     )
     model_device: Literal["auto", "cpu", "cuda"] = Field(
         default="auto",

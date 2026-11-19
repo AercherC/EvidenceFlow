@@ -11,7 +11,7 @@ from openai import OpenAI
 
 from evidenceflow.concurrency import PerThread
 from evidenceflow.domain.generation import LLMMessage
-from evidenceflow.llm.base import LLMConfigurationError, LLMRequestError
+from evidenceflow.llm.base import LLMConfigurationError, LLMRequestError, remaining_llm_time
 from evidenceflow.llm.diagnostics import classify_llm_failure
 
 # Structured output mode: json_schema (strict) > json_object > prompt_only.
@@ -123,6 +123,7 @@ class OpenAICompatibleLLMClient:
         self._model = model
         self._temperature = float(temperature)
         self._max_attempts = max_attempts
+        self._timeout_seconds = float(timeout_seconds)
         self._client = _client or OpenAI(
             api_key=api_key,
             base_url=base_url,
@@ -183,6 +184,10 @@ class OpenAICompatibleLLMClient:
         self.last_response_info = {}
         content: Any = None
         for attempt in range(1, self._max_attempts + 1):
+            # 每次传输重算剩余时间，网络重试不能借用一份新的完整预算。
+            remaining = remaining_llm_time()
+            if remaining is not None:
+                request_extra["timeout"] = min(remaining, self._timeout_seconds)
             try:
                 response = self._client.chat.completions.create(
                     model=self._model,
@@ -190,12 +195,6 @@ class OpenAICompatibleLLMClient:
                     temperature=self._temperature,
                     **request_extra,
                 )
-                # The normal Chat Completion path requires at least one Choice with non-empty
-                # plain-text content.
-                choice = response.choices[0]
-                content = choice.message.content
-                self._record_response(response, choice)
-                break
             except Exception as exc:
                 classification = classify_llm_failure(exc)
                 retryable = classification in {
@@ -206,8 +205,19 @@ class OpenAICompatibleLLMClient:
                 }
                 # Retry once only for categories proven to be potentially transient; configuration
                 # errors and ordinary 4xx fail immediately.
+                if retryable:
+                    remaining_llm_time()
                 if attempt >= self._max_attempts or not retryable:
                     raise LLMRequestError("OpenAI-compatible LLM request failed") from exc
+                continue
+            remaining_llm_time()
+            try:
+                choice = response.choices[0]
+                content = choice.message.content
+                self._record_response(response, choice)
+            except (AttributeError, IndexError, TypeError) as exc:
+                raise LLMRequestError("OpenAI-compatible LLM returned an invalid completion") from exc
+            break
         if not isinstance(content, str) or not content.strip():
             raise LLMRequestError("OpenAI-compatible LLM returned empty text")
         return content

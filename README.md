@@ -1,139 +1,62 @@
 # EvidenceFlow
 
-A scientific-document RAG system for evidence-grounded retrieval and answering over
-research PDFs. Current active corpus: **10 point-cloud completion papers**.
+EvidenceFlow 是一个面向科研 PDF 的本地知识库和问答工作台。它从论文中检索原文证据，回答时给出可点击的引用和页码，便于回查。
 
-This repository contains the **implementation, tests, and CLI entry points**. Evaluation
-contracts, experimental artifacts, and internal working notes are intentionally not
-published here.
+- **论文入库**从有文字层的 PDF 提取正文，清洗后按章节和段落切块，再生成向量。
+- **取证问答**先做向量召回，再用重排模型筛选证据。证据不足时，Agent 可以在预算内改写查询或补读原文。
+- **WebUI** 显示真实搜索词、命中文档和原文片段，支持围绕单篇论文提问、复用会话证据。
+- **增量更新**在已有正式索引的文档库中添加 PDF，页面显示入库进度。构建成功后自动发布，新文档随即可以检索。
 
-## Capability Layers
+## 快速开始
 
-### 1. Scientific PDF Ingestion
+需要 Python 3.11 或更新版本、可访问此仓库的 GitHub 账号，以及 OpenAI 兼容的 LLM 服务。下面使用 Windows CMD 和 Conda。
 
-```text
-Documents -> Clean -> Structured ScientificDocument -> Hybrid Chunk (BGE-M3, <=512 tokens)
+### 1. 安装
+
+```cmd
+git clone https://github.com/AercherC/EvidenceFlow.git
+cd EvidenceFlow
+conda create -n evidenceflow python=3.11 -y
+conda activate evidenceflow
+python -m pip install -e ".[web]"
+copy .env.example .env
 ```
 
-PDF parsing and cleaning use a fused strategy (selected from a parser benchmark). Table
-structure is linearized, not preserved.
+打开 `.env`，填写 `LLM_API_KEY`。使用其他服务时，按服务商配置修改 `LLM_BASE_URL`、`LLM_MODEL` 和 `LLM_THINKING`。向量化和重排在本机运行，生成答案会调用你配置的 LLM 服务。
 
-### 2. Indexing & Retrieval
+### 2. 准备模型和首批文档
 
-```text
-BGE-M3 Embedding -> Chroma
-Query -> BGE-M3 Dense -> Exact Dense Top50 (in-process ExactDenseIndex, numpy.exact)
+首次部署时，联网把默认模型下载到项目缓存，再把有文字层的 PDF 放入 `data\source_docs`。
+
+```cmd
+set "HF_HOME=%CD%\.cache\huggingface"
+hf download BAAI/bge-m3 --exclude "onnx/*"
+hf download BAAI/bge-reranker-base config.json model.safetensors tokenizer.json tokenizer_config.json special_tokens_map.json sentencepiece.bpe.model
+if not exist data\source_docs mkdir data\source_docs
 ```
 
-The production collection is resolved through the lifecycle active pointer, never
-hard-coded. Chroma is the sole persistence source; the exact dense path is reproducible
-across processes. The ACTIVE index is never ingested into directly — rebuilds go through
-`scripts/build_staging_index.py` into a staging collection first.
+放入 PDF 后，运行命令建立索引。
 
-### 3. Learned Reranking
-
-```text
-Exact Dense Top50 -> BGE Reranker -> Top6
+```cmd
+python -m evidenceflow ingest
 ```
 
-`runtime.py` is the single composition root for the `ingest` / `ask` production wiring.
-The CLI only triggers assembly; question-answering orchestration lives solely in
-`RAGService`.
+新环境可用这个命令建库，再在 WebUI 浏览和提问。界面里的「添加 PDF」需要已启用生命周期管理的正式索引。只用 `ingest` 建库的环境，可以继续在终端用该命令导入文档。
 
-The assembled components can be shared across concurrent requests (e.g. behind a web
-server). Per-call diagnostics (`Generator.last_diagnostics`, `last_usage`, reranker
-timings) are kept per thread, model and tokenizer calls are serialized, and a per-request
-trace recorder is supplied with `evidenceflow.tracing.trace_scope(recorder)` instead of
-mutating the shared components.
+### 3. 启动 WebUI
 
-### 4. Evidence Context
-
-```text
-Top6 -> Context Builder
+```cmd
+python -m evidenceflow.webui --host 127.0.0.1 --port 7860
 ```
 
-### 5. Answer & Citation
+打开 [http://127.0.0.1:7860](http://127.0.0.1:7860)，从文档库选一篇论文，试问「这篇论文解决了什么问题？作者用哪些实验支持结论？」点击引用可回到对应原文。
 
-```text
-Context Builder -> LLM (JSON output) -> Citation Validation -> RAGAnswer(status)
-```
+从项目根目录启动时，WebUI 默认从 `.cache\huggingface` 离线加载模型，日常启动只需运行上面的命令。
 
-- Structured generation: the model returns only
-  `{"status": "answered" | "insufficient_context", "answer": "..."}`. Output is validated
-  with Pydantic; malformed output is repaired at most once, then reported as a generation
-  format error.
-- `RAGAnswer.status` distinguishes "answered" from "insufficient evidence" abstention.
-  `answered` requires valid citations; `insufficient_context` may carry none.
-- The default LLM is DeepSeek. Switching providers requires overriding `LLM_BASE_URL`,
-  `LLM_MODEL`, and usually `LLM_THINKING`.
-- The LLM HTTP client ignores `HTTP(S)_PROXY` by default; set `LLM_TRUST_ENV=true` on
-  networks that require a proxy.
-- When retrieval yields no usable context, the deterministic abstention message follows
-  the question language (Chinese if the question contains Han characters, else English).
-- Endpoints, model names, and API keys come from `.env` or environment variables. No real
-  credentials are stored in this repository.
+## 技术与测试
 
-### 6. Evaluation
+- 文档解析使用 PyMuPDF、混合切块使用 BGE-M3 分词。
+- 检索使用 BGE-M3、Chroma 和 BGE Reranker，WebUI 由 FastAPI 提供，会话证据使用 LangGraph 和 SQLite 保存。
+- 先用 `python -m pip install -e ".[web,api,test]"` 安装测试依赖，再用 `python -m pytest -m "not requires_model"` 运行不加载真实模型的测试。
 
-Retrieval quality is measured with standard IR metrics (Precision, Recall, MRR, MAP, nDCG)
-implemented canonically in `src/evidenceflow/eval/ir_metrics.py` following TREC / BEIR
-semantics. Gold labels use `document_id + page_range + evidence_anchor`, so they do not
-depend on chunk IDs and stay stable across re-chunking.
-
-## Usage
-
-```powershell
-conda activate agent-gpu
-
-# Optional: reuse a local model cache and stay offline
-$env:HF_HOME = (Resolve-Path .cache/huggingface)
-$env:TRANSFORMERS_OFFLINE = '1'
-
-python -m evidenceflow ask "How does PoinTr represent point clouds for a Transformer?"
-```
-
-`python -m evidenceflow ingest` is only for a fresh environment (no lifecycle state file,
-target is not the ACTIVE collection). Running it against the ACTIVE index is refused.
-
-Copy `.env.example` to `.env` and fill in your own credentials before the first run.
-
-## Repository layout
-
-```text
-src/evidenceflow/     implementation
-  config.py           Settings (single source of run-time parameters)
-  runtime.py          composition root for ingest / ask
-  domain/             domain models
-  ingestion/          PDF loading, cleaning, structure parsing, chunking
-  retrieval/          dense retrieval and reranking
-  eval/               IR metrics, e2e evaluation, gates
-  storage/            Chroma persistence
-scripts/              CLI entry points and maintenance scripts
-tests/                offline test suite (Fake/Stub, no network)
-evals/research_*/     research question sets and dense baseline used by tests
-```
-
-## Testing
-
-```powershell
-python -m pytest -q
-```
-
-The suite is designed to run offline against fixed inputs. Model-backed paths are
-exercised through fakes and stubs rather than real API calls. Tests that asserted on
-unpublished historical artifacts, and one-off cleanup/phase scripts, were removed; they are
-recoverable from git history at commit 50b3323.
-
-Tests marked `requires_model` load the real BGE-M3 model. They run when the model is in
-the local Hugging Face cache (honours `HF_HOME`) and are skipped otherwise; set
-`EVIDENCEFLOW_RUN_MODEL_TESTS=1` to force them (this may download the model).
-
-## Known limitations
-
-- Academic PDFs hyphenate across line breaks, which complicates anchoring.
-- Tables are linearized; row/column structure is not preserved.
-- References and supplementary sections have no structured metadata yet.
-- Multi-document questions can only reliably retrieve a subset of their sources.
-
-The system is currently text-centric. There is no evidence yet that multimodal parsing
-would pay off.
+详细用法见 [技术说明](README.technical.md)，索引生命周期和评测设计见 [项目规格](PROJECT_SPEC.md)。WebUI 的布局参考了 [SuperMew](https://github.com/icey1287/SuperMew)。

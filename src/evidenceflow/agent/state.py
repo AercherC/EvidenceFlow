@@ -16,8 +16,7 @@ from evidenceflow.domain.context import BuiltContext
 from evidenceflow.domain.generation import GeneratedAnswer
 from evidenceflow.agent.verify import Verification
 
-TerminationReason = Literal["answered", "insufficient_context", "budget_exhausted", "fallback"]
-Support = Literal["full", "partial", "none"]
+from evidenceflow.agent.result import Support, TerminationReason
 
 
 class _Frozen(BaseModel):
