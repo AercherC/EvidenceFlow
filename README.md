@@ -53,10 +53,9 @@ python -m evidenceflow.webui --host 127.0.0.1 --port 7860
 
 从项目根目录启动时，WebUI 默认从 `.cache\huggingface` 离线加载模型，日常启动只需运行上面的命令。
 
-## 技术与测试
+## 技术栈
 
 - 文档解析使用 PyMuPDF、混合切块使用 BGE-M3 分词。
 - 检索使用 BGE-M3、Chroma 和 BGE Reranker，WebUI 由 FastAPI 提供，会话证据使用 LangGraph 和 SQLite 保存。
-- 先用 `python -m pip install -e ".[web,api,test]"` 安装测试依赖，再用 `python -m pytest -m "not requires_model"` 运行不加载真实模型的测试。
 
 详细用法见 [技术说明](README.technical.md)，索引生命周期和评测设计见 [项目规格](PROJECT_SPEC.md)。WebUI 的布局参考了 [SuperMew](https://github.com/icey1287/SuperMew)。

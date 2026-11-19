@@ -15,6 +15,13 @@
 /data/source_docs/
 /artifacts/
 /work/
+
+# 本地测试和独立评测工具。
+/tests/
+/scripts/_e2e_io.py
+/scripts/e2e_*.py
+/scripts/rebaseline_post_promotion.py
+/evals/**/evidence/tools/*.py
 *.webui/
 *.write.lock
 tmp/

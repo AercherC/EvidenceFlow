@@ -1,7 +1,7 @@
 # EvidenceFlow 技术说明
 
 A research agent that reads local scientific PDFs and answers with verifiable citations.
-The repository includes the implementation, tests, and selected evaluation fixtures.
+The repository includes the implementation and selected evaluation fixtures. Tests and standalone evaluation scripts referenced below are maintained in the local development checkout.
 See [快速开始](README.md) for installation and the first local run.
 
 ## Capability Layers
@@ -369,7 +369,7 @@ tests/                offline test suite (Fake/Stub, no network)
 evals/research_*/     research question sets and dense baseline used by tests
 ```
 
-## Testing
+## 本地开发测试
 
 ```powershell
 python -m pytest -q
